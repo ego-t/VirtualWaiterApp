@@ -1,3 +1,3 @@
 # VirtualWaiter
 
-## Repositório Front End do Projeto do Garçom Virtual
+## Repositório Front APP do Projeto do Garçom Virtual
