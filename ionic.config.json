@@ -1,5 +1,7 @@
 {
   "name": "VirtualWaiter",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }
