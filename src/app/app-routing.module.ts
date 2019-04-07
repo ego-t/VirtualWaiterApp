@@ -17,7 +17,8 @@ const routes: Routes = [
   },
   { path: 'login',
   loadChildren: './login/login.module#LoginPageModule' 
-}
+},  { path: 'cadastro', loadChildren: './cadastro/cadastro.module#CadastroPageModule' }
+
 ];
 
 @NgModule({

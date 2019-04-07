@@ -1,26 +1,38 @@
-<ion-grid>
-	<ion-row justify-content-center>
-		<ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
-      <div>
-          <img src="../../assets/logoComDescricao.png" alt="">
-      </div>
-			<div text-center>
-          <h4>Entrar</h4>
-      </div>
-
-			<div padding>
-				<ion-item>
-					<ion-input type="text" placeholder="Usuário"></ion-input>
-				</ion-item>
-
-				<ion-item>
-					<ion-input type="password" placeholder="Senha"></ion-input>
-				</ion-item>
-			</div>
-
-			<div padding>
-				<ion-button size="large" href="/home" expand="block">Login</ion-button>
-			</div>
-		</ion-col>
-	</ion-row>
-</ion-grid>
+<ion-header>
+		<ion-toolbar>
+			<ion-title>Identifique-se</ion-title>
+		</ion-toolbar>
+	</ion-header>
+	
+	<ion-content>
+			<ion-grid>
+					<ion-row justify-content-center>
+						<ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
+								
+							<ion-col align-self-center size-md="5" size-lg="4" size-xs="8">
+										<ion-item>
+												<div>
+														<img src="../../assets/logoComDescricao.png" alt="">
+												</div>
+										</ion-item>
+									</ion-col>
+							<div padding>
+								<ion-item>
+									<ion-input type="text" placeholder="Usuário"></ion-input>
+								</ion-item>
+								<ion-item>
+									<ion-input type="password" placeholder="Senha"></ion-input>
+								</ion-item>
+							</div>
+							<div padding>
+									<p>Se não possuir cadastro <a href="/cadastro">clique aqui.</a></p>
+							</div>
+							<div padding>
+								<ion-button size="large" href="/home" expand="block">Login</ion-button>
+							</div>
+						</ion-col>
+					</ion-row>
+				</ion-grid>
+	</ion-content>
+	
+	
