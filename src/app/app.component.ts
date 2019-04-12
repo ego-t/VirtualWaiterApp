@@ -31,6 +31,11 @@ export class AppComponent {
       url: '/cadastro',
       icon: 'key'
     },
+    {
+      title: 'Cardapio',
+      url: '/cardapio',
+      icon: 'key'
+    }
   ];
 
   constructor(
