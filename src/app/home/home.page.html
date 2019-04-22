@@ -1,26 +1,29 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar class="toolbar-home">
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-title>
-      Início
+      VIRTUAL WAITER
     </ion-title>
+    <ion-img slot="secondary" src="/assets/logoApp.png" slot="end"></ion-img>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-    <ion-card class="welcome-card">
-      <ion-img src="/assets/logoApp.png"></ion-img>
-      <ion-card-header>
-        <ion-card-title>VIRTUAL WAITER</ion-card-title>
-      </ion-card-header>
-      <ion-card-content>
+  <ion-card class="welcome-card">
+    <ion-card-header>
+      <ion-card-title>Estabelecimentos</ion-card-title>
+    </ion-card-header>
+    <!-- <ion-card-content>
         <p>O projeto que irá revolucionar a forma como os restaurantes funcionam.</p>
-      </ion-card-content>
-    </ion-card>
-    <ion-list lines="none">
-        
+      </ion-card-content> -->
+  </ion-card>
+  <app-busca-estabelecimento></app-busca-estabelecimento>
+
+  <app-lista-estabelecimento></app-lista-estabelecimento>
+
+  <!-- <ion-list lines="none">
         <ion-item>
             <ion-avatar slot="start">
               <img src="https://is4-ssl.mzstatic.com/image/thumb/Purple71/v4/b6/36/b8/b636b8a0-641a-4a27-b186-a83417934100/source/256x256bb.jpg">
@@ -45,5 +48,5 @@
             </ion-avatar>
             <ion-label>Burguer King</ion-label>
         </ion-item>
-    </ion-list>
+    </ion-list> -->
 </ion-content>
