@@ -1,14 +1,19 @@
 <!-- <ion-content> -->
 
 <ion-list>
-  <ion-item *ngFor="let item of items">
-    <ion-icon [name]="item.icon" slot="start"></ion-icon>
+  <!-- <ion-item *ngFor="let item of items" (click)="btnEstabelecimentoClicked(item)"> -->
+  <ion-item *ngFor="let item of items" [href]="'/estabelecimentos/1" routerDirection="forward">
+    <ion-thumbnail slot="start">
+      <ion-img [src]="item.icon"></ion-img>
+    </ion-thumbnail>
     {{item.title}}
     <div class="item-note" slot="end">
       {{item.note}}
     </div>
   </ion-item>
 </ion-list>
+
+
 <!--
       <div *ngIf="selectedItem" padding>
         You navigated here from <b>{{selectedItem.title }}</b>

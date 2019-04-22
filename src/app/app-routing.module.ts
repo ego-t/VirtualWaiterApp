@@ -7,7 +7,9 @@ const routes: Routes = [
   { path: 'list',       loadChildren: './list/list.module#ListPageModule' },
   { path: 'login',      loadChildren: './login/login.module#LoginPageModule' },
   { path: 'cadastro',   loadChildren: './cadastro/cadastro.module#CadastroPageModule' },
-  { path: 'cardapio',   loadChildren: './cardapio/cardapio.module#CardapioPageModule' }
+  { path: 'cardapio',   loadChildren: './cardapio/cardapio.module#CardapioPageModule' },
+  { path: 'estabelecimento/:id', loadChildren: './estabelecimento/estabelecimento.module#EstabelecimentoPageModule' }
+
 ];
 
 @NgModule({
