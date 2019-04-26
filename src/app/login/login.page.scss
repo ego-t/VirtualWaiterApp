@@ -4,7 +4,7 @@ $height100: 100%;
 ion-grid {
     width:100%;
     height: $height100;
-    background: #dfdfdf;
+    background: #ffffff;
 }
 
 ion-row {
@@ -12,7 +12,7 @@ ion-row {
 }
 
 ion-col {
-    border: 1px solid #488aff;
+    border: none;
     background: $white-color;
 }
 
