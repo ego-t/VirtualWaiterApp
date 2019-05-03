@@ -1,8 +1,7 @@
-<!-- <ion-content> -->
-
 <ion-list>
-  <!-- <ion-item *ngFor="let item of items" (click)="btnEstabelecimentoClicked(item)"> -->
-  <ion-item *ngFor="let item of items" [href]="'/estabelecimentos/1" routerDirection="forward">
+  <ion-button size="default" expand="block" (click)="btnTesteAPI()">TESTE</ion-button>
+  
+  <ion-item *ngFor="let item of items" (click)="goTo(item.id)" >
     <ion-thumbnail slot="start">
       <ion-img [src]="item.icon"></ion-img>
     </ion-thumbnail>
@@ -12,11 +11,3 @@
     </div>
   </ion-item>
 </ion-list>
-
-
-<!--
-      <div *ngIf="selectedItem" padding>
-        You navigated here from <b>{{selectedItem.title }}</b>
-      </div>
-    -->
-<!-- </ion-content> -->

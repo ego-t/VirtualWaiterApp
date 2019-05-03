@@ -9,7 +9,6 @@ const routes: Routes = [
   { path: 'cadastro',   loadChildren: './cadastro/cadastro.module#CadastroPageModule' },
   { path: 'cardapio',   loadChildren: './cardapio/cardapio.module#CardapioPageModule' },
   { path: 'estabelecimento/:id', loadChildren: './estabelecimento/estabelecimento.module#EstabelecimentoPageModule' }
-
 ];
 
 @NgModule({

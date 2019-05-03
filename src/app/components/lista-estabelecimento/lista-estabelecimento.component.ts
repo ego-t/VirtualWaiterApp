@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { NavController } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-lista-estabelecimento',
@@ -19,22 +22,38 @@ export class ListaEstabelecimentoComponent implements OnInit {
     'http://store.atendup.com.br/icones/mini/APP_ICON_8.png'
   ];
 
-  public items: Array<{ title: string; note: string; icon: string }> = [];
-  
-  constructor() {
+  public items: Array<{ id:number;  title: string; note: string; icon: string }> = [];
+
+  constructor(private http: HttpClient, public navCtrl: NavController, private router: Router) {
     for (let i = 1; i < 21; i++) {
       this.items.push({
+        id: i,
         title: 'Restaurante ' + i,
         note: 'Aberto',
         icon: this.icons[Math.floor(Math.random() * this.icons.length)]
       });
     }
-   }
-
-  btnEstabelecimentoClicked(item:JSON){
-    console.log(item);
   }
 
-  ngOnInit() {}
+  btnEstabelecimentoClicked(item: JSON) {
+
+    console.log(item);
+    //this.navCtrl.navigateForward("ad",{});
+  }
+
+  btnTesteAPI(){
+    var web_hook_url = 'https://hooks.slack.com/services/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';
+    var slack_msg = {'text':'teste'};
+
+    this.http.post(web_hook_url, slack_msg).subscribe((response) => {
+      console.log(response.toString());
+  });
+  }
+
+  goTo(idItem: string){
+    this.router.navigate(['/estabelecimento/' + idItem])
+  }
+
+  ngOnInit() { }
 
 }

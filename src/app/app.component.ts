@@ -35,6 +35,11 @@ export class AppComponent {
       title: 'Cardapio',
       url: '/cardapio',
       icon: 'key'
+    },
+    {
+      title: 'Estabelecimento',
+      url: '/estabelecimento',
+      icon: 'home'
     }
   ];
 
