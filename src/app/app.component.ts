@@ -12,34 +12,14 @@ export class AppComponent {
 
   public appPages = [
     {
-      title: 'Login',
-      url: '/login',
-      icon: 'key'
-    },
-    {
       title: 'Home',
       url: '/home',
       icon: 'home'
     },
     {
-      title: 'List',
-      url: '/list',
-      icon: 'list'
-    },
-    {
-      title: 'Cadastro',
-      url: '/cadastro',
-      icon: 'key'
-    },
-    {
-      title: 'Cardapio',
-      url: '/cardapio',
-      icon: 'key'
-    },
-    {
-      title: 'Estabelecimento',
-      url: '/estabelecimento',
-      icon: 'home'
+      title: 'Sair',
+      url: '/login',
+      icon: 'log-out'
     }
   ];
 

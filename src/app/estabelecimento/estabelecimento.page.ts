@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-estabelecimento',
@@ -10,7 +10,7 @@ export class EstabelecimentoPage implements OnInit {
   public produtos: Array<{ id:number;  nome: string; descricao: string; preco: string; imageURL: string }> = [];
   private nomeEstabelecimento: String;
 
-  constructor(private route: ActivatedRoute) {
+  constructor(private route: ActivatedRoute, private router: Router) {
     for (let i = 1; i < 21; i++) {
       this.produtos.push({
         id: i,
@@ -26,4 +26,8 @@ export class EstabelecimentoPage implements OnInit {
     this.nomeEstabelecimento = this.route.snapshot.paramMap.get('id');
   }
 
+  goTo(idProduto: string){
+    this.router.navigate(['/item-cardapio/' + idProduto])
+  }
+  
 }

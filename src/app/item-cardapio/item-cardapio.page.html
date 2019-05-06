@@ -1,0 +1,77 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      Produto
+    </ion-title>
+    <ion-buttons slot="secondary">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid class="gridPageProduto">
+
+    <ion-row>
+      <ion-col>
+        <div class="titulo-produto">
+          <p>Wiki Mac</p>
+        </div>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col>
+        <div class="imagem-produto">
+          <ion-img id="imgProduto" src="https://pm1.narvii.com/6397/3f28d6c6977ee9268e7534da29cd54fce702d929_128.jpg"></ion-img>
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-row no-padding>
+      <ion-col no-padding>
+        <div class="valor-produto">
+          <p>$ 13,00</p>
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <div class="descricao-produto">
+          <p>Pão, Hamburguer, Alface, Ketchup, Frango, Tomate </p>
+        </div>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+        <ion-col>
+          <div class="observacao-produto">
+            <ion-label position="floating">Observação</ion-label>
+            <ion-input type="text" [(ngModel)]="username"></ion-input>
+          </div>
+        </ion-col>
+      </ion-row>
+<ion-row class="rodape">
+  <ion-col size="2">
+      <ion-button (click)="addQtd()">
+        <ion-icon slot="icon-only" name="add-circle"></ion-icon>
+      </ion-button>
+  </ion-col>
+  <ion-col size="2">
+    <p class="qtdItem">{{qtdItem}}</p>
+  </ion-col>
+  <ion-col size="2">
+      <ion-button (click)="removerQtd()">
+        <ion-icon slot="icon-only" name="remove-circle"></ion-icon>
+      </ion-button>
+  </ion-col>
+  <ion-col>
+    <ion-button color="danger" (click)="adicionarItem()">Adicionar Item</ion-button>
+</ion-col>
+</ion-row>
+
+
+  </ion-grid>
+</ion-content>

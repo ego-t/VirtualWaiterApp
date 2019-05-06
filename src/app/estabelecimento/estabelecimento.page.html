@@ -36,7 +36,7 @@
   </ion-grid>
 
   <ion-list>
-    <ion-item *ngFor="let produto of produtos" (click)="goTo(item.id)">
+    <ion-item *ngFor="let produto of produtos" (click)="goTo(produto.id)">
       <ion-list lines="none">
           <div class="estiloProduto">{{produto.nome}}</div>
           <div style="color:red">{{produto.descricao}}</div>
