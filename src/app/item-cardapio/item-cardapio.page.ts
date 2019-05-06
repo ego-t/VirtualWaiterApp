@@ -9,6 +9,7 @@ import { IonLabel } from '@ionic/angular';
 })
 export class ItemCardapioPage implements OnInit {
   qtdItem: number = 0;
+  observacao: string = "";
 
   constructor(private router: Router) { }
 
