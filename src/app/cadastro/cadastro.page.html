@@ -18,20 +18,20 @@
                   </ion-row>	
 							<div padding>
 								<ion-item>
-									<ion-input type="text" placeholder="Nome de Usuário"></ion-input>
+									<ion-input type="text" placeholder="Nome de Usuário" [(ngModel)]="username"></ion-input>
                 </ion-item>
                 <ion-item>
-                    <ion-input type="text" placeholder="E-mail"></ion-input>
+                    <ion-input type="text" placeholder="E-mail" [(ngModel)]="email"></ion-input>
                 </ion-item>
 								<ion-item>
-									<ion-input type="password" placeholder="Senha"></ion-input>
+									<ion-input type="password" placeholder="Senha" [(ngModel)]="password"></ion-input>
                 </ion-item>
                 <ion-item>
-                    <ion-input type="password" placeholder="Confirmar a Senha"></ion-input>
+                    <ion-input type="password" placeholder="Confirmar a Senha" [(ngModel)]="cpassword"></ion-input>
                 </ion-item>
               </div>
 							<div padding>
-								<ion-button size="default" href="/home" expand="block">Cadastrar</ion-button>
+								<ion-button size="default" expand="block" (click)="register()">Cadastrar</ion-button>
               </div>
 						</ion-col>
 					</ion-row>
