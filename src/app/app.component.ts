@@ -3,12 +3,16 @@ import { Component } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
+import { Router } from '@angular/router';
+import { UserService } from './services/user.service';
+import { AngularFireAuth } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html'
 })
 export class AppComponent {
+  usuarioLogado: string = "1"
 
   public appPages = [
     {
@@ -26,7 +30,10 @@ export class AppComponent {
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
-    private statusBar: StatusBar
+    private statusBar: StatusBar,
+    private router: Router,
+    private user: UserService,
+    private afAuth: AngularFireAuth
   ) {
     this.initializeApp();
   }
@@ -36,5 +43,13 @@ export class AppComponent {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
     });
+  }
+
+  btnSair(){
+    const res = this.afAuth.auth.signOut();
+    
+    console.log(res);
+
+    this.router.navigate(['/login'])
   }
 }
