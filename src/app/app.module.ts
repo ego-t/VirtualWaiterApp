@@ -17,7 +17,7 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { UserService } from './services/user.service';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { environment } from '../environments/environment';
-
+import { ShareModule } from './share.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -27,9 +27,10 @@ import { environment } from '../environments/environment';
     HttpClientModule,
     IonicModule.forRoot(),
     AppRoutingModule,
-    AngularFireModule.initializeApp(firebaseConfig),
+    AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
     AngularFirestoreModule,
+    ShareModule
   ],
   providers: [
     StatusBar,

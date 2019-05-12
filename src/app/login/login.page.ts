@@ -14,6 +14,7 @@ export class LoginPage implements OnInit {
   srcImg = "../../../resources/logoComDescricao.png";
   username : string = "";
   password : string = "";
+  processando: boolean = false;
   
   constructor(public afAuth: AngularFireAuth,
     public user: UserService, 
@@ -28,6 +29,8 @@ export class LoginPage implements OnInit {
   {
     const {username , password} = this;
     try{
+      this.processando = true;
+
       const res = await this.afAuth.auth.signInWithEmailAndPassword(username +'@virtualwaiter.com',password)
 
       if(res.user){
@@ -39,6 +42,7 @@ export class LoginPage implements OnInit {
       }
 
       console.log(this.user.getUID());
+      //this.processando = false;
 
     }catch(err){
       console.dir(err);
@@ -68,8 +72,7 @@ export class LoginPage implements OnInit {
       }
 
       console.log(err);
-
+      this.processando = false;
     }
   }
-
 }
