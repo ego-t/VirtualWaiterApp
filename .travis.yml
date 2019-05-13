@@ -4,3 +4,4 @@ node_js:
 install:
   - npm i -g
   - npm install -g @angular/cli
+  - npm install --save-dev @angular-devkit/build-angular
