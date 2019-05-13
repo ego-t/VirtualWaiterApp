@@ -4,5 +4,5 @@ node_js:
 install:
   - npm i -g
 
-run:
+build:
   - npm run test
