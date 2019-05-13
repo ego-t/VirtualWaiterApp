@@ -1,5 +1,8 @@
 language: node_js
 node_js:
-  - "10.15.3"
+  - "8.11.3"
 install:
   - npm i -g
+
+run:
+  - npm run test
