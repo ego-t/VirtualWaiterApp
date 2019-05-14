@@ -14,19 +14,6 @@ import { AngularFireAuth } from '@angular/fire/auth';
 export class AppComponent {
   usuarioLogado: string = "1"
 
-  public appPages = [
-    {
-      title: 'Home',
-      url: '/home',
-      icon: 'home'
-    },
-    {
-      title: 'Sair',
-      url: '/login',
-      icon: 'log-out'
-    }
-  ];
-
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
@@ -43,6 +30,10 @@ export class AppComponent {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
     });
+  }
+
+  btnHome(){
+    this.router.navigate(['/home'])
   }
 
   btnSair(){

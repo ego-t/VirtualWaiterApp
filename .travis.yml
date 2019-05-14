@@ -1,10 +1,7 @@
 language: node_js
 node_js:
- — “8.11.3”
-branches:
- only:
- — master
-befores_script:
- — npm install -g ionic cordova
-script:
- — ionic cordova build browser — prod
+  - "8.11.3"
+install:
+  - npm i -g
+  - npm install -g @angular/cli
+  - npm install --save-dev @angular-devkit/build-angular
