@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth'
 import { first } from 'rxjs/operators'
-import { auth } from 'firebase/app'
-import { HTTP } from '@ionic-native/http/ngx';
 import { HttpHeaders } from '@angular/common/http';
 
 interface user {
