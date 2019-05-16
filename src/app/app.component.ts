@@ -31,16 +31,7 @@ export class AppComponent {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
-      this.localdbService.criarBanco().then(() => {
-        this.fecharSplashScren();
-      }).catch(e => console.error(e))
     });
-  }
-
-  private fecharSplashScren()
-  {
-    alert('Deu tudo certo, banco criado!')
-    this.splashScreen.hide();
   }
 
   btnHome(){
