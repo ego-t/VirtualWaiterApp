@@ -1,5 +1,5 @@
 import { Alerta } from './Utils/Alerta';
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID  } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 
@@ -18,6 +18,8 @@ import { UserService } from './services/user.service';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { environment } from '../environments/environment';
 import { ShareModule } from './share.module';
+import { SQLite } from  '@ionic-native/sqlite/ngx';
+import { LocaldbService } from './services/localdb.service'
 
 @NgModule({
   declarations: [AppComponent],
@@ -35,9 +37,12 @@ import { ShareModule } from './share.module';
   providers: [
     StatusBar,
     SplashScreen,
+    {provide: LOCALE_ID, useValue: 'pt-BR'},
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    SQLite,
     UserService,
-    Alerta
+    Alerta,
+    LocaldbService
   ],
   bootstrap: [AppComponent],
   schemas: []

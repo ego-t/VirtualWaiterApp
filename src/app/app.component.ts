@@ -6,6 +6,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Router } from '@angular/router';
 import { UserService } from './services/user.service';
 import { AngularFireAuth } from '@angular/fire/auth';
+import { LocaldbService } from './services/localdb.service';
 
 @Component({
   selector: 'app-root',
@@ -20,7 +21,8 @@ export class AppComponent {
     private statusBar: StatusBar,
     private router: Router,
     private user: UserService,
-    private afAuth: AngularFireAuth
+    private afAuth: AngularFireAuth,
+    private localdbService: LocaldbService
   ) {
     this.initializeApp();
   }
@@ -29,7 +31,16 @@ export class AppComponent {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
+      this.localdbService.criarBanco().then(() => {
+        this.fecharSplashScren();
+      }).catch(e => console.error(e))
     });
+  }
+
+  private fecharSplashScren()
+  {
+    alert('Deu tudo certo, banco criado!')
+    this.splashScreen.hide();
   }
 
   btnHome(){

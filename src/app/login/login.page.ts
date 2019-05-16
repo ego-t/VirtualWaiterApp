@@ -39,6 +39,7 @@ export class LoginPage implements OnInit {
           uid: res.user.uid
         })
         this.router.navigate(['/home'])
+        this.processando = false;
       }
 
       console.log(this.user.getUID());
