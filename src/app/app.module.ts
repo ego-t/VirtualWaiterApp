@@ -1,4 +1,5 @@
-import { NgModule } from '@angular/core';
+import { Alerta } from './Utils/Alerta';
+import { NgModule, LOCALE_ID  } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 
@@ -16,7 +17,9 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { UserService } from './services/user.service';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { environment } from '../environments/environment';
-
+import { ShareModule } from './share.module';
+import { SQLite } from  '@ionic-native/sqlite/ngx';
+import { LocaldbService } from './services/localdb.service'
 
 @NgModule({
   declarations: [AppComponent],
@@ -26,15 +29,20 @@ import { environment } from '../environments/environment';
     HttpClientModule,
     IonicModule.forRoot(),
     AppRoutingModule,
-    AngularFireModule.initializeApp(firebaseConfig),
+    AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
     AngularFirestoreModule,
+    ShareModule
   ],
   providers: [
     StatusBar,
     SplashScreen,
+    {provide: LOCALE_ID, useValue: 'pt-BR'},
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    UserService
+    SQLite,
+    UserService,
+    Alerta,
+    LocaldbService
   ],
   bootstrap: [AppComponent],
   schemas: []
