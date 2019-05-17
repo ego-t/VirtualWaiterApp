@@ -18,8 +18,8 @@ import { UserService } from './services/user.service';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { environment } from '../environments/environment';
 import { ShareModule } from './share.module';
-import { SQLite } from  '@ionic-native/sqlite/ngx';
-import { LocaldbService } from './services/localdb.service'
+import { SQLite } from '@ionic-native/sqlite/ngx';
+import { SQLitePorter } from '@ionic-native/sqlite-porter/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -40,9 +40,9 @@ import { LocaldbService } from './services/localdb.service'
     {provide: LOCALE_ID, useValue: 'pt-BR'},
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     SQLite,
+    SQLitePorter,
     UserService,
-    Alerta,
-    LocaldbService
+    Alerta
   ],
   bootstrap: [AppComponent],
   schemas: []

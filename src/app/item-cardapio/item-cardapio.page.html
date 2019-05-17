@@ -26,7 +26,9 @@
     <ion-row>
       <ion-col>
         <div class="imagem-produto">
-          <ion-img id="imgProduto" src="https://pm1.narvii.com/6397/3f28d6c6977ee9268e7534da29cd54fce702d929_128.jpg"></ion-img>
+          <div>
+              <ion-img id="imgProduto" src="https://pm1.narvii.com/6397/3f28d6c6977ee9268e7534da29cd54fce702d929_128.jpg"></ion-img>
+          </div>
         </div>
       </ion-col>
     </ion-row>
@@ -40,7 +42,7 @@
     <ion-row>
       <ion-col>
         <div class="descricao-produto">
-          <p>Pão, Hamburguer, Alface, Ketchup, Frango, Tomate </p>
+            <ion-label id="lblDescricao" position="stacked">Pão, Hamburguer, Alface, Ketchup, Frango, Tomate</ion-label>
         </div>
       </ion-col>
     </ion-row>
@@ -48,24 +50,28 @@
     <ion-row>
         <ion-col>
           <div class="observacao-produto">
-            <ion-label position="floating">Observação</ion-label>
-            <ion-input type="text" [(ngModel)]="observacao"></ion-input>
+            <ion-item>
+            <ion-label style="color:black;" position="stacked">Observação</ion-label>
+            <ion-textarea spellcheck="true" type="text" [(ngModel)]="observacao"></ion-textarea>
+          </ion-item>
           </div>
         </ion-col>
       </ion-row>
 <ion-row class="rodape">
   <ion-col size="2">
-      <ion-button (click)="addQtd()">
-        <ion-icon slot="icon-only" name="add-circle"></ion-icon>
-      </ion-button>
-  </ion-col>
-  <ion-col size="2">
-    <p class="qtdItem">{{qtdItem}}</p>
-  </ion-col>
-  <ion-col size="2">
       <ion-button (click)="removerQtd()">
-        <ion-icon slot="icon-only" name="remove-circle"></ion-icon>
-      </ion-button>
+          <ion-icon slot="icon-only" name="remove-circle"></ion-icon>
+        </ion-button>
+  </ion-col>
+  <ion-col size="2">
+    <div id="DivQtd">
+        <ion-label class="qtdItem">{{qtdItem}}</ion-label>
+    </div>
+  </ion-col>
+  <ion-col size="2">
+      <ion-button (click)="addQtd()">
+          <ion-icon slot="icon-only" name="add-circle"></ion-icon>
+        </ion-button>
   </ion-col>
   <ion-col>
     <ion-button color="danger" (click)="adicionarItem()">Adicionar Item</ion-button>

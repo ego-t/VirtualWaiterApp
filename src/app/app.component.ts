@@ -6,7 +6,6 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Router } from '@angular/router';
 import { UserService } from './services/user.service';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { LocaldbService } from './services/localdb.service';
 
 @Component({
   selector: 'app-root',
@@ -22,7 +21,6 @@ export class AppComponent {
     private router: Router,
     private user: UserService,
     private afAuth: AngularFireAuth,
-    private localdbService: LocaldbService
   ) {
     this.initializeApp();
   }

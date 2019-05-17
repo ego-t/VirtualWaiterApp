@@ -5,6 +5,8 @@ import { auth } from 'firebase/app';
 import { Router } from '@angular/router';
 import { UserService } from '../services/user.service';
 
+import { DatabaseService } from './../../app/services/database.service';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
@@ -14,15 +16,21 @@ export class LoginPage implements OnInit {
   srcImg = "../../../resources/logoComDescricao.png";
   username : string = "";
   password : string = "";
-  processando: boolean = false;
+  processando: boolean = true;
   
   constructor(public afAuth: AngularFireAuth,
     public user: UserService, 
     public router:Router,
-    public alerta: Alerta) { }
+    public alerta: Alerta,
+    private db: DatabaseService) { }
 
   ngOnInit() {
     // console.log(this.srcImg);
+
+    this.db.getDatabaseState().subscribe(rdy => {
+      this.processando = false;
+    });
+
   }
 
   async login()
