@@ -14,6 +14,7 @@ import { UserService } from '../services/user.service';
 export class CadastroPage implements OnInit {
   username:string = "";
   password:string = "";
+  email:string = "";
   cpassword:string = "";
 
   constructor(

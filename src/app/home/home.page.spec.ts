@@ -2,6 +2,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HomePage } from './home.page';
+import { IonicStorageModule } from '@ionic/storage';
 
 describe('HomePage', () => {
   let component: HomePage;
@@ -10,6 +11,7 @@ describe('HomePage', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ HomePage ],
+      imports:[IonicStorageModule.forRoot()],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     })
       .compileComponents();

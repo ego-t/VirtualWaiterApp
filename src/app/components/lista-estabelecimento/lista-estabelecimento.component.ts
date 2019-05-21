@@ -24,7 +24,7 @@ export class ListaEstabelecimentoComponent implements OnInit {
 
   public items: Array<{ id:number;  title: string; note: string; icon: string }> = [];
 
-  constructor(private http: HttpClient, public navCtrl: NavController, private router: Router) {
+  constructor(private http: HttpClient, private router: Router) {
     for (let i = 1; i < 21; i++) {
       this.items.push({
         id: i,

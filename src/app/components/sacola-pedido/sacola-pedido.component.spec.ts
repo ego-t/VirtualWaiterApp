@@ -1,22 +1,22 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BuscaEstabelecimentoComponent } from './busca-estabelecimento.component';
+import { SacolaPedidoComponent } from './sacola-pedido.component';
 
-describe('BuscaEstabelecimentoComponent', () => {
-  let component: BuscaEstabelecimentoComponent;
-  let fixture: ComponentFixture<BuscaEstabelecimentoComponent>;
+describe('SacolaPedidoComponent', () => {
+  let component: SacolaPedidoComponent;
+  let fixture: ComponentFixture<SacolaPedidoComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BuscaEstabelecimentoComponent ],
+      declarations: [ SacolaPedidoComponent ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(BuscaEstabelecimentoComponent);
+    fixture = TestBed.createComponent(SacolaPedidoComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

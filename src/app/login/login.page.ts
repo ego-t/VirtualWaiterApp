@@ -1,11 +1,12 @@
+import { Produto } from './../services/database.service';
 import { Alerta } from './../Utils/Alerta';
 import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { auth } from 'firebase/app';
 import { Router } from '@angular/router';
 import { UserService } from '../services/user.service';
 
 import { DatabaseService } from './../../app/services/database.service';
+import { defineBase } from '@angular/core/src/render3';
 
 @Component({
   selector: 'app-login',
@@ -16,31 +17,41 @@ export class LoginPage implements OnInit {
   srcImg = "../../../resources/logoComDescricao.png";
   username : string = "";
   password : string = "";
-  processando: boolean = true;
-  
+  processando: boolean = false;
+  newItem: Produto = <Produto>{};
+
+
   constructor(public afAuth: AngularFireAuth,
     public user: UserService, 
     public router:Router,
     public alerta: Alerta,
-    private db: DatabaseService) { }
+    private db: DatabaseService) { 
+    }
 
   ngOnInit() {
     // console.log(this.srcImg);
-
-    this.db.getDatabaseState().subscribe(rdy => {
-      this.processando = false;
-    });
-
+    // this.db.getDatabaseState().subscribe(rdy => {
+    // });
+    
   }
 
   async login()
   {
     const {username , password} = this;
+
+    this.newItem.id = 1;
+      this.newItem.nome = 'teste';
+      this.db.addProduto(this.newItem);
+      this.db.addProduto(this.newItem);
+      this.newItem.id = 2;
+      this.newItem.nome = 'teste2';
+      this.db.addProduto(this.newItem);
+
     try{
       this.processando = true;
 
       const res = await this.afAuth.auth.signInWithEmailAndPassword(username +'@virtualwaiter.com',password)
-
+      
       if(res.user){
         this.user.setUser({
           username,
@@ -51,7 +62,7 @@ export class LoginPage implements OnInit {
       }
 
       console.log(this.user.getUID());
-      //this.processando = false;
+      this.processando = false;
 
     }catch(err){
       console.dir(err);

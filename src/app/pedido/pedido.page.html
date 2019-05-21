@@ -1,9 +1,74 @@
-<ion-header>
+<ion-header translucent="false">
   <ion-toolbar>
-    <ion-title>pedido</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Pedido</ion-title>
+    <ion-buttons slot="secondary">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
 
+  <ion-grid class="gridPageProduto">
+    <ion-row>
+      <ion-col>
+        <div class="descricao-estabelecimento">
+          <ion-label style="color: #cc0000;">Seu pedido em:</ion-label>
+          <div class="logoEstabelecimento">
+            <div>
+              <ion-img id="imgLogoEstabelecimento"
+                src="https://pm1.narvii.com/6397/3f28d6c6977ee9268e7534da29cd54fce702d929_128.jpg"></ion-img>
+            </div>
+          </div>
+          <ion-label style="color:black; font-weight: bold;" id="lblNomeEstabelecimento">WikiDonalds</ion-label>
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <div id="DivSeparador"></div>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="12">
+        <ion-list lines="none">
+          <ion-item *ngFor="let produto of produtos" (click)="goTo(produto.id)"
+            style="border: 2px solid #d4d2d2e0; width: 99%;" no-padding>
+            <ion-list lines="none">
+              <div class="estiloProduto">{{produto.nome}}</div>
+              <div class="descricao-produto">{{produto.descricao}}</div>
+              <div class="valor-produto">R$ {{produto.preco}}</div>
+            </ion-list>
+            <ion-thumbnail slot="end">
+              <ion-img [src]="produto.foto"></ion-img>
+            </ion-thumbnail>
+          </ion-item>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>
+<ion-footer>
+  <div id="base-footer">
+      <div class="linha-footer">
+        <div class="align-esquerda preencher" style="padding: 1px 5px 0px; font:bold;color:black;">
+            <h3>Total: R$ 52,14</h3>
+        </div>
+          <div class="align-direita preencher" >
+              <ion-button slot="end"><ion-icon slot="icon-only" name="add-circle"></ion-icon></ion-button>
+          </div>
+          
+      </div>
+      <div class="linha-footer">
+          <div class="align-esquerda preencher">
+              <ion-button slot="start" color="light" expand="block" >Cancelar Pedido</ion-button>
+          </div>
+          <div class="align-direita preencher">
+              <ion-button slot="end"   color="danger" expand="block" >Concluir Pedido</ion-button>
+          </div>
+      </div>
+  </div>
+  </ion-footer>

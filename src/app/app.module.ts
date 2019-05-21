@@ -12,14 +12,14 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { HttpClientModule } from '@angular/common/http';
 import { AngularFireModule } from '@angular/fire';
-import firebaseConfig from './firebase'
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { UserService } from './services/user.service';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { environment } from '../environments/environment';
 import { ShareModule } from './share.module';
-import { SQLite } from '@ionic-native/sqlite/ngx';
-import { SQLitePorter } from '@ionic-native/sqlite-porter/ngx';
+import { IonicStorageModule } from '@ionic/storage';
+import { DatabaseService } from './services/database.service';
+import { ComponentsModule } from './components/components.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -32,17 +32,22 @@ import { SQLitePorter } from '@ionic-native/sqlite-porter/ngx';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
     AngularFirestoreModule,
-    ShareModule
+    ShareModule,
+    ComponentsModule,
+    IonicStorageModule.forRoot({
+      name: '__mydb',
+         driverOrder: ['indexeddb', 'sqlite', 'websql']
+    }),
   ],
   providers: [
     StatusBar,
     SplashScreen,
     {provide: LOCALE_ID, useValue: 'pt-BR'},
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    SQLite,
-    SQLitePorter,
     UserService,
-    Alerta
+    Alerta,
+    DatabaseService,
+    Storage
   ],
   bootstrap: [AppComponent],
   schemas: []

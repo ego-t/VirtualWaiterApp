@@ -1,104 +1,81 @@
 import { Injectable } from '@angular/core';
-import { Platform } from '@ionic/angular';
-import { SQLitePorter } from '@ionic-native/sqlite-porter/ngx';
-import { HttpClient } from '@angular/common/http';
-import { SQLite, SQLiteObject } from '@ionic-native/sqlite/ngx';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Storage } from '@ionic/storage';
 
-
-export interface Pedido {
-  idpedido: number,
-  nome: string,
-  valor: number
-}
+const PRODUTO_KEY = 'my-items';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DatabaseService {
-  private database: SQLiteObject;
-  private dbReady: BehaviorSubject<boolean> = new BehaviorSubject(false);
- 
-  Pedidos = new BehaviorSubject([]);
- 
-  constructor(private plt: Platform, private sqlitePorter: SQLitePorter, private sqlite: SQLite, private http: HttpClient) {
-    this.plt.ready().then((readySource) => {
-      console.log('Platform ready from', readySource);
-      
-      this.sqlite.create({ name: 'Pedidos.db', location: 'default'}).then((db: SQLiteObject) => {
-        this.database = db;
-        this.seedDatabase();
-        alert('Banco Criado');
-      });
+
+  constructor(private storage: Storage) { }
+  
+  // CREATE
+  addProduto(produto: Produto): Promise<any> {
+    return this.storage.get(PRODUTO_KEY).then((produtos: Produto[]) => {
+
+      if (produtos) {
+        produtos.push(produto);
+        return this.storage.set(PRODUTO_KEY, produtos);
+      } else {
+        return this.storage.set(PRODUTO_KEY, [produto]);
+      }
     });
   }
- 
-  seedDatabase() {
-    this.http.get('./../../assets/seed.sql', { responseType: 'text'})
-    .subscribe(sql => {
-      this.sqlitePorter.importSqlToDb(this.database, sql)
-        .then(_ => {
-          this.loadPedidos();
-          //this.loadProducts();
-          this.dbReady.next(true);
-        })
-        .catch(e => console.error(e));
-    });
-  }
- 
-  getDatabaseState() {
-    return this.dbReady.asObservable();
-  }
- 
-  getPedidos(): Observable<Pedido[]> {
-    return this.Pedidos.asObservable();
+
+  // READ
+  getProdutos(): Promise<Produto[]> {
+    return this.storage.get(PRODUTO_KEY);
   }
 
+  // UPDATE
+  updateProduto(produto: Produto): Promise<any> {
+    return this.storage.get(PRODUTO_KEY).then((produtos: Produto[]) => {
+      if (!produtos || produtos.length === 0) {
+        return null;
+      }
 
-  loadPedidos() {
-    return this.database.executeSql('SELECT * FROM Pedido', []).then(data => {
-      let Pedidos: Pedido[] = [];
- 
-      if (data.rows.length > 0) {
-        for (var i = 0; i < data.rows.length; i++) {
-          Pedidos.push({ 
-            idpedido: data.rows.item(i).idpedido,
-            nome: data.rows.item(i).nome, 
-            valor: data.rows.item(i).valor
-           });
+      const newProdutos: Produto[] = [];
+
+      for (let i of produtos) {
+        if (i.id === produto.id) {
+          newProdutos.push(produto);
+        } else {
+          newProdutos.push(i);
         }
       }
-      this.Pedidos.next(Pedidos);
+
+      return this.storage.set(PRODUTO_KEY, newProdutos);
     });
   }
- 
-  addPedido(nome, valor) {
-    let data = [nome, valor];
-    return this.database.executeSql('INSERT INTO Pedido (nome, valor) VALUES (?, ?, ?)', data).then(data => {
-      this.loadPedidos();
+
+  // DELETE
+  deleteProduto(id: number): Promise<Produto> {
+    return this.storage.get(PRODUTO_KEY).then((produtos: Produto[]) => {
+      if (!produtos || produtos.length === 0) {
+        return null;
+      }
+
+      let toKeep: Produto[] = [];
+
+      for (let i of produtos) {
+        if (i.id !== id) {
+          toKeep.push(i);
+        }
+      }
+      return this.storage.set(PRODUTO_KEY, toKeep);
     });
   }
- 
-  getPedido(id): Promise<Pedido> {
-    return this.database.executeSql('SELECT * FROM Pedido WHERE idpedido = ?', [id]).then(data => {
-      return {
-        idpedido: data.rows.item(0).idpedido,
-        nome: data.rows.item(0).nome, 
-        valor: data.rows.item(0).valor}
-    });
-  }
-  
- 
-  deletePedido(id) {
-    return this.database.executeSql('DELETE FROM Pedido WHERE idpedido = ?', [id]).then(_ => {
-      this.loadPedidos();
-    });
-  }
- 
-  updatePedido(Pedido: Pedido) {
-    let data = [Pedido.nome, Pedido.valor];
-    return this.database.executeSql(`UPDATE Pedido SET nome = ?, valor = ? WHERE id = ${Pedido.idpedido}`, data).then(data => {
-      this.loadPedidos();
-    })
-  }
+}
+
+export interface Produto {
+  id: number;
+  nome: string;
+  descricao: string;
+  preco: number;
+  foto: string;
+  empromocao: boolean;
+  descontopromocional: number;
+  ativo: boolean;
+  datahora: Date;
 }

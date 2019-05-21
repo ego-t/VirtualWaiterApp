@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { IonLabel } from '@ionic/angular';
 
+import { DatabaseService, Produto } from './../../app/services/database.service';
+
 @Component({
   selector: 'app-item-cardapio',
   templateUrl: './item-cardapio.page.html',
@@ -10,6 +12,8 @@ import { IonLabel } from '@ionic/angular';
 export class ItemCardapioPage implements OnInit {
   qtdItem: number = 0;
   observacao: string = "";
+
+  pedido = {};
 
   constructor(private router: Router) { }
 
