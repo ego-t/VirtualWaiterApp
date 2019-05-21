@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,7 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SacolaPedidoComponent implements OnInit {
 
-  constructor() { }
+  constructor(private router: Router) { }
+
+  abrirPaginaPedido(){
+    this.router.navigate(['/pedido'])
+  }
 
   ngOnInit() {}
 
