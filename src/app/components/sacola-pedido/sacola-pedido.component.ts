@@ -10,8 +10,8 @@ export class SacolaPedidoComponent implements OnInit {
 
   constructor(private router: Router) { }
 
-  abrirPaginaPedido(){
-    this.router.navigate(['/pedido'])
+  abrirPaginaPedido() {
+    this.router.navigate(['/pedido']);
   }
 
   ngOnInit() {}

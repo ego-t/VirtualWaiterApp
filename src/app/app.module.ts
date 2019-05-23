@@ -20,6 +20,7 @@ import { ShareModule } from './share.module';
 import { IonicStorageModule } from '@ionic/storage';
 import { DatabaseService } from './services/database.service';
 import { ComponentsModule } from './components/components.module';
+ 
 
 @NgModule({
   declarations: [AppComponent],
@@ -34,11 +35,12 @@ import { ComponentsModule } from './components/components.module';
     AngularFirestoreModule,
     ShareModule,
     ComponentsModule,
-    IonicStorageModule.forRoot({
-      name: '__mydb',
-         driverOrder: ['indexeddb', 'sqlite', 'websql']
-    }),
-  ],
+    IonicStorageModule.forRoot()
+    // IonicStorageModule.forRoot({
+    //   name: '__mydb',
+    //      driverOrder: ['indexeddb', 'sqlite', 'websql']
+    //})
+    ,],
   providers: [
     StatusBar,
     SplashScreen,
@@ -47,7 +49,7 @@ import { ComponentsModule } from './components/components.module';
     UserService,
     Alerta,
     DatabaseService,
-    Storage
+    Storage,
   ],
   bootstrap: [AppComponent],
   schemas: []

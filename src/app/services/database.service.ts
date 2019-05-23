@@ -3,24 +3,20 @@ import { Storage } from '@ionic/storage';
 
 const PRODUTO_KEY = 'my-items';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class DatabaseService {
 
-  constructor(private storage: Storage) { }
-  
-  // CREATE
-  addProduto(produto: Produto): Promise<any> {
-    return this.storage.get(PRODUTO_KEY).then((produtos: Produto[]) => {
+  constructor(public storage: Storage) { }
 
-      if (produtos) {
-        produtos.push(produto);
-        return this.storage.set(PRODUTO_KEY, produtos);
-      } else {
-        return this.storage.set(PRODUTO_KEY, [produto]);
-      }
-    });
+  // CREATE
+  async addProduto(produto: Produto): Promise<any> {
+    const produtos = await this.storage.get(PRODUTO_KEY);
+    if (produtos) {
+      produtos.push(produto);
+      return this.storage.set(PRODUTO_KEY, produtos);
+    } else {
+      return this.storage.set(PRODUTO_KEY, [produto]);
+    }
   }
 
   // READ
@@ -37,7 +33,7 @@ export class DatabaseService {
 
       const newProdutos: Produto[] = [];
 
-      for (let i of produtos) {
+      for (const i of produtos) {
         if (i.id === produto.id) {
           newProdutos.push(produto);
         } else {
@@ -56,9 +52,9 @@ export class DatabaseService {
         return null;
       }
 
-      let toKeep: Produto[] = [];
+      const toKeep: Produto[] = [];
 
-      for (let i of produtos) {
+      for (const i of produtos) {
         if (i.id !== id) {
           toKeep.push(i);
         }

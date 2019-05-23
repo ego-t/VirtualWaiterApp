@@ -1,7 +1,10 @@
+import { IonicStorageModule } from '@ionic/storage';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PedidoPage } from './pedido.page';
+import { RouterTestingModule } from '@angular/router/testing';
+import { DatabaseService } from '../services/database.service';
 
 describe('PedidoPage', () => {
   let component: PedidoPage;
@@ -9,7 +12,12 @@ describe('PedidoPage', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PedidoPage ],
+      declarations: [ PedidoPage],
+      
+      providers: [DatabaseService],
+      imports: [RouterTestingModule.withRoutes([]),
+      IonicStorageModule.forRoot(),
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     })
     .compileComponents();

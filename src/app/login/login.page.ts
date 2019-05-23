@@ -4,9 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { UserService } from '../services/user.service';
-
 import { DatabaseService } from './../../app/services/database.service';
-import { defineBase } from '@angular/core/src/render3';
 
 @Component({
   selector: 'app-login',
@@ -25,7 +23,7 @@ export class LoginPage implements OnInit {
     public user: UserService, 
     public router:Router,
     public alerta: Alerta,
-    private db: DatabaseService) { 
+    public db: DatabaseService) { 
     }
 
   ngOnInit() {
