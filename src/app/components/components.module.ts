@@ -9,6 +9,6 @@ import { SacolaPedidoComponent } from './sacola-pedido/sacola-pedido.component';
   imports: [
     CommonModule,IonicModule
   ],
-  exports: [ListaEstabelecimentoComponent, SacolaPedidoComponent]
+  exports: [ListaEstabelecimentoComponent, SacolaPedidoComponent ]
 })
 export class ComponentsModule { }

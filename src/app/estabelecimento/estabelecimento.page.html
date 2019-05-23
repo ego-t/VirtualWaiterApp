@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar class="toolbar-home">
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="home"></ion-back-button>
+      <ion-back-button title="Voltar" defaultHref="home"></ion-back-button>
     </ion-buttons>
     <!-- <ion-img slot="start" src="/assets/logoApp.png" slot="start"></ion-img> -->
     <ion-title>
@@ -30,14 +30,14 @@
     <ion-row style="align-items: center;">
       <ion-col>
         <p style="font-size: 3vh;">
-          <ion-icon name="add" size="normal"></ion-icon>Info
+          <ion-button (click)="abrirInfoEstabelecimento()" color="light"><ion-icon name="add" size="normal"></ion-icon>Info</ion-button>
         </p>
       </ion-col>
       <ion-col size="5" style="text-align: center;">
         Wiki Donalds
       </ion-col>
       <ion-col style="text-align: right;">
-        <ion-icon name="search" style="font-size:25px;"></ion-icon>
+        <ion-button color="light"><ion-icon name="search" style="font-size:25px;"></ion-icon></ion-button>
       </ion-col>
     </ion-row>
   </ion-grid>

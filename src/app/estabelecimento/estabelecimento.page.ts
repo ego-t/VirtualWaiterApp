@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ModalController } from '@ionic/angular';
+import { InfoEstabelecimentoPage } from '../info-estabelecimento/info-estabelecimento.page';
+
 
 @Component({
   selector: 'app-estabelecimento',
@@ -10,7 +13,7 @@ export class EstabelecimentoPage implements OnInit {
   public produtos: Array<{ id:number;  nome: string; descricao: string; preco: string; imageURL: string }> = [];
   private nomeEstabelecimento: String;
 
-  constructor(private route: ActivatedRoute, private router: Router) {
+  constructor(private route: ActivatedRoute, private router: Router, public modalController: ModalController) {
     for (let i = 1; i < 21; i++) {
       this.produtos.push({
         id: i,
@@ -29,5 +32,11 @@ export class EstabelecimentoPage implements OnInit {
   goTo(idProduto: string){
     this.router.navigate(['/item-cardapio/' + idProduto])
   }
-  
+
+  async abrirInfoEstabelecimento(){
+    const modal = await this.modalController.create({
+      component: InfoEstabelecimentoPage
+    });
+    modal.present();
+  }
 }

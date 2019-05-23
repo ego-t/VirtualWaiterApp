@@ -8,6 +8,7 @@ import { AngularFireModule } from '@angular/fire';
 import { environment } from 'src/environments/environment';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { ModalController, AngularDelegate } from '@ionic/angular';
 
 describe('EstabelecimentoPage', () => {
   let component: EstabelecimentoPage;
@@ -22,8 +23,11 @@ describe('EstabelecimentoPage', () => {
         RouterTestingModule.withRoutes([]),
         AngularFireModule.initializeApp(environment.firebase),
         AngularFireAuthModule,
-        AngularFirestoreModule,]
+        AngularFirestoreModule,],
+        providers: [ModalController,AngularDelegate]
+
     })
+    
     .compileComponents();
   }));
 

@@ -1,22 +1,24 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CardapioPage } from './cardapio.page';
+import { InfoEstabelecimentoPage } from './info-estabelecimento.page';
+import { ModalController, AngularDelegate } from '@ionic/angular';
 
-describe('CardapioPage', () => {
-  let component: CardapioPage;
-  let fixture: ComponentFixture<CardapioPage>;
+describe('InfoEstabelecimentoPage', () => {
+  let component: InfoEstabelecimentoPage;
+  let fixture: ComponentFixture<InfoEstabelecimentoPage>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CardapioPage ],
+      declarations: [ InfoEstabelecimentoPage ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      providers: [ModalController,AngularDelegate]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CardapioPage);
+    fixture = TestBed.createComponent(InfoEstabelecimentoPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
