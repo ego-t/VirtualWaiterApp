@@ -1,10 +1,11 @@
+import { CadastroPage } from './../cadastro/cadastro.page';
 import { Produto } from './../services/database.service';
 import { Alerta } from './../Utils/Alerta';
 import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { UserService } from '../services/user.service';
-import { DatabaseService } from './../../app/services/database.service';
+import { ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-login',
@@ -20,10 +21,11 @@ export class LoginPage implements OnInit {
 
 
   constructor(public afAuth: AngularFireAuth,
-    public user: UserService, 
-    public router:Router,
+    public user: UserService,
+    public router: Router,
     public alerta: Alerta,
-    public db: DatabaseService) { 
+    public modalController: ModalController
+    ) {
     }
 
   ngOnInit() {
@@ -33,17 +35,16 @@ export class LoginPage implements OnInit {
     
   }
 
+  async abrirPageCadastro(){
+    const modal = await this.modalController.create({
+      component: CadastroPage
+    });
+    modal.present();
+  }
+
   async login()
   {
     const {username , password} = this;
-
-    this.newItem.id = 1;
-      this.newItem.nome = 'teste';
-      this.db.addProduto(this.newItem);
-      this.db.addProduto(this.newItem);
-      this.newItem.id = 2;
-      this.newItem.nome = 'teste2';
-      this.db.addProduto(this.newItem);
 
     try{
       this.processando = true;

@@ -3,6 +3,18 @@ import { Storage } from '@ionic/storage';
 
 const PRODUTO_KEY = 'my-items';
 
+export class Produto {
+  id: number;
+  nome: string;
+  descricao: string;
+  preco: number;
+  foto: string;
+  empromocao: boolean;
+  descontopromocional: number;
+  ativo: boolean;
+  datahora: Date;
+}
+
 @Injectable()
 export class DatabaseService {
 
@@ -11,6 +23,12 @@ export class DatabaseService {
   // CREATE
   async addProduto(produto: Produto): Promise<any> {
     const produtos = await this.storage.get(PRODUTO_KEY);
+
+    for (const produtoJaNoPedido of produtos) {
+      if (produtoJaNoPedido.id === produto.id)
+        throw new Error("Produto já adicionado");
+    }
+
     if (produtos) {
       produtos.push(produto);
       return this.storage.set(PRODUTO_KEY, produtos);
@@ -64,14 +82,4 @@ export class DatabaseService {
   }
 }
 
-export interface Produto {
-  id: number;
-  nome: string;
-  descricao: string;
-  preco: number;
-  foto: string;
-  empromocao: boolean;
-  descontopromocional: number;
-  ativo: boolean;
-  datahora: Date;
-}
+
