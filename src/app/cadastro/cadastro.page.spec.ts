@@ -9,6 +9,7 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireModule } from '@angular/fire';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientModule } from '@angular/common/http';
+import { ModalController, AngularDelegate } from '@ionic/angular';
 
 describe('CadastroPage', () => {
   let component: CadastroPage;
@@ -17,7 +18,7 @@ describe('CadastroPage', () => {
   beforeEach(async(() => {  
     TestBed.configureTestingModule({
       declarations: [ CadastroPage ],
-      providers: [UserService],
+      providers: [UserService, ModalController, AngularDelegate],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [
         HttpClientModule,

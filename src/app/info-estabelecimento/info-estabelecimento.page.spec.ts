@@ -12,7 +12,7 @@ describe('InfoEstabelecimentoPage', () => {
     TestBed.configureTestingModule({
       declarations: [ InfoEstabelecimentoPage ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      providers: [ModalController,AngularDelegate]
+      providers: [ModalController, AngularDelegate]
     })
     .compileComponents();
   }));
