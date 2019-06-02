@@ -9,7 +9,7 @@
         <ion-button color="danger" (click)="abrirPaginaPedido()" expand="block" >Visualizar Pedido</ion-button>
     </div>
     <div id="DivValorTotal">
-        <p>R$ 50,34</p>
+        <p>{{ValorTotalPedido | currency:'BRL' }}</p>
       </div>
   </div>
 </div>

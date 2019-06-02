@@ -24,12 +24,13 @@ export class DatabaseService {
   async addProduto(produto: Produto): Promise<any> {
     const produtos = await this.storage.get(PRODUTO_KEY);
 
-    for (const produtoJaNoPedido of produtos) {
-      if (produtoJaNoPedido.id === produto.id)
-        throw new Error("Produto já adicionado");
-    }
-
     if (produtos) {
+      for (const produtoJaNoPedido of produtos) {
+        if (produtoJaNoPedido.id === produto.id) {
+          throw new Error('Produto já adicionado');
+        }
+      }
+
       produtos.push(produto);
       return this.storage.set(PRODUTO_KEY, produtos);
     } else {
@@ -80,6 +81,17 @@ export class DatabaseService {
       return this.storage.set(PRODUTO_KEY, toKeep);
     });
   }
+
+  async getTotalPedido() {
+    let valorRetorno = 0;
+
+    const produtos = await this.storage.get(PRODUTO_KEY);
+
+    if (produtos) {
+      for (const produtoJaNoPedido of produtos) {
+        valorRetorno += produtoJaNoPedido.preco;
+      }
+    }
+    return valorRetorno;
+  }
 }
-
-

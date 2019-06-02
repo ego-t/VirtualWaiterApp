@@ -32,15 +32,20 @@
         <div id="DivSeparador"></div>
       </ion-col>
     </ion-row>
-    <ion-row>
-      <ion-col size="12">
+    <ion-row class="LinhaDetalhe">
+      <ion-col size="11">
         <ion-list lines="none">
-          <ion-item *ngFor="let produto of produtos" (click)="goTo(produto.id)"
-            style="border: 2px solid #d4d2d2e0; width: 99%;" no-padding>
+          <ion-item *ngFor="let produto of produtos" (click)="abrirPopover(produto.id)"
+             no-padding>
             <ion-list lines="none">
-              <div class="estiloProduto">{{produto.nome}}</div>
+              <div class="regiao-base">
+                <div class="linha-footer">
+                    <div class="align-esquerda titulo-medio preencher">{{produto.nome}}</div>
+                </div>
+              </div>
+
               <div class="descricao-produto">{{produto.descricao}}</div>
-              <div class="valor-produto">R$ {{produto.preco}}</div>
+              <div class="valor-produto">{{produto.preco | currency:'BRL' }}</div>
             </ion-list>
             <ion-thumbnail slot="end">
               <ion-img [src]="produto.foto"></ion-img>
@@ -48,27 +53,32 @@
           </ion-item>
         </ion-list>
       </ion-col>
+      <ion-col size="1">
+
+      </ion-col>
     </ion-row>
   </ion-grid>
 </ion-content>
 <ion-footer>
   <div id="base-footer">
-      <div class="linha-footer">
-        <div class="align-esquerda preencher" style="padding: 1px 5px 0px; font:bold;color:black;">
-            <h3>Total: R$ 52,14</h3>
-        </div>
-          <div class="align-direita preencher" >
-              <ion-button slot="end"><ion-icon slot="icon-only" name="add-circle"></ion-icon></ion-button>
-          </div>
-          
+    <div class="linha-footer">
+      <div class="align-esquerda preencher" style="padding: 1px 5px 0px; font:bold;color:black;">
+        <h3>Total: R$ 52,14</h3>
       </div>
-      <div class="linha-footer">
-          <div class="align-esquerda preencher">
-              <ion-button slot="start" color="light" expand="block" >Cancelar Pedido</ion-button>
-          </div>
-          <div class="align-direita preencher">
-              <ion-button slot="end"   color="danger" expand="block" >Concluir Pedido</ion-button>
-          </div>
+      <div class="align-direita preencher">
+        <ion-button slot="end">
+          <ion-icon slot="icon-only" name="add-circle"></ion-icon>
+        </ion-button>
       </div>
+
+    </div>
+    <div class="linha-footer">
+      <div class="align-esquerda preencher">
+        <ion-button slot="start" color="light" expand="block">Cancelar Pedido</ion-button>
+      </div>
+      <div class="align-direita preencher">
+        <ion-button slot="end" color="danger" expand="block">Concluir Pedido</ion-button>
+      </div>
+    </div>
   </div>
-  </ion-footer>
+</ion-footer>

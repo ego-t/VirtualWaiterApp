@@ -1,3 +1,4 @@
+import { PopoverPageModule } from './pages/popover/popover.module';
 import { Alerta } from './Utils/Alerta';
 import { NgModule, LOCALE_ID  } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -20,7 +21,9 @@ import { ShareModule } from './share.module';
 import { IonicStorageModule } from '@ionic/storage';
 import { DatabaseService } from './services/database.service';
 import { ComponentsModule } from './components/components.module';
- 
+import {registerLocaleData} from '@angular/common';
+import pt from '@angular/common/locales/pt';
+registerLocaleData(pt, 'pt-BR');
 
 @NgModule({
   declarations: [AppComponent],
@@ -35,12 +38,8 @@ import { ComponentsModule } from './components/components.module';
     AngularFirestoreModule,
     ShareModule,
     ComponentsModule,
-    IonicStorageModule.forRoot()
-    // IonicStorageModule.forRoot({
-    //   name: '__mydb',
-    //      driverOrder: ['indexeddb', 'sqlite', 'websql']
-    //})
-    ,],
+    IonicStorageModule.forRoot(),
+    ],
   providers: [
     StatusBar,
     SplashScreen,

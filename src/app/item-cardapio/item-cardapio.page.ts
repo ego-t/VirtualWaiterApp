@@ -1,5 +1,5 @@
 import { Alerta } from './../Utils/Alerta';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 import { IonLabel } from '@ionic/angular';
 
@@ -8,7 +8,7 @@ import { DatabaseService, Produto } from './../../app/services/database.service'
 @Component({
   selector: 'app-item-cardapio',
   templateUrl: './item-cardapio.page.html',
-  styleUrls: ['./item-cardapio.page.scss'],
+  styleUrls: ['./item-cardapio.page.scss', './../style/EstiloPadrao.scss'],
 })
 export class ItemCardapioPage implements OnInit {
 
@@ -19,6 +19,8 @@ export class ItemCardapioPage implements OnInit {
 
   pedido = {};
 
+  mudouPedido = new EventEmitter();
+
   constructor(private router: Router, public db: DatabaseService, private alerta: Alerta) { }
 
   ngOnInit() {
@@ -27,12 +29,14 @@ export class ItemCardapioPage implements OnInit {
 
   addQtd() {
     this.qtdItem += 1;
+    this.mudouPedido.emit();
   }
 
   removerQtd() {
     if (this.qtdItem > 0) {
       this.qtdItem -= 1;
     }
+    this.mudouPedido.emit();
   }
 
 

@@ -5,6 +5,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { PedidoPage } from './pedido.page';
 import { RouterTestingModule } from '@angular/router/testing';
 import { DatabaseService } from '../services/database.service';
+import { PopoverController, AngularDelegate } from '@ionic/angular';
 
 describe('PedidoPage', () => {
   let component: PedidoPage;
@@ -13,8 +14,7 @@ describe('PedidoPage', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ PedidoPage],
-      
-      providers: [DatabaseService],
+      providers: [DatabaseService, PopoverController, AngularDelegate ],
       imports: [RouterTestingModule.withRoutes([]),
       IonicStorageModule.forRoot(),
       ],

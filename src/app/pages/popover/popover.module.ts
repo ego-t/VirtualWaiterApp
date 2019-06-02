@@ -3,15 +3,14 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
 
-import { IonicModule, PopoverController, AngularDelegate } from '@ionic/angular';
+import { IonicModule } from '@ionic/angular';
 
-import { PedidoPage } from './pedido.page';
-import { PopoverPage } from '../pages/popover/popover.page';
+import { PopoverPage } from './popover.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: PedidoPage
+    component: PopoverPage
   }
 ];
 
@@ -22,9 +21,8 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes)
   ],
-  providers: [ PopoverController, AngularDelegate ],
-  declarations: [PedidoPage, PopoverPage],
+  declarations: [ PopoverPage],
   exports: [ PopoverPage ],
-  entryComponents: [ PopoverPage ]
+  entryComponents: [PopoverPage]
 })
-export class PedidoPageModule {}
+export class PopoverPageModule {}
