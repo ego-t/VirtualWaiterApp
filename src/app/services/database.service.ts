@@ -68,7 +68,7 @@ export class DatabaseService {
   deleteProduto(id: number): Promise<Produto> {
     return this.storage.get(PRODUTO_KEY).then((produtos: Produto[]) => {
       if (!produtos || produtos.length === 0) {
-        return null;
+        throw new Error('Seu pedido está vazio.');
       }
 
       const toKeep: Produto[] = [];

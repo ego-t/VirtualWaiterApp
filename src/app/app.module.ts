@@ -1,4 +1,4 @@
-import { PopoverPageModule } from './pages/popover/popover.module';
+import { OpcoesItemPedidoPageModule } from './pages/opcoes-item-pedido/opcoes-item-pedido.module';
 import { Alerta } from './Utils/Alerta';
 import { NgModule, LOCALE_ID  } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';

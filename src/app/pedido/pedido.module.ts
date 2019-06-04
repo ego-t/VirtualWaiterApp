@@ -6,7 +6,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule, PopoverController, AngularDelegate } from '@ionic/angular';
 
 import { PedidoPage } from './pedido.page';
-import { PopoverPage } from '../pages/popover/popover.page';
+import { OpcoesItemPedidoPage } from '../pages/opcoes-item-pedido/opcoes-item-pedido.page';
 
 const routes: Routes = [
   {
@@ -23,8 +23,8 @@ const routes: Routes = [
     RouterModule.forChild(routes)
   ],
   providers: [ PopoverController, AngularDelegate ],
-  declarations: [PedidoPage, PopoverPage],
-  exports: [ PopoverPage ],
-  entryComponents: [ PopoverPage ]
+  declarations: [PedidoPage, OpcoesItemPedidoPage],
+  exports: [ OpcoesItemPedidoPage ],
+  entryComponents: [ OpcoesItemPedidoPage ]
 })
 export class PedidoPageModule {}

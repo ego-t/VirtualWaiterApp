@@ -5,7 +5,7 @@
     </ion-buttons>
     <!-- <ion-img slot="start" src="/assets/logoApp.png" slot="start"></ion-img> -->
     <ion-title>
-      VIRTUAL WAITER
+      {{nomeEstabelecimento}}
     </ion-title>
     <ion-buttons slot="secondary">
       <ion-menu-button></ion-menu-button>
@@ -16,7 +16,11 @@
 <ion-content>
   <ion-grid no-padding>
     <ion-row no-padding>
-      <ion-col></ion-col>
+      <ion-col>
+          <p style="font-size: 3vh;">
+              <ion-button (click)="abrirInfoEstabelecimento()" color="light"><ion-icon name="add" size="normal"></ion-icon>Info</ion-button>
+            </p>
+      </ion-col>
       <ion-col size="2">
         <ion-thumbnail><img src="https://www.iguatemifortaleza.com.br/wp-content/uploads/2017/03/mc.png">
         </ion-thumbnail>
@@ -27,21 +31,9 @@
         </p>
       </ion-col>
     </ion-row>
-    <ion-row style="align-items: center;">
-      <ion-col>
-        <p style="font-size: 3vh;">
-          <ion-button (click)="abrirInfoEstabelecimento()" color="light"><ion-icon name="add" size="normal"></ion-icon>Info</ion-button>
-        </p>
-      </ion-col>
-      <ion-col size="5" style="text-align: center;">
-        Wiki Donalds
-      </ion-col>
-      <ion-col style="text-align: right;">
-        <ion-button color="light"><ion-icon name="search" style="font-size:25px;"></ion-icon></ion-button>
-      </ion-col>
-    </ion-row>
   </ion-grid>
 
+  <ion-searchbar placeholder="Pesquisar" (ionChange)="changeSearchBar($event)"></ion-searchbar>
   <ion-list>
     <ion-item *ngFor="let produto of produtos" (click)="goTo(produto.id)">
       <ion-list lines="none">
