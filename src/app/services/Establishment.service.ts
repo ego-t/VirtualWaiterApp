@@ -9,8 +9,7 @@ import { Establishment } from '../models/Establishment';
   providedIn: 'root'
 })
 export class EstabelecimentoService {
-  // we can now access environment.apiUrl
-  API_URL = environment.apiUrl;
+  API_URL = environment.URL_API;
 
   // Http Options
   httpOptions = {

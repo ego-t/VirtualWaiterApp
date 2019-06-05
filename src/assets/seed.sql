@@ -1,5 +1,0 @@
-CREATE TABLE IF NOT EXISTS Pedido(
-    idpedido INTEGER PRIMARY KEY AUTOINCREMENT,
-    nome TEXT,
-    valor INTEGER
-);
