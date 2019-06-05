@@ -2,8 +2,9 @@ import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { InfoEstabelecimentoPage } from '../info-estabelecimento/info-estabelecimento.page';
-import { database } from 'firebase';
 import { DatabaseService } from '../services/database.service';
+import { EstabelecimentoService } from '../services/Establishment.service';
+import { Establishment } from '../models/Establishment';
 
 @Component({
   selector: 'app-estabelecimento',
@@ -15,16 +16,18 @@ export class EstabelecimentoPage implements OnInit {
   valorPedido = 0;
   textoPesquisa = '';
 
+  estabelecimento: Establishment;
+
   public produtosMock: Array<{ id: number; nome: string; descricao: string; preco: string; imageURL: string }> = [];
   public produtos: Array<{ id: number; nome: string; descricao: string; preco: string; imageURL: string }> = [];
   idEstabelecimento: string;
-  nomeEstabelecimento: string;
+  private nomeEstabelecimento = '';
+  private urlLogoEstabelecimento = '';
 
   constructor(private route: ActivatedRoute, private router: Router, public modalController: ModalController,
-    public db: DatabaseService) {
+    public db: DatabaseService, private establishmentService: EstabelecimentoService) {
     this.addProdutosMock();
     this.filtrarPesquisa();
-    this.nomeEstabelecimento = 'Wiki Donalds';
   }
 
   addProdutosMock() {
@@ -56,14 +59,32 @@ export class EstabelecimentoPage implements OnInit {
       preco: '21,00',
       imageURL: 'https://pm1.narvii.com/6397/3f28d6c6977ee9268e7534da29cd54fce702d929_128.jpg'
     });
+    
+    // this.establishmentService.getAll().subscribe((data) =>  {
+    //   this.produtosMock = data;
+    // });
+
   }
 
   ngOnInit() {
-    this.idEstabelecimento = this.route.snapshot.paramMap.get('id');
   }
 
   ionViewDidEnter() {
+    console.log('Entrou na tela Estabelecimento');
+    this.loadInfoEstablishment();
     this.atualizarTotalPedido();
+  }
+
+  loadInfoEstablishment() {
+    this.idEstabelecimento = this.route.snapshot.paramMap.get('id');
+    this.establishmentService.getById(Number(this.idEstabelecimento)).subscribe((data) => {
+          console.log(data[0]);
+          if (data[0] != null) {
+            this.estabelecimento = data[0];
+            this.nomeEstabelecimento = this.estabelecimento.razaosocial;
+            this.urlLogoEstabelecimento = this.estabelecimento.logo;
+          }
+    });
   }
 
   goTo(idProduto: string) {
@@ -72,7 +93,10 @@ export class EstabelecimentoPage implements OnInit {
 
   async abrirInfoEstabelecimento() {
     const modal = await this.modalController.create({
-      component: InfoEstabelecimentoPage
+      component: InfoEstabelecimentoPage,
+      componentProps: {
+        
+      }
     });
     modal.present();
   }

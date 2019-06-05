@@ -5,6 +5,7 @@
 
 export const environment = {
   production: false,
+  apiUrl: 'http://localhost:3000/api',
   firebase : {
     apiKey: "AIzaSyAFZZbgKzOpVHkA_1TvkBYMtsPylXJzxXA",
     authDomain: "virtual-waiter-c6d42.firebaseapp.com",

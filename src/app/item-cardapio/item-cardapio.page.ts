@@ -1,6 +1,6 @@
 import { Alerta } from './../Utils/Alerta';
 import { Component, OnInit, EventEmitter } from '@angular/core';
-import { IonLabel } from '@ionic/angular';
+import { Location } from '@angular/common';
 
 import { DatabaseService, Produto } from './../../app/services/database.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -23,7 +23,8 @@ export class ItemCardapioPage implements OnInit {
 
   mudouPedido = new EventEmitter();
 
-  constructor(private activatedRoute: ActivatedRoute, public db: DatabaseService, private alerta: Alerta, private router: Router) { }
+  constructor(private activatedRoute: ActivatedRoute, public db: DatabaseService, private alerta: Alerta,
+     private router: Router, private location: Location) { }
 
   ngOnInit() {
     this.id = Number(this.activatedRoute.snapshot.paramMap.get('id'));
@@ -52,7 +53,9 @@ export class ItemCardapioPage implements OnInit {
       this.newItem.descricao = 'testeteste';
       this.newItem.preco = 9.99;
       this.db.addProduto(this.newItem).then(() => {
-        this.router.navigate(['/estabelecimento/1']);
+
+        this.location.back();
+
       }).catch( (err) => {
         this.alerta.showAlert('Erro', err.message);
       });

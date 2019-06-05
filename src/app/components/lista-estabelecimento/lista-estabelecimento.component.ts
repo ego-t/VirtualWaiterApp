@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Alerta } from 'src/app/Utils/Alerta';
+import { Establishment } from 'src/app/models/Establishment';
 
 @Component({
   selector: 'app-lista-estabelecimento',
@@ -9,6 +10,8 @@ import { Alerta } from 'src/app/Utils/Alerta';
   styleUrls: ['./lista-estabelecimento.component.scss'],
 })
 export class ListaEstabelecimentoComponent implements OnInit {
+
+  @Input() public estabelecimentos: Establishment[];
 
   private icons = [
     'https://images.vexels.com/media/users/3/128437/isolated/preview/2dd809b7c15968cb7cc577b2cb49c84f-logotipo-de-restaurante-de-comida-de-pizza-by-vexels.png',
@@ -43,6 +46,8 @@ export class ListaEstabelecimentoComponent implements OnInit {
     }
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+    console.log('entrou na lista estabelecimento');
+   }
 
 }

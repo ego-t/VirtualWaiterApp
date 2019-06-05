@@ -22,7 +22,7 @@
             </p>
       </ion-col>
       <ion-col size="2">
-        <ion-thumbnail><img src="https://www.iguatemifortaleza.com.br/wp-content/uploads/2017/03/mc.png">
+        <ion-thumbnail><img [src]="urlLogoEstabelecimento">
         </ion-thumbnail>
       </ion-col>
       <ion-col style="text-align: right;">
@@ -48,5 +48,5 @@
   </ion-list>
 </ion-content>
 <ion-footer>
-  <app-sacola-pedido [ValorTotalPedido]="valorPedido"></app-sacola-pedido>
+  <app-sacola-pedido *ngIf="valorPedido > 0" [ValorTotalPedido]="valorPedido"></app-sacola-pedido>
 </ion-footer>
