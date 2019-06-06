@@ -14,3 +14,6 @@ install:
   - npm install node-sass
 addons:
   chrome: stable
+
+notifications:
+  slack: teamegoworkspace:p3F3CnTCCEO62Q7bQw6MwjjP

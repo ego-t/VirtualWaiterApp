@@ -2,13 +2,13 @@ import { NgModule } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { ListaEstabelecimentoComponent } from './lista-estabelecimento/lista-estabelecimento.component';
-import { BuscaEstabelecimentoComponent } from './busca-estabelecimento/busca-estabelecimento.component';
+import { SacolaPedidoComponent } from './sacola-pedido/sacola-pedido.component';
 
 @NgModule({
-  declarations: [BuscaEstabelecimentoComponent,ListaEstabelecimentoComponent],
+  declarations: [ListaEstabelecimentoComponent,SacolaPedidoComponent],
   imports: [
     CommonModule,IonicModule
   ],
-  exports: [BuscaEstabelecimentoComponent,ListaEstabelecimentoComponent]
+  exports: [ListaEstabelecimentoComponent, SacolaPedidoComponent ]
 })
 export class ComponentsModule { }

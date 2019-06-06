@@ -9,6 +9,9 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 
 import { ItemCardapioPage } from './item-cardapio.page';
+import { DatabaseService } from '../services/database.service';
+import { IonicStorageModule } from '@ionic/storage';
+import { Alerta } from '../Utils/Alerta';
 
 describe('ItemCardapioPage', () => {
   let component: ItemCardapioPage;
@@ -22,8 +25,10 @@ describe('ItemCardapioPage', () => {
         HttpClientModule,
         RouterTestingModule.withRoutes([]),
         AngularFireModule.initializeApp(environment.firebase),
+        IonicStorageModule.forRoot(),
         AngularFireAuthModule,
-        AngularFirestoreModule,]
+        AngularFirestoreModule, ],
+      providers: [ DatabaseService, Alerta ]
     })
     .compileComponents();
   }));

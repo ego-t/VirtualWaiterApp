@@ -17,8 +17,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
-import { LocaldbService } from './services/localdb.service';
-import { SQLite } from  '@ionic-native/sqlite/ngx';
 
 describe('AppComponent', () => {
 
@@ -48,8 +46,6 @@ describe('AppComponent', () => {
         { provide: Platform, useValue: platformSpy },
         { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
         UserService,
-        SQLite,
-        LocaldbService
       ]
     }).compileComponents();
   }));

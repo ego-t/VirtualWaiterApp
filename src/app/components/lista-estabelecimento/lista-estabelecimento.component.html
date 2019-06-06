@@ -1,13 +1,11 @@
 <ion-list>
-  <!-- <ion-button size="default" expand="block" (click)="btnTesteAPI()">TESTE</ion-button> -->
-  
-  <ion-item *ngFor="let item of items" (click)="goTo(item.id)" >
+  <ion-item *ngFor="let establishment of estabelecimentos" (click)="goTo(establishment.id)" >
     <ion-thumbnail slot="start">
-      <ion-img [src]="item.icon"></ion-img>
+      <ion-img [src]="establishment.logo"></ion-img>
     </ion-thumbnail>
-    {{item.title}}
+    {{establishment.razaosocial}}
     <div class="item-note" slot="end">
-      {{item.note}}
+      {{establishment.descricao}}
     </div>
   </ion-item>
 </ion-list>

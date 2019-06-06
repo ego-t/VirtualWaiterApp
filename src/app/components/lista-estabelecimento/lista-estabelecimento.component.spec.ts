@@ -8,6 +8,7 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { environment } from 'src/environments/environment';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { Alerta } from 'src/app/Utils/Alerta';
 
 describe('ListaEstabelecimentoComponent', () => {
   let component: ListaEstabelecimentoComponent;
@@ -22,7 +23,8 @@ describe('ListaEstabelecimentoComponent', () => {
         RouterTestingModule.withRoutes([]),
         AngularFireModule.initializeApp(environment.firebase),
         AngularFireAuthModule,
-        AngularFirestoreModule,]
+        AngularFirestoreModule,],
+      providers: [ Alerta ]
     })
     .compileComponents();
   }));

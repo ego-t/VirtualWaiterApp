@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { auth } from 'firebase/app';
-import { AlertController } from '@ionic/angular';
+import { AlertController, ModalController } from '@ionic/angular';
 import { Router } from '@angular/router';
-import { AngularFirestore } from '@angular/fire/firestore'
+import { AngularFirestore } from '@angular/fire/firestore';
 import { UserService } from '../services/user.service';
 
 @Component({
@@ -12,62 +12,64 @@ import { UserService } from '../services/user.service';
   styleUrls: ['./cadastro.page.scss'],
 })
 export class CadastroPage implements OnInit {
-  username:string = "";
-  password:string = "";
-  cpassword:string = "";
+  username: '';
+  password: '';
+  email = '';
+  cpassword: '';
 
   constructor(
     public afAuth: AngularFireAuth,
     public alert: AlertController,
     public router: Router,
     public afstore: AngularFirestore,
-    public user: UserService
-    ){ }
+    public user: UserService,
+    public modalController: ModalController
+    ) { }
 
   ngOnInit() {
   }
 
-  async register(){
-    const { username,password, cpassword} = this; 
-    if(password !== cpassword)
-    {
-      this.showAlert("Erro", "Senhas não conferem");
-      return console.error("Senhas não batem");
+  async register() {
+    const { username, password, cpassword} = this;
+
+    if (password !== cpassword) {
+      this.showAlert('Erro', 'Senhas não conferem');
+      return console.error('Senhas não batem');
     }
-    try
-    {
-      const res = await this.afAuth.auth.createUserWithEmailAndPassword(username +'@virtualwaiter.com',password);
-     
+    try {
+      const res = await this.afAuth.auth.createUserWithEmailAndPassword(username + '@virtualwaiter.com', password);
+
       this.afstore.doc(`users/${res.user.uid}`).set({
         username,
 
       });
 
       this.user.setUser({
-				username,
-				uid: res.user.uid
-			})
+        username,
+        uid: res.user.uid
+      });
 
-      this.showAlert("Sucesso!", "Você foi registrado!");
+      this.showAlert('Sucesso!', 'Você foi registrado!');
 
-      this.router.navigate(['/home']);
-    }catch(err)
-    {
+      this.dismiss();
+    } catch (err) {
       console.dir(err);
-      this.showAlert("Erro", err.message);
+      this.showAlert('Erro', err.message);
     }
   }
 
-  async showAlert(header : string, message: string)
-  {
+  async showAlert(header: string, message: string) {
     const alert =  await this.alert.create(
     {
       header,
       message,
-      buttons : ["Ok"]
-    })
+      buttons : ['Ok']
+    });
 
     await alert.present();
+  }
+  dismiss() {
+    this.modalController.dismiss();
   }
 
 }

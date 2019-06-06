@@ -1,3 +1,4 @@
+import { OpcoesItemPedidoPageModule } from './pages/opcoes-item-pedido/opcoes-item-pedido.module';
 import { Alerta } from './Utils/Alerta';
 import { NgModule, LOCALE_ID  } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -12,14 +13,17 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { HttpClientModule } from '@angular/common/http';
 import { AngularFireModule } from '@angular/fire';
-import firebaseConfig from './firebase'
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { UserService } from './services/user.service';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { environment } from '../environments/environment';
 import { ShareModule } from './share.module';
-import { SQLite } from  '@ionic-native/sqlite/ngx';
-import { LocaldbService } from './services/localdb.service'
+import { IonicStorageModule } from '@ionic/storage';
+import { DatabaseService } from './services/database.service';
+import { ComponentsModule } from './components/components.module';
+import {registerLocaleData} from '@angular/common';
+import pt from '@angular/common/locales/pt';
+registerLocaleData(pt, 'pt-BR');
 
 @NgModule({
   declarations: [AppComponent],
@@ -32,17 +36,19 @@ import { LocaldbService } from './services/localdb.service'
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
     AngularFirestoreModule,
-    ShareModule
-  ],
+    ShareModule,
+    ComponentsModule,
+    IonicStorageModule.forRoot(),
+    ],
   providers: [
     StatusBar,
     SplashScreen,
     {provide: LOCALE_ID, useValue: 'pt-BR'},
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    SQLite,
     UserService,
     Alerta,
-    LocaldbService
+    DatabaseService,
+    Storage,
   ],
   bootstrap: [AppComponent],
   schemas: []

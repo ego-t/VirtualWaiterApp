@@ -1,0 +1,41 @@
+.imagem-estabelecimento {
+    width: 99%; 
+    min-height: 100%;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    padding: 1px 10px 5px;
+}
+
+#imgLogoEstabelecimento { 
+    border-radius:2px;
+    width: 100px;
+    height: 100px;
+}
+
+#base-content
+{
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+.linha-content
+{
+  padding: 1px 10px 1px;
+  display: flex;
+  flex-direction: line;
+}
+
+.preencher{
+  width: 100%; 
+}
+
+.align-esquerda{
+  text-align: left;
+}
+.align-direita{
+  text-align: right;
+}

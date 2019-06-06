@@ -1,3 +1,5 @@
+import { InfoEstabelecimentoPage } from './../info-estabelecimento/info-estabelecimento.page';
+import { ComponentsModule } from './../components/components.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -15,12 +17,20 @@ const routes: Routes = [
 ];
 
 @NgModule({
+  
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    RouterModule.forChild(routes)
+    ComponentsModule,
+    RouterModule.forChild(routes),
   ],
-  declarations: [EstabelecimentoPage]
+  declarations: [EstabelecimentoPage, InfoEstabelecimentoPage],
+  exports: [
+    EstabelecimentoPage
+  ],
+  entryComponents: [
+    EstabelecimentoPage, InfoEstabelecimentoPage
+  ],
 })
 export class EstabelecimentoPageModule {}
