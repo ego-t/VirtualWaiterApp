@@ -10,14 +10,14 @@ import { PopoverController } from '@ionic/angular';
 export class OpcoesItemPedidoPage implements OnInit {
 
   fechouPopover = new EventEmitter();
-  idProduto = 0;
+  idItemProduct = 0;
   constructor(public db: DatabaseService, private popoverCtrl: PopoverController) { }
 
   ngOnInit() {
   }
 
   removerItem() {
-    console.log(this.db.deleteProduto(this.idProduto));
+    console.log(this.db.deleteItemProduct(this.idItemProduct));
     this.popoverCtrl.dismiss();
     this.fechouPopover.emit();
   }

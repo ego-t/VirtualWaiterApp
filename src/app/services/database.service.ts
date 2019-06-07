@@ -1,19 +1,9 @@
+import { ItemProduct } from './../models/ItemProduct';
+import { Product } from './../models/Product';
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
 
-const PRODUTO_KEY = 'my-items';
-
-export class Produto {
-  id: number;
-  nome: string;
-  descricao: string;
-  preco: number;
-  foto: string;
-  empromocao: boolean;
-  descontopromocional: number;
-  ativo: boolean;
-  datahora: Date;
-}
+const ITEMPRODUTO_KEY = 'my-itemsProduct';
 
 @Injectable()
 export class DatabaseService {
@@ -21,75 +11,80 @@ export class DatabaseService {
   constructor(public storage: Storage) { }
 
   // CREATE
-  async addProduto(produto: Produto): Promise<any> {
-    const produtos = await this.storage.get(PRODUTO_KEY);
+  async addItemProduct(itemProduct: ItemProduct): Promise<any> {
+    
+    const dataAtual = new Date();
+    
+    itemProduct.id = dataAtual.getTime();
 
-    if (produtos) {
-      for (const produtoJaNoPedido of produtos) {
-        if (produtoJaNoPedido.id === produto.id) {
-          throw new Error('Produto já adicionado');
-        }
-      }
+    const itensProduct = await this.storage.get(ITEMPRODUTO_KEY);
 
-      produtos.push(produto);
-      return this.storage.set(PRODUTO_KEY, produtos);
+    if (itensProduct) {
+      // for (const itemPedido of itensProduct) {
+      //   if (itemPedido.pr.id === produto.id) {
+      //     throw new Error('Produto já adicionado');
+      //   }
+      // }
+      itensProduct.push(itemProduct);
+
+      return this.storage.set(ITEMPRODUTO_KEY, itensProduct);
     } else {
-      return this.storage.set(PRODUTO_KEY, [produto]);
+      return this.storage.set(ITEMPRODUTO_KEY, [itemProduct]);
     }
   }
 
   // READ
-  getProdutos(): Promise<Produto[]> {
-    return this.storage.get(PRODUTO_KEY);
+  getItensProducts(): Promise<ItemProduct[]> {
+    return this.storage.get(ITEMPRODUTO_KEY);
   }
 
   // UPDATE
-  updateProduto(produto: Produto): Promise<any> {
-    return this.storage.get(PRODUTO_KEY).then((produtos: Produto[]) => {
-      if (!produtos || produtos.length === 0) {
+  updateItemProduct(itemProduct: ItemProduct): Promise<any> {
+    return this.storage.get(ITEMPRODUTO_KEY).then((itemProducts: ItemProduct[]) => {
+      if (!itemProducts || itemProducts.length === 0) {
         return null;
       }
 
-      const newProdutos: Produto[] = [];
+      const newItensProducts: ItemProduct[] = [];
 
-      for (const i of produtos) {
-        if (i.id === produto.id) {
-          newProdutos.push(produto);
+      for (const i of itemProducts) {
+        if (i.id === itemProduct.id) {
+          newItensProducts.push(itemProduct);
         } else {
-          newProdutos.push(i);
+          newItensProducts.push(i);
         }
       }
 
-      return this.storage.set(PRODUTO_KEY, newProdutos);
+      return this.storage.set(ITEMPRODUTO_KEY, newItensProducts);
     });
   }
 
   // DELETE
-  deleteProduto(id: number): Promise<Produto> {
-    return this.storage.get(PRODUTO_KEY).then((produtos: Produto[]) => {
-      if (!produtos || produtos.length === 0) {
+  deleteItemProduct(id: number): Promise<ItemProduct> {
+    return this.storage.get(ITEMPRODUTO_KEY).then((itemProducts: ItemProduct[]) => {
+      if (!itemProducts || itemProducts.length === 0) {
         throw new Error('Seu pedido está vazio.');
       }
 
-      const toKeep: Produto[] = [];
+      const toKeep: ItemProduct[] = [];
 
-      for (const i of produtos) {
+      for (const i of itemProducts) {
         if (i.id !== id) {
           toKeep.push(i);
         }
       }
-      return this.storage.set(PRODUTO_KEY, toKeep);
+      return this.storage.set(ITEMPRODUTO_KEY, toKeep);
     });
   }
 
   async getTotalPedido() {
     let valorRetorno = 0;
 
-    const produtos = await this.storage.get(PRODUTO_KEY);
+    const produtos = await this.storage.get(ITEMPRODUTO_KEY);
 
     if (produtos) {
       for (const produtoJaNoPedido of produtos) {
-        valorRetorno += produtoJaNoPedido.preco;
+        valorRetorno += Number(produtoJaNoPedido.preco);
       }
     }
     return valorRetorno;

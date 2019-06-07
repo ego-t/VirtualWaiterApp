@@ -44,9 +44,6 @@ export class EstabelecimentoPage implements OnInit {
 
   async loadInfoEstablishment() {
     this.idEstabelecimento = Number(this.route.snapshot.paramMap.get('id'));
-    this.establishmentApi.getById(Number(this.idEstabelecimento)).subscribe((data) => {
-
-    });
 
     await this.establishmentApi.getById(this.idEstabelecimento).subscribe((data) => {
       console.log(data[this.arrayPos]);

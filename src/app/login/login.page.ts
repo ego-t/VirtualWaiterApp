@@ -1,5 +1,4 @@
 import { CadastroPage } from './../cadastro/cadastro.page';
-import { Produto } from './../services/database.service';
 import { Alerta } from './../Utils/Alerta';
 import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
@@ -13,12 +12,10 @@ import { ModalController } from '@ionic/angular';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
-  srcImg = "../../../resources/logoComDescricao.png";
+  srcImg = '../../../resources/logoComDescricao.png';
   username : string = "";
   password : string = "";
   processando: boolean = false;
-  newItem: Produto = <Produto>{};
-
 
   constructor(public afAuth: AngularFireAuth,
     public user: UserService,
@@ -29,10 +26,6 @@ export class LoginPage implements OnInit {
     }
 
   ngOnInit() {
-    // console.log(this.srcImg);
-    // this.db.getDatabaseState().subscribe(rdy => {
-    // });
-    
   }
 
   async abrirPageCadastro(){

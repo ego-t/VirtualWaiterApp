@@ -1,6 +1,6 @@
-import { DatabaseService , Produto } from './../services/database.service';
+import { ItemProduct } from './../models/ItemProduct';
+import { DatabaseService } from './../services/database.service';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { PopoverController, NavController } from '@ionic/angular';
 import { OpcoesItemPedidoPage } from '../pages/opcoes-item-pedido/opcoes-item-pedido.page';
 
@@ -11,7 +11,7 @@ import { OpcoesItemPedidoPage } from '../pages/opcoes-item-pedido/opcoes-item-pe
 })
 export class PedidoPage implements OnInit {
 
-  public produtos: Produto[] = [];
+  public itensProductSource: ItemProduct[] = [];
   totalPedido = 0;
 
   constructor(private navCtrl: NavController , private db: DatabaseService, public popoverController: PopoverController) {
@@ -23,15 +23,18 @@ export class PedidoPage implements OnInit {
   }
 
   atualizarlistagemProdutos() {
-    this.produtos = [];
+    this.itensProductSource = [];
     this.totalPedido = 0;
 
-    this.db.getProdutos().then((produtosdb: Produto[]) => {
-      for (const produto of produtosdb) {
-          produto.foto = 'https://pm1.narvii.com/6397/3f28d6c6977ee9268e7534da29cd54fce702d929_128.jpg';
-          this.produtos.push(produto);
-          this.totalPedido += produto.preco;
+    this.db.getItensProducts().then((itensProductdb: ItemProduct[]) => {
+      this.totalPedido = 0;
+      for (const itemProduct of itensProductdb) {
+          this.itensProductSource.push(itemProduct);
+          this.totalPedido += Number(itemProduct.preco);
         }
+      if(this.itensProductSource.length === 0){
+        this.cancelarClick();
+      }
     }).catch(() => {
       console.log('Erro ao carregar lista');
     });
@@ -44,7 +47,7 @@ export class PedidoPage implements OnInit {
     const modal = await this.popoverController.create({
       component: OpcoesItemPedidoPage,
       componentProps: {
-        idProduto: idItem
+        idItemProduct: idItem
       }
     });
     modal.onDidDismiss().finally( () => {
@@ -52,8 +55,8 @@ export class PedidoPage implements OnInit {
     });
     modal.present();
   }
-      
+
   cancelarClick() {
     this.navCtrl.back();
-  }  
+  }
 }
