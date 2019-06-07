@@ -49,9 +49,9 @@
     </ion-item>
   </ion-list> -->
   <ion-list *ngIf="secoesEstabelecimento.length > 0">
-    <ion-list *ngFor="let secao of secoesEstabelecimento" (click)="goTo(produto.id)">
-      <ion-item-divider style="--background	: #D3D3D3;" *ngIf="secao.produtos.length > 0">
-      <ion-label style="padding-left: 15px; font-size: 28px; font-weight: bold;" color="dark">{{secao.descricao}}</ion-label>
+    <ion-list *ngFor="let secao of secoesEstabelecimento">
+      <ion-item-divider style="--background	: #ff4d4d;" *ngIf="secao.produtos.length > 0">
+      <ion-label style="padding-left: 15px; font-size: 28px; font-weight: bold; color: #ffffff">{{secao.descricao}}</ion-label>
     </ion-item-divider>
 
     <ng-container *ngFor="let produto of secao.produtos">
