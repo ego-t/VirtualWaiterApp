@@ -28,3 +28,20 @@ ion-button {
         border: none;
     }
 }
+
+#imgLogo {
+    width:100%;
+    padding-left: 35%;
+    padding-right: 35%;
+    height:100px;
+}
+
+#card-login-manual{
+    background-color: #fff;
+    border-radius: 10px; 
+    margin: 15px;
+    -webkit-box-shadow: 1px 2px 4px rgba(50, 50, 50, 0.77);
+    -moz-box-shadow:    1px 2px 4px rgba(50, 50, 50, 0.77);
+    box-shadow:         1px 2px 4px rgba(50, 50, 50, 0.77);
+}
+

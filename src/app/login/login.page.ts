@@ -9,13 +9,14 @@ import { ModalController } from '@ionic/angular';
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
-  styleUrls: ['./login.page.scss'],
+  styleUrls: ['./login.page.scss', './../style/EstiloPadrao.scss'],
 })
 export class LoginPage implements OnInit {
   srcImg = '../../../resources/logoComDescricao.png';
-  username : string = "";
-  password : string = "";
-  processando: boolean = false;
+  username = '';
+  password = '';
+  processando = false;
+  loginManual = false;
 
   constructor(public afAuth: AngularFireAuth,
     public user: UserService,
@@ -28,59 +29,58 @@ export class LoginPage implements OnInit {
   ngOnInit() {
   }
 
-  async abrirPageCadastro(){
+  async abrirPageCadastro() {
     const modal = await this.modalController.create({
       component: CadastroPage
     });
     modal.present();
   }
 
-  async login()
-  {
+  async login() {
     const {username , password} = this;
 
-    try{
+    try {
       this.processando = true;
 
-      const res = await this.afAuth.auth.signInWithEmailAndPassword(username +'@virtualwaiter.com',password)
-      
-      if(res.user){
+      const res = await this.afAuth.auth.signInWithEmailAndPassword(username + '@virtualwaiter.com', password);
+
+      if (res.user) {
         this.user.setUser({
           username,
           uid: res.user.uid
-        })
-        this.router.navigate(['/home'])
+        });
+        this.router.navigate(['/home']);
         this.processando = false;
       }
 
       console.log(this.user.getUID());
       this.processando = false;
 
-    }catch(err){
+    } catch (err) {
       console.dir(err);
-      
-      var msgRetorno = ""
+
+      let msgRetorno = '';
 
       switch (err.code) {
-        case "auth/invalid-email":
-          msgRetorno = "Usuário inválido"
+        case 'auth/invalid-email':
+          msgRetorno = 'Usuário inválido';
           break;
-        case "auth/user-not-found":
-          msgRetorno = "Usuário não encontrado"
+        case 'auth/user-not-found':
+          msgRetorno = 'Usuário não encontrado'
           break;
-        case "auth/network-request-failed":
-          msgRetorno = "Não foi possível se conectar a rede"
+        case 'auth/network-request-failed':
+          msgRetorno = 'Não foi possível se conectar a rede'
           break;
-        case "auth/wrong-password":
-          msgRetorno = "Senha inválida"
+        case 'auth/wrong-password':
+          msgRetorno = 'Senha inválida'
           break;
         default:
-          msgRetorno = "Ocorreu um erro não conhecido."
+          msgRetorno = 'Ocorreu um erro não conhecido.'
           break;
       }
 
-      if(msgRetorno != ""){
-        this.alerta.showAlert("Error", msgRetorno)
+      if (msgRetorno != '') {
+        this.alerta.showAlert('Error', msgRetorno);
       }
 
       console.log(err);
