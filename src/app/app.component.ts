@@ -52,6 +52,6 @@ export class AppComponent {
 
     console.log(res);
 
-    this.router.navigate(['/login'])
+    this.router.navigate(['/login']);
   }
 }

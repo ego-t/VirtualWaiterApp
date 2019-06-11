@@ -18,7 +18,7 @@ export class PerfilPage implements OnInit {
       this.presentLoading();
       this.afAuth.authState.subscribe(user => {
       if (user) {
-        if(user.displayName === '') {
+        if (user.displayName === '') {
           this.nomeConsumidor = 'Usuario' + Math.floor(Math.random() * (2000 - 100)) + 100;
         } else {
           this.nomeConsumidor = user.displayName;

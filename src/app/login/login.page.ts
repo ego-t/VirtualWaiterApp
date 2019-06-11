@@ -73,20 +73,20 @@ export class LoginPage implements OnInit {
           msgRetorno = 'Usuário inválido';
           break;
         case 'auth/user-not-found':
-          msgRetorno = 'Usuário não encontrado'
+          msgRetorno = 'Usuário não encontrado';
           break;
         case 'auth/network-request-failed':
-          msgRetorno = 'Não foi possível se conectar a rede'
+          msgRetorno = 'Não foi possível se conectar a rede';
           break;
         case 'auth/wrong-password':
-          msgRetorno = 'Senha inválida'
+          msgRetorno = 'Senha inválida';
           break;
         default:
-          msgRetorno = 'Ocorreu um erro não conhecido.'
+          msgRetorno = 'Ocorreu um erro não conhecido.';
           break;
       }
 
-      if (msgRetorno != '') {
+      if (msgRetorno !== '') {
         this.alerta.showAlert('Error', msgRetorno);
       }
 
