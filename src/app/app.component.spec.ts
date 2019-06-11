@@ -17,6 +17,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
+import { FirebaseUIModule } from 'firebaseui-angular';
+import * as firebaseui from 'firebaseui';
+import * as firebase from 'firebase';
 
 describe('AppComponent', () => {
 
@@ -38,6 +41,7 @@ describe('AppComponent', () => {
         AngularFireModule.initializeApp(environment.firebase),
         AngularFireAuthModule,
         AngularFirestoreModule,
+        AngularFireModule.initializeApp(environment.firebase),
         ShareModule
       ],
       providers: [
@@ -69,9 +73,10 @@ describe('AppComponent', () => {
     await fixture.detectChanges();
     const app = fixture.nativeElement;
     const menuItems = app.querySelectorAll('ion-label');
-    expect(menuItems.length).toEqual(2);
-    expect(menuItems[0].textContent).toContain('Home');
-    expect(menuItems[1].textContent).toContain('Sair');
+    expect(menuItems.length).toEqual(3);
+    expect(menuItems[0].textContent).toContain('Perfil');
+    expect(menuItems[1].textContent).toContain('Estabelecimentos');
+    expect(menuItems[2].textContent).toContain('Sair');
   });
 
   // it('should have urls', async () => {

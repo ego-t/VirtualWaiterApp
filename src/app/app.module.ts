@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs';
 import { OpcoesItemPedidoPageModule } from './pages/opcoes-item-pedido/opcoes-item-pedido.module';
 import { Alerta } from './Utils/Alerta';
 import { NgModule, LOCALE_ID  } from '@angular/core';
@@ -23,7 +24,26 @@ import { DatabaseService } from './services/database.service';
 import { ComponentsModule } from './components/components.module';
 import {registerLocaleData} from '@angular/common';
 import pt from '@angular/common/locales/pt';
+import {FirebaseUIModule, firebase, firebaseui} from 'firebaseui-angular';
+import { routerNgProbeToken } from '@angular/router/src/router_module';
 registerLocaleData(pt, 'pt-BR');
+
+const firebaseUiAuthConfig: firebaseui.auth.Config = {
+  signInFlow: 'popup',
+  signInOptions: [
+    firebase.auth.GoogleAuthProvider.PROVIDER_ID
+  ],
+  tosUrl: '/termos-de-uso',
+  privacyPolicyUrl: '/privacidade',
+  credentialHelper: firebaseui.auth.CredentialHelper.NONE,
+  signInSuccessUrl: '/home',
+
+  callbacks: {
+    signInSuccessWithAuthResult: (user: any) => {
+      return true;
+    }
+  },
+};
 
 @NgModule({
   declarations: [AppComponent],
@@ -36,6 +56,7 @@ registerLocaleData(pt, 'pt-BR');
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
     AngularFirestoreModule,
+    FirebaseUIModule.forRoot(firebaseUiAuthConfig),
     ShareModule,
     ComponentsModule,
     IonicStorageModule.forRoot(),

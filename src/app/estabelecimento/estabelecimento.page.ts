@@ -1,6 +1,8 @@
+import { Session } from './../models/Session';
+import { Menu } from './../models/Menu';
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ModalController } from '@ionic/angular';
+import { ModalController, LoadingController } from '@ionic/angular';
 import { InfoEstabelecimentoPage } from '../info-estabelecimento/info-estabelecimento.page';
 import { DatabaseService } from '../services/database.service';
 import { EstabelecimentoService } from '../services/Establishment.service';
@@ -12,58 +14,25 @@ import { Establishment } from '../models/Establishment';
   styleUrls: ['./estabelecimento.page.scss'],
 })
 export class EstabelecimentoPage implements OnInit {
-
+  private loading;
+  arrayPos = 0;
   valorPedido = 0;
   textoPesquisa = '';
 
   estabelecimento: Establishment;
+  menu: Menu;
+  secoesEstabelecimento: Array<Session> = [];
+  secoesApi: Array<Session> = [];
 
   public produtosMock: Array<{ id: number; nome: string; descricao: string; preco: string; imageURL: string }> = [];
   public produtos: Array<{ id: number; nome: string; descricao: string; preco: string; imageURL: string }> = [];
-  idEstabelecimento: string;
+  idEstabelecimento = 0;
   private nomeEstabelecimento = '';
   private urlLogoEstabelecimento = '';
 
   constructor(private route: ActivatedRoute, private router: Router, public modalController: ModalController,
-    public db: DatabaseService, private establishmentService: EstabelecimentoService) {
-    this.addProdutosMock();
-    this.filtrarPesquisa();
-  }
-
-  addProdutosMock() {
-    this.produtosMock.push({
-      id: 1,
-      nome: 'Wiki Mac ',
-      descricao: 'Pão, hamburguer, Alface, Ketchup, Frango e Tomate',
-      preco: '12,00',
-      imageURL: 'https://pm1.narvii.com/6397/3f28d6c6977ee9268e7534da29cd54fce702d929_128.jpg'
-    });
-    this.produtosMock.push({
-      id: 2,
-      nome: 'Wiki Quart ',
-      descricao: 'Pão, hamburguer, Ketchup, Frango e Tomate',
-      preco: '14,00',
-      imageURL: 'https://pm1.narvii.com/6397/3f28d6c6977ee9268e7534da29cd54fce702d929_128.jpg'
-    });
-    this.produtosMock.push({
-      id: 3,
-      nome: 'Wiki Lanche',
-      descricao: 'Pão, 2 x hamburguer, Alface, Ketchup, Frango e Tomate',
-      preco: '16,00',
-      imageURL: 'https://pm1.narvii.com/6397/3f28d6c6977ee9268e7534da29cd54fce702d929_128.jpg'
-    });
-    this.produtosMock.push({
-      id: 4,
-      nome: 'Wiki Fish',
-      descricao: 'Pão, peixe, Alface, Ketchup, Frango e Tomate',
-      preco: '21,00',
-      imageURL: 'https://pm1.narvii.com/6397/3f28d6c6977ee9268e7534da29cd54fce702d929_128.jpg'
-    });
-    
-    // this.establishmentService.getAll().subscribe((data) =>  {
-    //   this.produtosMock = data;
-    // });
-
+    public db: DatabaseService, private establishmentApi: EstabelecimentoService,
+    public loadingController: LoadingController) {
   }
 
   ngOnInit() {
@@ -75,15 +44,22 @@ export class EstabelecimentoPage implements OnInit {
     this.atualizarTotalPedido();
   }
 
-  loadInfoEstablishment() {
-    this.idEstabelecimento = this.route.snapshot.paramMap.get('id');
-    this.establishmentService.getById(Number(this.idEstabelecimento)).subscribe((data) => {
-          console.log(data[0]);
-          if (data[0] != null) {
-            this.estabelecimento = data[0];
-            this.nomeEstabelecimento = this.estabelecimento.razaosocial;
-            this.urlLogoEstabelecimento = this.estabelecimento.logo;
-          }
+  async loadInfoEstablishment() {
+    this.presentLoading();
+    this.idEstabelecimento = Number(this.route.snapshot.paramMap.get('id'));
+
+    await this.establishmentApi.getById(this.idEstabelecimento).subscribe((data) => {
+      console.log(data[this.arrayPos]);
+      if (data[this.arrayPos] != null) {
+        this.estabelecimento = data[this.arrayPos];
+        this.menu = data[this.arrayPos].cardapio;
+        this.secoesApi = this.menu.secoes;
+        this.nomeEstabelecimento = this.estabelecimento.razaosocial;
+        this.urlLogoEstabelecimento = this.estabelecimento.logo;
+        this.filtrarPesquisa();
+        this.loading.dismiss();
+        console.log(this.menu);
+      }
     });
   }
 
@@ -95,7 +71,7 @@ export class EstabelecimentoPage implements OnInit {
     const modal = await this.modalController.create({
       component: InfoEstabelecimentoPage,
       componentProps: {
-        
+
       }
     });
     modal.present();
@@ -109,17 +85,29 @@ export class EstabelecimentoPage implements OnInit {
   }
 
   filtrarPesquisa() {
-    this.produtos = [];
+    // Cria uma copia sem referencia de objeto
+    this.secoesEstabelecimento = JSON.parse(JSON.stringify(this.secoesApi));
 
-    this.produtosMock.forEach(element => {
-      if (element.nome.toLowerCase().indexOf(this.textoPesquisa.toLowerCase()) >= 0 || this.textoPesquisa === '') {
-        this.produtos.push(element);
-      }
+    this.secoesEstabelecimento.forEach(element => {
+      element.produtos = element.produtos.filter(produto => produto.nome.toLowerCase().indexOf(this.textoPesquisa.toLowerCase()) !== -1);
     });
   }
 
   changeSearchBar(sender: { detail: { value: string; }; }) {
     this.textoPesquisa = sender.detail.value;
     this.filtrarPesquisa();
+  }
+
+  presentLoading() {
+    this.loadingController.create({
+      message: 'Carregando',
+    }).then( (overlay) => {
+      this.loading = overlay;
+      this.loading.present();
+    });
+
+    setTimeout(() => {
+      this.loading.dismiss();
+    }, 4000);
   }
 }

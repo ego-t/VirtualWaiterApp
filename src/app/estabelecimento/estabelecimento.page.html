@@ -14,12 +14,14 @@
 </ion-header>
 
 <ion-content>
-  <ion-grid no-padding>
+  <ion-grid no-padding *ngIf="loading">
     <ion-row no-padding>
       <ion-col>
-          <p style="font-size: 3vh;">
-              <ion-button (click)="abrirInfoEstabelecimento()" color="light"><ion-icon name="add" size="normal"></ion-icon>Info</ion-button>
-            </p>
+        <p style="font-size: 3vh;">
+          <ion-button (click)="abrirInfoEstabelecimento()" color="light">
+            <ion-icon name="add" size="normal"></ion-icon>Info
+          </ion-button>
+        </p>
       </ion-col>
       <ion-col size="2">
         <ion-thumbnail><img [src]="urlLogoEstabelecimento">
@@ -34,7 +36,7 @@
   </ion-grid>
 
   <ion-searchbar placeholder="Pesquisar" (ionChange)="changeSearchBar($event)"></ion-searchbar>
-  <ion-list>
+  <!-- <ion-list>
     <ion-item *ngFor="let produto of produtos" (click)="goTo(produto.id)">
       <ion-list lines="none">
         <div class="estiloProduto">{{produto.nome}}</div>
@@ -45,7 +47,28 @@
         <ion-img [src]="produto.imageURL"></ion-img>
       </ion-thumbnail>
     </ion-item>
+  </ion-list> -->
+  <ion-list *ngIf="secoesEstabelecimento.length > 0">
+    <ion-list *ngFor="let secao of secoesEstabelecimento">
+      <ion-item-divider style="--background	: #ff4d4d;" *ngIf="secao.produtos.length > 0">
+      <ion-label style="padding-left: 15px; font-size: 28px; font-weight: bold; color: #ffffff">{{secao.descricao}}</ion-label>
+    </ion-item-divider>
+
+    <ng-container *ngFor="let produto of secao.produtos">
+      <ion-item  (click)="goTo(produto.id)">
+          <ion-list lines="none">
+              <div class="estiloProduto">{{produto.nome}}</div>
+              <div style="color:red">{{produto.descricao}}</div>
+              <div style="font-weight:700; padding: .3em; padding-left: 0;">R$ {{produto.preco}}</div>
+            </ion-list>
+            <ion-thumbnail slot="end">
+              <ion-img [src]="produto.foto"></ion-img>
+            </ion-thumbnail>
+      </ion-item>
+    </ng-container>
+    </ion-list>
   </ion-list>
+
 </ion-content>
 <ion-footer>
   <app-sacola-pedido *ngIf="valorPedido > 0" [ValorTotalPedido]="valorPedido"></app-sacola-pedido>
