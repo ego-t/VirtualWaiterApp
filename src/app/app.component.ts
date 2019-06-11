@@ -11,7 +11,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
   templateUrl: 'app.component.html'
 })
 export class AppComponent {
-  usuarioLogado: string = "1"
+  usuarioLogado = false;
 
   constructor(
     private platform: Platform,
@@ -22,6 +22,14 @@ export class AppComponent {
     private afAuth: AngularFireAuth,
   ) {
     this.initializeApp();
+    this.usuarioLogado = true;
+    // this.afAuth.authState.subscribe(user => {
+    //   if (user) {
+    //     this.usuarioLogado = this.afAuth.auth.currentUser.isAnonymous;
+    //   } else {
+    //     this.usuarioLogado = false;
+    //   }
+    // });
   }
 
   initializeApp() {
@@ -31,13 +39,17 @@ export class AppComponent {
     });
   }
 
-  btnHome(){
-    this.router.navigate(['/home'])
+  btnPerfil() {
+    this.router.navigate(['/perfil']);
   }
 
-  btnSair(){
+  btnHome() {
+    this.router.navigate(['/home']);
+  }
+
+  btnSair() {
     const res = this.afAuth.auth.signOut();
-    
+
     console.log(res);
 
     this.router.navigate(['/login'])

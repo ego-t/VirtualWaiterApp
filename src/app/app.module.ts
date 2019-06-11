@@ -31,36 +31,15 @@ registerLocaleData(pt, 'pt-BR');
 const firebaseUiAuthConfig: firebaseui.auth.Config = {
   signInFlow: 'popup',
   signInOptions: [
-    firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-    // {
-    //   scopes: [
-    //     'public_profile',
-    //     'email',
-    //     'user_likes',
-    //     'user_friends'
-    //   ],
-    //   customParameters: {
-    //     'auth_type': 'reauthenticate'
-    //   },
-    //   provider: firebase.auth.GoogleAuthProvider.PROVIDER_ID
-    // },
-    //firebase.auth.TwitterAuthProvider.PROVIDER_ID,
-    //firebase.auth.GithubAuthProvider.PROVIDER_ID,
-    // {
-    //   requireDisplayName: false,
-    //   provider: firebase.auth.EmailAuthProvider.PROVIDER_ID
-    // },
-    //firebase.auth.PhoneAuthProvider.PROVIDER_ID,
-    //firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID
+    firebase.auth.GoogleAuthProvider.PROVIDER_ID
   ],
-  tosUrl: '/login',
-  privacyPolicyUrl: '/login',
+  tosUrl: '/termos-de-uso',
+  privacyPolicyUrl: '/privacidade',
   credentialHelper: firebaseui.auth.CredentialHelper.NONE,
   signInSuccessUrl: '/home',
 
   callbacks: {
     signInSuccessWithAuthResult: (user: any) => {
-      
       return true;
     }
   },

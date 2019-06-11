@@ -22,8 +22,15 @@ export class LoginPage implements OnInit {
     public user: UserService,
     public router: Router,
     public alerta: Alerta,
-    public modalController: ModalController
+    public modalController: ModalController,
     ) {
+      this.processando = true;
+      this.afAuth.authState.subscribe(user => {
+        if (user) {
+          this.router.navigate(['/home']);
+        }
+        this.processando = false;
+      });
     }
 
   ngOnInit() {
@@ -42,7 +49,7 @@ export class LoginPage implements OnInit {
     try {
       this.processando = true;
 
-      const res = await this.afAuth.auth.signInWithEmailAndPassword(username + '@virtualwaiter.com', password);
+      const res = await this.afAuth.auth.signInWithEmailAndPassword(username, password);
 
       if (res.user) {
         this.user.setUser({

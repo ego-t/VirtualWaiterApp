@@ -2,7 +2,7 @@ import { Session } from './../models/Session';
 import { Menu } from './../models/Menu';
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ModalController } from '@ionic/angular';
+import { ModalController, LoadingController } from '@ionic/angular';
 import { InfoEstabelecimentoPage } from '../info-estabelecimento/info-estabelecimento.page';
 import { DatabaseService } from '../services/database.service';
 import { EstabelecimentoService } from '../services/Establishment.service';
@@ -14,6 +14,7 @@ import { Establishment } from '../models/Establishment';
   styleUrls: ['./estabelecimento.page.scss'],
 })
 export class EstabelecimentoPage implements OnInit {
+  private loading;
   arrayPos = 0;
   valorPedido = 0;
   textoPesquisa = '';
@@ -30,7 +31,8 @@ export class EstabelecimentoPage implements OnInit {
   private urlLogoEstabelecimento = '';
 
   constructor(private route: ActivatedRoute, private router: Router, public modalController: ModalController,
-    public db: DatabaseService, private establishmentApi: EstabelecimentoService) {
+    public db: DatabaseService, private establishmentApi: EstabelecimentoService,
+    public loadingController: LoadingController) {
   }
 
   ngOnInit() {
@@ -43,6 +45,7 @@ export class EstabelecimentoPage implements OnInit {
   }
 
   async loadInfoEstablishment() {
+    this.presentLoading();
     this.idEstabelecimento = Number(this.route.snapshot.paramMap.get('id'));
 
     await this.establishmentApi.getById(this.idEstabelecimento).subscribe((data) => {
@@ -54,6 +57,7 @@ export class EstabelecimentoPage implements OnInit {
         this.nomeEstabelecimento = this.estabelecimento.razaosocial;
         this.urlLogoEstabelecimento = this.estabelecimento.logo;
         this.filtrarPesquisa();
+        this.loading.dismiss();
         console.log(this.menu);
       }
     });
@@ -92,5 +96,18 @@ export class EstabelecimentoPage implements OnInit {
   changeSearchBar(sender: { detail: { value: string; }; }) {
     this.textoPesquisa = sender.detail.value;
     this.filtrarPesquisa();
+  }
+
+  presentLoading() {
+    this.loadingController.create({
+      message: 'Carregando',
+    }).then( (overlay) => {
+      this.loading = overlay;
+      this.loading.present();
+    });
+
+    setTimeout(() => {
+      this.loading.dismiss();
+    }, 4000);
   }
 }

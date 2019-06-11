@@ -10,7 +10,10 @@ const routes: Routes = [
   { path: 'estabelecimento/:id', loadChildren: './estabelecimento/estabelecimento.module#EstabelecimentoPageModule' },
   { path: 'item-cardapio/:id', loadChildren: './item-cardapio/item-cardapio.module#ItemCardapioPageModule' },
   { path: 'pedido', loadChildren: './pedido/pedido.module#PedidoPageModule' },
-  { path: 'info-estabelecimento', loadChildren: './info-estabelecimento/info-estabelecimento.module#InfoEstabelecimentoPageModule' },
+  { path: 'info-estabelecimento', loadChildren: './info-estabelecimento/info-estabelecimento.module#InfoEstabelecimentoPageModule' },  { path: 'perfil', loadChildren: './perfil/perfil.module#PerfilPageModule' },
+  { path: 'privacidade', loadChildren: './privacidade/privacidade.module#PrivacidadePageModule' },
+  { path: 'termos-de-uso', loadChildren: './termos-de-uso/termos-de-uso.module#TermosDeUsoPageModule' },
+
 ];
 
 @NgModule({
