@@ -1,3 +1,5 @@
+import { Alerta } from './Utils/Alerta';
+import { ConsumerService } from './services/consumer.service';
 import { UserService } from './services/user.service';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { TestBed, async } from '@angular/core/testing';
@@ -50,6 +52,8 @@ describe('AppComponent', () => {
         { provide: Platform, useValue: platformSpy },
         { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
         UserService,
+        ConsumerService,
+        Alerta
       ]
     }).compileComponents();
   }));

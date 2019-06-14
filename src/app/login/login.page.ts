@@ -19,7 +19,7 @@ export class LoginPage implements OnInit {
   loginManual = false;
 
   constructor(public afAuth: AngularFireAuth,
-    public user: UserService,
+    public userService: UserService,
     public router: Router,
     public alerta: Alerta,
     public modalController: ModalController,
@@ -49,49 +49,17 @@ export class LoginPage implements OnInit {
     try {
       this.processando = true;
 
-      const res = await this.afAuth.auth.signInWithEmailAndPassword(username, password);
-
-      if (res.user) {
-        this.user.setUser({
-          username,
-          uid: res.user.uid
-        });
-        this.router.navigate(['/home']);
+      this.userService.realizarLoginFireBase(username, password).then( (sucesso) => {
+        console.log('Login feito com sucesso!');
         this.processando = false;
-      }
-
-      console.log(this.user.getUID());
-      this.processando = false;
-
-    } catch (err) {
-      console.dir(err);
-
-      let msgRetorno = '';
-
-      switch (err.code) {
-        case 'auth/invalid-email':
-          msgRetorno = 'Usuário inválido';
-          break;
-        case 'auth/user-not-found':
-          msgRetorno = 'Usuário não encontrado';
-          break;
-        case 'auth/network-request-failed':
-          msgRetorno = 'Não foi possível se conectar a rede';
-          break;
-        case 'auth/wrong-password':
-          msgRetorno = 'Senha inválida';
-          break;
-        default:
-          msgRetorno = 'Ocorreu um erro não conhecido.';
-          break;
-      }
-
-      if (msgRetorno !== '') {
-        this.alerta.showAlert('Error', msgRetorno);
-      }
-
-      console.log(err);
-      this.processando = false;
+      } ).catch( (error: Error) => {
+        this.alerta.showAlert('Não foi possível realizar o login :/', error.message);
+        this.processando = false;
+      } );
+      //this.processando = false;
+    }
+    catch (erro) {
+      console.log(erro);
     }
   }
 }

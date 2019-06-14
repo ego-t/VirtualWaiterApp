@@ -22,7 +22,7 @@ export class CadastroPage implements OnInit {
     public alert: AlertController,
     public router: Router,
     public afstore: AngularFirestore,
-    public user: UserService,
+    public userService: UserService,
     public modalController: ModalController
     ) { }
 
@@ -30,28 +30,23 @@ export class CadastroPage implements OnInit {
   }
 
   async register() {
-    const { username, password, cpassword} = this;
+    const { username, password, cpassword, email} = this;
 
     if (password !== cpassword) {
       this.showAlert('Erro', 'Senhas não conferem');
       return console.error('Senhas não batem');
     }
     try {
-      const res = await this.afAuth.auth.createUserWithEmailAndPassword(username + '@virtualwaiter.com', password);
 
-      this.afstore.doc(`users/${res.user.uid}`).set({
-        username,
+      this.userService.realizarCadastroFireBase(email, password, username).then( (sucesso) => {
 
+        if (sucesso) {
+          this.dismiss();
+          this.showAlert('Sucesso!', 'Você foi registrado!');
+          this.router.navigate(['/home']);
+        }
       });
 
-      this.user.setUser({
-        username,
-        uid: res.user.uid
-      });
-
-      this.showAlert('Sucesso!', 'Você foi registrado!');
-
-      this.dismiss();
     } catch (err) {
       console.dir(err);
       this.showAlert('Erro', err.message);

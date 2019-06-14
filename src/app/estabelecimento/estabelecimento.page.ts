@@ -28,7 +28,7 @@ export class EstabelecimentoPage implements OnInit {
   public produtos: Array<{ id: number; nome: string; descricao: string; preco: string; imageURL: string }> = [];
   idEstabelecimento = 0;
   private nomeEstabelecimento = '';
-  private urlLogoEstabelecimento = '';
+  private urlLogoEstabelecimento = './../../assets/icon/logoApp.png';
 
   constructor(private route: ActivatedRoute, private router: Router, public modalController: ModalController,
     public db: DatabaseService, private establishmentApi: EstabelecimentoService,
@@ -54,7 +54,7 @@ export class EstabelecimentoPage implements OnInit {
         this.estabelecimento = data[this.arrayPos];
         this.menu = data[this.arrayPos].cardapio;
         this.secoesApi = this.menu.secoes;
-        this.nomeEstabelecimento = this.estabelecimento.razaosocial;
+        this.nomeEstabelecimento = this.estabelecimento.nome;
         this.urlLogoEstabelecimento = this.estabelecimento.logo;
         this.filtrarPesquisa();
         this.loading.dismiss();
