@@ -58,6 +58,14 @@ export class ConsumerService {
     );
   }
 
+  getByIdUsuario(id: number): Observable<any> {
+    return this.http.get<any>(this.API_URL + '/consumidor?usuario=' + id)
+    .pipe(
+    retry(1),
+    catchError(this.handleError)
+    );
+  }
+
   // Error handling
   handleError(error: { error: { message: string; }; status: any; message: any; }) {
     let errorMessage = '';
@@ -67,6 +75,12 @@ export class ConsumerService {
     } else {
         // Get server-side error
         errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+    }
+    try {
+      let errorMessageAux = `Error Code: ${error.error}\nMessage: ${error.error.message}`;
+      window.alert(errorMessageAux);
+    } catch (error) {
+      
     }
     window.alert(errorMessage);
     return throwError(errorMessage);

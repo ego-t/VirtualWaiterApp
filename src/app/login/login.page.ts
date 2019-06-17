@@ -5,6 +5,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { UserService } from '../services/user.service';
 import { ModalController } from '@ionic/angular';
+import { User } from '../models/User';
 
 @Component({
   selector: 'app-login',
@@ -27,8 +28,13 @@ export class LoginPage implements OnInit {
       this.processando = true;
       this.afAuth.authState.subscribe(user => {
         if (user) {
-          this.router.navigate(['/home']);
+          this.userService.definirUsuarioLogado(user).then( () => {
+            this.router.navigate(['/home']);
+          });
+        } else {
+          console.log('Usuario não logado no firebase');
         }
+
         this.processando = false;
       });
     }

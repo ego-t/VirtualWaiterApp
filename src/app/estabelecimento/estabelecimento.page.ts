@@ -15,6 +15,7 @@ import { Establishment } from '../models/Establishment';
 })
 export class EstabelecimentoPage implements OnInit {
   private loading;
+  private emCarregamento;
   arrayPos = 0;
   valorPedido = 0;
   textoPesquisa = '';
@@ -33,6 +34,7 @@ export class EstabelecimentoPage implements OnInit {
   constructor(private route: ActivatedRoute, private router: Router, public modalController: ModalController,
     public db: DatabaseService, private establishmentApi: EstabelecimentoService,
     public loadingController: LoadingController) {
+      this.emCarregamento = true;
   }
 
   ngOnInit() {
@@ -59,6 +61,7 @@ export class EstabelecimentoPage implements OnInit {
         this.filtrarPesquisa();
         this.loading.dismiss();
         console.log(this.menu);
+        this.emCarregamento = false;
       }
     });
   }
@@ -107,6 +110,7 @@ export class EstabelecimentoPage implements OnInit {
     });
 
     setTimeout(() => {
+      this.emCarregamento = false;
       this.loading.dismiss();
     }, 4000);
   }

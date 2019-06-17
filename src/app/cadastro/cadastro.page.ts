@@ -5,6 +5,7 @@ import { AlertController, ModalController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { UserService } from '../services/user.service';
+import { resolve } from 'url';
 
 @Component({
   selector: 'app-cadastro',
@@ -24,29 +25,20 @@ export class CadastroPage implements OnInit {
     public afstore: AngularFirestore,
     public userService: UserService,
     public modalController: ModalController
-    ) { }
+  ) { }
 
   ngOnInit() {
   }
 
   async register() {
-    const { username, password, cpassword, email} = this;
+    const { username, password, cpassword, email } = this;
 
     if (password !== cpassword) {
       this.showAlert('Erro', 'Senhas não conferem');
       return console.error('Senhas não batem');
     }
     try {
-
-      this.userService.realizarCadastroFireBase(email, password, username).then( (sucesso) => {
-
-        if (sucesso) {
-          this.dismiss();
-          this.showAlert('Sucesso!', 'Você foi registrado!');
-          this.router.navigate(['/home']);
-        }
-      });
-
+      this.userService.register(email,password);
     } catch (err) {
       console.dir(err);
       this.showAlert('Erro', err.message);
@@ -54,12 +46,12 @@ export class CadastroPage implements OnInit {
   }
 
   async showAlert(header: string, message: string) {
-    const alert =  await this.alert.create(
-    {
-      header,
-      message,
-      buttons : ['Ok']
-    });
+    const alert = await this.alert.create(
+      {
+        header,
+        message,
+        buttons: ['Ok']
+      });
 
     await alert.present();
   }

@@ -1,25 +1,39 @@
 <ion-header>
   <ion-toolbar>
-      <ion-buttons slot="start">
-          <ion-back-button defaultHref="home"></ion-back-button>
-      </ion-buttons>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="home"></ion-back-button>
+    </ion-buttons>
     <ion-title>Perfil</ion-title>
     <ion-buttons slot="secondary">
-        <ion-menu-button></ion-menu-button>
+      <ion-menu-button></ion-menu-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
 
-      <ion-avatar>
-        <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y">
-      </ion-avatar>
-      
-      <ion-item>
-        <ion-avatar slot="start">
-          <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y">
-        </ion-avatar>
-        <ion-label>{{nomeConsumidor}}</ion-label>
-      </ion-item>
+  <div id="base-footer">
+    <div class="linha-footer">
+      <img id="imgLogo" src="../../assets/logoComDescricao.png">
+    </div>
+  </div>
+  <ion-list>
+    <ion-item>
+      <ion-label>Usuario</ion-label>
+      <ion-input [(ngModel)]="nomeConsumidor"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>E-mail</ion-label>
+      <ion-input [(ngModel)]="email"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Celular</ion-label>
+      <ion-input [(ngModel)]="celular"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Data Nascimento</ion-label>
+      <ion-input style="padding-left: 10px;" (click)="selecionarDataNascimento()"
+      [(ngModel)]="dataNascimento" ></ion-input>
+    </ion-item>
+  </ion-list>
 </ion-content>

@@ -13,6 +13,7 @@ const routes: Routes = [
   { path: 'info-estabelecimento', loadChildren: './info-estabelecimento/info-estabelecimento.module#InfoEstabelecimentoPageModule' },  { path: 'perfil', loadChildren: './perfil/perfil.module#PerfilPageModule' },
   { path: 'privacidade', loadChildren: './privacidade/privacidade.module#PrivacidadePageModule' },
   { path: 'termos-de-uso', loadChildren: './termos-de-uso/termos-de-uso.module#TermosDeUsoPageModule' },
+  { path: 'login-externo', loadChildren: './login-externo/login-externo.module#LoginExternoPageModule' },
 
 ];
 
