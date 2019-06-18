@@ -13,6 +13,7 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { ShareModule } from '../share.module';
 import { IonicStorageModule } from '@ionic/storage';
 import { ModalController } from '@ionic/angular';
+import { AuthenticationService } from '../services/authentication.service';
 
 describe('LoginPage', () => {
   let component: LoginPage;
@@ -21,7 +22,7 @@ describe('LoginPage', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ LoginPage ],
-      providers: [UserService, Alerta, Storage, DatabaseService, ModalController ],
+      providers: [UserService, Alerta, Storage, DatabaseService, ModalController, AuthenticationService ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [
         HttpClientModule,

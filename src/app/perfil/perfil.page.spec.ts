@@ -7,6 +7,7 @@ import { AngularFireModule } from '@angular/fire';
 import { environment } from 'src/environments/environment';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AuthenticationService } from '../services/authentication.service';
 
 describe('PerfilPage', () => {
   let component: PerfilPage;
@@ -16,6 +17,7 @@ describe('PerfilPage', () => {
     TestBed.configureTestingModule({
       declarations: [ PerfilPage ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      providers: [AuthenticationService],
       imports: [
         AngularFireModule.initializeApp(environment.firebase),
         AngularFireAuthModule,

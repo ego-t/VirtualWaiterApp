@@ -1,8 +1,13 @@
+import { AuthenticationService } from './../services/authentication.service';
+import { Consumer } from './../models/Consumer';
+import { ConsumerService } from './../services/consumer.service';
 import { UserService } from './../services/user.service';
 import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { LoadingController, NavController } from '@ionic/angular';
 import { DatePicker } from '@ionic-native/date-picker/ngx';
+import { User } from '../models/User';
+import { ThrowStmt } from '@angular/compiler';
 
 @Component({
   selector: 'app-perfil',
@@ -10,7 +15,7 @@ import { DatePicker } from '@ionic-native/date-picker/ngx';
   styleUrls: ['./perfil.page.scss', './../style/EstiloPadrao.scss'],
 })
 export class PerfilPage implements OnInit {
-  nomeConsumidor = 'Eduardo Couto Rodrigues';
+  nomeConsumidor = '';
   email = '';
   celular = '';
   dataNascimento = new Date().toLocaleDateString();
@@ -21,20 +26,12 @@ export class PerfilPage implements OnInit {
     public loadingController: LoadingController,
     private navCtrl: NavController,
     private datePicker: DatePicker,
-    private userService: UserService) {
+    private userService: UserService,
+    private consumerApi: ConsumerService,
+    private authenticationService: AuthenticationService
+    ) {
       this.emCarregamento = true;
       this.presentLoading();
-      this.afAuth.authState.subscribe(user => {
-      if (user) {
-        if (user.displayName == null || user.displayName === '') {
-          this.nomeConsumidor = 'Usuario' + Math.floor(Math.random() * (2000 - 100)) + 100;
-        } else {
-          this.nomeConsumidor = user.displayName;
-        }
-        this.loading.dismiss();
-        console.log(user);
-      }
-    });
   }
 
   ionViewDidEnter() {
@@ -42,24 +39,17 @@ export class PerfilPage implements OnInit {
   }
 
   loadPerfil() {
-    //this.presentLoading();
-    console.log(this.userService.getUser());
-    // this.idconsumidor = Number(this.route.snapshot.paramMap.get('id'));
+    const consumer: Consumer = this.authenticationService.getCurrentConsumer();
 
-    // await this.establishmentApi.getById(this.idconsumidor).subscribe((data) => {
-    //   console.log(data[this.arrayPos]);
-    //   if (data[this.arrayPos] != null) {
-    //     this.estabelecimento = data[this.arrayPos];
-    //     this.menu = data[this.arrayPos].cardapio;
-    //     this.secoesApi = this.menu.secoes;
-    //     this.nomeconsumidor = this.estabelecimento.nome;
-    //     this.urlLogoconsumidor = this.estabelecimento.logo;
-    //     this.filtrarPesquisa();
-    //     this.loading.dismiss();
-    //     console.log(this.menu);
-    //     this.emCarregamento = false;
-    //   }
-    // });
+    if (consumer) {
+      this.nomeConsumidor = consumer.nome;
+      this.celular = consumer.celular;
+      this.email = consumer.usuario.email;
+      if (consumer.datanascimento) {
+        this.dataNascimento = consumer.datanascimento.toLocaleDateString();
+      }
+    }
+    this.loading.dismiss();
   }
 
   presentLoading() {

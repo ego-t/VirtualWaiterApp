@@ -5,6 +5,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { UserService } from '../services/user.service';
 import { User } from '../models/User';
 import { Router } from '@angular/router';
+import { AuthenticationService } from '../services/authentication.service';
 
 @Component({
   selector: 'app-login-externo',
@@ -16,37 +17,14 @@ export class LoginExternoPage implements OnInit {
 
   constructor(public afAuth: AngularFireAuth, public userService: UserService, 
     private consumerService: ConsumerService,
+    public authenticationservice: AuthenticationService,
     private router: Router) {
     this.processando = true;
   }
 
   ionViewDidEnter() {
     console.log('Entrou na tela login externo');
-
-    this.afAuth.user.subscribe( (result: firebase.User) => {
-
-      this.userService.getByUID(result.uid).subscribe( (userData: User[]) => {
-
-        if (userData.length > 0) {
-          this.consumerService.getByIdUsuario(userData[0].id).subscribe( (consumerData: Consumer[]) => {
-
-            if (consumerData.length > 0) {
-              // Apenas definir usuario
-              this.userService.setUser(consumerData[0].usuario);
-              this.router.navigate(['/home']);
-            }
-            else {
-              //criar Consumidor
-              this.userService.registerConsumer(result);
-            }
-          console.log(consumerData);
-          });
-        } else {
-          // Criar Usuario e consumidor
-          this.userService.registerConsumer(result);
-        }
-      });
-    });
+    this.authenticationservice.isAuthenticated();
   }
 
   ngOnInit() {

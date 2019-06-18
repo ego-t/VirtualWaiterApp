@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { LoginExternoPage } from './login-externo.page';
 import { ShareModule } from '../share.module';
+import { AuthenticationService } from '../services/authentication.service';
 
 const routes: Routes = [
   {
@@ -23,6 +24,7 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     ShareModule
   ],
+  providers: [AuthenticationService],
   declarations: [LoginExternoPage]
 })
 export class LoginExternoPageModule {}

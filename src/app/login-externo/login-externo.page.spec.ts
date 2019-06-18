@@ -1,3 +1,4 @@
+import { AuthenticationService } from './../services/authentication.service';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
@@ -20,7 +21,7 @@ describe('LoginExternoPage', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      providers: [UserService, Alerta, Storage, DatabaseService, HttpClient, HttpHandler ],
+      providers: [UserService, Alerta, Storage, DatabaseService, HttpClient, HttpHandler, AuthenticationService ],
       imports: [
         RouterTestingModule.withRoutes([]),
         AngularFireModule.initializeApp(environment.firebase),

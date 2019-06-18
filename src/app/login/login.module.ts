@@ -1,3 +1,4 @@
+import { AuthenticationService } from './../services/authentication.service';
 import { CadastroPage } from './../cadastro/cadastro.page';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -27,7 +28,7 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     ShareModule
   ],
-  providers: [],
+  providers: [AuthenticationService],
   declarations: [LoginPage, CadastroPage],
   exports: [CadastroPage],
   entryComponents: [ CadastroPage ]

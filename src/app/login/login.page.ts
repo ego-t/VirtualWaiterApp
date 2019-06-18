@@ -1,3 +1,4 @@
+import { AuthenticationService } from './../services/authentication.service';
 import { CadastroPage } from './../cadastro/cadastro.page';
 import { Alerta } from './../Utils/Alerta';
 import { Component, OnInit } from '@angular/core';
@@ -23,20 +24,22 @@ export class LoginPage implements OnInit {
     public userService: UserService,
     public router: Router,
     public alerta: Alerta,
+    public authenticationservice: AuthenticationService,
     public modalController: ModalController,
     ) {
       this.processando = true;
       this.afAuth.authState.subscribe(user => {
         if (user) {
-          this.userService.definirUsuarioLogado(user).then( () => {
-            this.router.navigate(['/home']);
+          this.authenticationservice.isAuthenticated().then( function () {
+            console.log('Usuario jah autenticado');
+          }).catch(function() {
+            console.log('Usuario não logado no firebase');
+          }).finally(function () {
+            
           });
-        } else {
-          console.log('Usuario não logado no firebase');
         }
-
-        this.processando = false;
       });
+      this.processando = false;
     }
 
   ngOnInit() {
@@ -55,7 +58,7 @@ export class LoginPage implements OnInit {
     try {
       this.processando = true;
 
-      this.userService.realizarLoginFireBase(username, password).then( (sucesso) => {
+      this.authenticationservice.realizarLoginFireBase(username, password).then( (sucesso) => {
         console.log('Login feito com sucesso!');
         this.processando = false;
       } ).catch( (error: Error) => {

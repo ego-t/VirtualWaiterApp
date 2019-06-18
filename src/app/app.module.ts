@@ -27,6 +27,7 @@ import pt from '@angular/common/locales/pt';
 import {FirebaseUIModule, firebase, firebaseui} from 'firebaseui-angular';
 import { routerNgProbeToken } from '@angular/router/src/router_module';
 import { DatePicker } from '@ionic-native/date-picker/ngx';
+import { AuthenticationService } from './services/authentication.service';
 registerLocaleData(pt, 'pt-BR');
 
 const firebaseUiAuthConfig: firebaseui.auth.Config = {
@@ -72,6 +73,7 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
     DatabaseService,
     Storage,
     DatePicker,
+    AuthenticationService,
   ],
   bootstrap: [AppComponent],
   schemas: []

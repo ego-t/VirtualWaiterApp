@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { UserService } from '../services/user.service';
 import { resolve } from 'url';
+import { AuthenticationService } from '../services/authentication.service';
 
 @Component({
   selector: 'app-cadastro',
@@ -24,6 +25,7 @@ export class CadastroPage implements OnInit {
     public router: Router,
     public afstore: AngularFirestore,
     public userService: UserService,
+    public authenticationservice: AuthenticationService,
     public modalController: ModalController
   ) { }
 
@@ -38,7 +40,7 @@ export class CadastroPage implements OnInit {
       return console.error('Senhas não batem');
     }
     try {
-      this.userService.register(email,password);
+      this.authenticationservice.register(email, password);
     } catch (err) {
       console.dir(err);
       this.showAlert('Erro', err.message);

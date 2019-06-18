@@ -5,6 +5,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Router } from '@angular/router';
 import { UserService } from './services/user.service';
 import { AngularFireAuth } from '@angular/fire/auth';
+import { AuthenticationService } from './services/authentication.service';
 
 @Component({
   selector: 'app-root',
@@ -18,7 +19,7 @@ export class AppComponent {
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
     private router: Router,
-    private user: UserService,
+    public authenticationservice: AuthenticationService,
     private afAuth: AngularFireAuth,
   ) {
     this.initializeApp();
@@ -48,10 +49,7 @@ export class AppComponent {
   }
 
   btnSair() {
-    const res = this.afAuth.auth.signOut();
-
-    console.log(res);
-
+    this.authenticationservice.logout();
     this.router.navigate(['/login']);
   }
 }

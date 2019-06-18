@@ -22,6 +22,7 @@ import { RouteReuseStrategy } from '@angular/router';
 import { FirebaseUIModule } from 'firebaseui-angular';
 import * as firebaseui from 'firebaseui';
 import * as firebase from 'firebase';
+import { AuthenticationService } from './services/authentication.service';
 
 describe('AppComponent', () => {
 
@@ -53,7 +54,8 @@ describe('AppComponent', () => {
         { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
         UserService,
         ConsumerService,
-        Alerta
+        Alerta,
+        AuthenticationService,
       ]
     }).compileComponents();
   }));
