@@ -17,7 +17,7 @@ export class OpcoesItemPedidoPage implements OnInit {
   }
 
   removerItem() {
-    console.log(this.db.deleteItemProduct(this.idItemProduct));
+    this.db.deleteItemProduct(this.idItemProduct);
     this.popoverCtrl.dismiss();
     this.fechouPopover.emit();
   }

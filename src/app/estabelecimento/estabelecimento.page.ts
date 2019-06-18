@@ -32,7 +32,7 @@ export class EstabelecimentoPage implements OnInit {
   private urlLogoEstabelecimento = './../../assets/icon/logoApp.png';
 
   constructor(private route: ActivatedRoute, private router: Router, public modalController: ModalController,
-    public db: DatabaseService, private establishmentApi: EstabelecimentoService,
+    public dataBaseService: DatabaseService, private establishmentApi: EstabelecimentoService,
     public loadingController: LoadingController) {
       this.emCarregamento = true;
   }
@@ -58,6 +58,7 @@ export class EstabelecimentoPage implements OnInit {
         this.secoesApi = this.menu.secoes;
         this.nomeEstabelecimento = this.estabelecimento.nome;
         this.urlLogoEstabelecimento = this.estabelecimento.logo;
+        this.dataBaseService.setEstablishmentPage(this.estabelecimento);
         this.filtrarPesquisa();
         this.loading.dismiss();
         console.log(this.menu);
@@ -81,7 +82,7 @@ export class EstabelecimentoPage implements OnInit {
   }
 
   atualizarTotalPedido() {
-    this.db.getTotalPedido().then(valorRetorno => {
+    this.dataBaseService.getTotalPedido().then(valorRetorno => {
       console.log('Valor pedido atualizado ' + valorRetorno);
       this.valorPedido = valorRetorno;
     });

@@ -2,29 +2,23 @@ import { ItemProduct } from './../models/ItemProduct';
 import { Product } from './../models/Product';
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
+import { Establishment } from '../models/Establishment';
 
 const ITEMPRODUTO_KEY = 'my-itemsProduct';
 
 @Injectable()
 export class DatabaseService {
-
-  constructor(public storage: Storage) { }
+  KEY_INPAGE_ESTABLISHMENT = 'establishmentInPage';
+  constructor(public storage: Storage ) { }
 
   // CREATE
   async addItemProduct(itemProduct: ItemProduct): Promise<any> {
-    
     const dataAtual = new Date();
-    
     itemProduct.id = dataAtual.getTime();
 
     const itensProduct = await this.storage.get(ITEMPRODUTO_KEY);
 
     if (itensProduct) {
-      // for (const itemPedido of itensProduct) {
-      //   if (itemPedido.pr.id === produto.id) {
-      //     throw new Error('Produto já adicionado');
-      //   }
-      // }
       itensProduct.push(itemProduct);
 
       return this.storage.set(ITEMPRODUTO_KEY, itensProduct);
@@ -60,7 +54,7 @@ export class DatabaseService {
   }
 
   // DELETE
-  deleteItemProduct(id: number): Promise<ItemProduct> {
+  deleteItemProduct(id: number) {
     return this.storage.get(ITEMPRODUTO_KEY).then((itemProducts: ItemProduct[]) => {
       if (!itemProducts || itemProducts.length === 0) {
         throw new Error('Seu pedido está vazio.');
@@ -77,6 +71,11 @@ export class DatabaseService {
     });
   }
 
+  deleteAllProducts() {
+    const toKeep: ItemProduct[] = [];
+    return this.storage.set(ITEMPRODUTO_KEY, toKeep);
+  }
+
   async getTotalPedido() {
     let valorRetorno = 0;
 
@@ -88,5 +87,13 @@ export class DatabaseService {
       }
     }
     return valorRetorno;
+  }
+  setEstablishmentPage(establishment: Establishment) {
+    sessionStorage.setItem(this.KEY_INPAGE_ESTABLISHMENT, JSON.stringify(establishment));
+  }
+
+  getEstablishmentPage(): Establishment {
+    const retorno: Establishment = JSON.parse(sessionStorage.getItem(this.KEY_INPAGE_ESTABLISHMENT));
+    return retorno;
   }
 }

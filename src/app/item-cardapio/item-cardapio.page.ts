@@ -1,12 +1,15 @@
+import { DatabaseService } from './../services/database.service';
+import { AuthenticationService } from './../services/authentication.service';
 import { Alerta } from './../Utils/Alerta';
 import { Component, OnInit, EventEmitter } from '@angular/core';
 import { Location } from '@angular/common';
-
-import { DatabaseService } from './../../app/services/database.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductService } from '../services/product.service';
 import { ItemProduct } from '../models/ItemProduct';
 import { Product } from '../models/Product';
+import { OrderService, CurrentOrder } from '../services/order.service';
+import { EstabelecimentoService } from '../services/Establishment.service';
+import { Establishment } from '../models/Establishment';
 
 @Component({
   selector: 'app-item-cardapio',
@@ -24,9 +27,13 @@ export class ItemCardapioPage implements OnInit {
 
   mudouPedido = new EventEmitter();
 
-  constructor(private activatedRoute: ActivatedRoute, public db: DatabaseService, private alerta: Alerta,
-     private router: Router, private location: Location,
-     private productApi: ProductService) { }
+  constructor(private activatedRoute: ActivatedRoute, private alerta: Alerta,
+    private router: Router, private location: Location,
+    private productApi: ProductService,
+    private orderService: OrderService,
+    private authenticationService: AuthenticationService,
+    private estabelecimentoApi: EstabelecimentoService,
+    private databaseService: DatabaseService) { }
 
   ngOnInit() {
     this.id = Number(this.activatedRoute.snapshot.paramMap.get('id'));
@@ -47,24 +54,35 @@ export class ItemCardapioPage implements OnInit {
 
 
   adicionarItem() {
-      if (this.qtdItem < 1) {
-        this.alerta.showAlert('', 'Informa a quantidade');
-        return;
-      }
-      this.product.id = this.id;
+    if (this.qtdItem < 1) {
+      this.alerta.showAlert('', 'Informa a quantidade');
+      return;
+    }
+    this.product.id = this.id;
 
-      const itemProduct = new ItemProduct();
-      itemProduct.entregue = false;
-      itemProduct.observacoes = this.observacao;
-      itemProduct.preco = this.product.preco * this.qtdItem;
-      itemProduct.produto = this.product;
-      itemProduct.quantidade = this.qtdItem;
+    const itemProduct = new ItemProduct();
+    itemProduct.entregue = false;
+    itemProduct.observacoes = this.observacao;
+    itemProduct.preco = this.product.preco * this.qtdItem;
+    itemProduct.produto = this.product;
+    itemProduct.quantidade = this.qtdItem;
 
-      this.db.addItemProduct(itemProduct).then(() => {
-        this.location.back();
-      }).catch( (err) => {
-        this.alerta.showAlert('Erro', err.message);
+    this.databaseService.addItemProduct(itemProduct).then(() => {
+
+      const currentConsumer = this.authenticationService.getCurrentConsumer();
+      const establishment = this.databaseService.getEstablishmentPage();
+
+      this.orderService.getCurrentOrder().then((currentOrder: CurrentOrder) => {
+        if (currentOrder) {
+          this.location.back();
+        } else {
+          this.orderService.OpenOrder(currentConsumer, establishment);
+          this.location.back();
+        }
       });
+    }).catch((err) => {
+      this.alerta.showAlert('Erro', err.message);
+    });
   }
 
   ionViewDidEnter() {

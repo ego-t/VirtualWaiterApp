@@ -12,6 +12,10 @@ import { ItemCardapioPage } from './item-cardapio.page';
 import { DatabaseService } from '../services/database.service';
 import { IonicStorageModule } from '@ionic/storage';
 import { Alerta } from '../Utils/Alerta';
+import { OrderService } from '../services/order.service';
+import { UserService } from '../services/user.service';
+import { AuthenticationService } from '../services/authentication.service';
+import { ModalController, AngularDelegate } from '@ionic/angular';
 
 describe('ItemCardapioPage', () => {
   let component: ItemCardapioPage;
@@ -28,7 +32,13 @@ describe('ItemCardapioPage', () => {
         IonicStorageModule.forRoot(),
         AngularFireAuthModule,
         AngularFirestoreModule, ],
-      providers: [ DatabaseService, Alerta ]
+      providers: [ DatabaseService,
+        Alerta,
+        OrderService,
+        UserService,
+        AuthenticationService,
+        ModalController,
+        AngularDelegate ]
     })
     .compileComponents();
   }));

@@ -13,6 +13,8 @@ export class PedidoPage implements OnInit {
 
   public itensProductSource: ItemProduct[] = [];
   totalPedido = 0;
+  nomeEstabelecimento = '';
+  urlEstabelecimento = '';
 
   constructor(private navCtrl: NavController , private db: DatabaseService, public popoverController: PopoverController) {
     this.atualizarlistagemProdutos();
@@ -23,6 +25,11 @@ export class PedidoPage implements OnInit {
   }
 
   atualizarlistagemProdutos() {
+    const establishment = this.db.getEstablishmentPage();
+    if (establishment) {
+      this.nomeEstabelecimento = establishment.nome;
+      this.urlEstabelecimento = establishment.logo;
+    }
     this.itensProductSource = [];
     this.totalPedido = 0;
 
@@ -32,7 +39,7 @@ export class PedidoPage implements OnInit {
           this.itensProductSource.push(itemProduct);
           this.totalPedido += Number(itemProduct.preco);
         }
-      if(this.itensProductSource.length === 0){
+      if (this.itensProductSource.length === 0) {
         this.cancelarClick();
       }
     }).catch(() => {
