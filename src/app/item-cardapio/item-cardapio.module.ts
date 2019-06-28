@@ -24,7 +24,6 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes),
     ShareModule,
-    ControlService,
   ],
   providers: [ OrderService, ControlService ],
   declarations: [ItemCardapioPage]

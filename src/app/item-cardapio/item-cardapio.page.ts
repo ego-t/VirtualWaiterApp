@@ -31,8 +31,6 @@ export class ItemCardapioPage implements OnInit {
     private router: Router, private location: Location,
     private productApi: ProductService,
     private orderService: OrderService,
-    private authenticationService: AuthenticationService,
-    private estabelecimentoApi: EstablishmentService,
     private databaseService: DatabaseService) { }
 
   ngOnInit() {
@@ -85,7 +83,6 @@ export class ItemCardapioPage implements OnInit {
   }
 
   ionViewDidEnter() {
-    console.log('Entrou na tela Item-pedido');
     this.loadInfoProduct();
     this.VerificarOrdemAtiva();
   }
@@ -105,10 +102,8 @@ export class ItemCardapioPage implements OnInit {
     this.id = Number(this.activatedRoute.snapshot.paramMap.get('id'));
 
     await this.productApi.getById(this.id).subscribe((data) => {
-      console.log(data[this.arrayPos]);
       if (data[this.arrayPos] != null) {
         this.product = data[this.arrayPos];
-        console.log(this.product);
       }
     });
   }

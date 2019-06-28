@@ -1,41 +1,41 @@
 <ion-content>
 	<app-loading *ngIf="processando"></app-loading>
 	<div>
-			<div class="regiao-base" *ngIf="!processando" style="top:50px;">
-					<div class="linha-footer">
-						<img id="imgLogo" src="../../assets/logoComDescricao.png">
+		<div class="regiao-base" *ngIf="!processando" style="top:50px;">
+			<div class="linha-footer">
+				<img id="imgLogo" src="../../assets/logoComDescricao.png">
+			</div>
+			<div id="card-login-manual" class="regiao-base" *ngIf="!processando">
+				<div class="linha-footer">
+					<p style="padding-left: 15px;">Fazer login</p>
+				</div>
+				<div class="linha-footer">
+					<div class="align-esquerda preencher">
+						<ion-item>
+							<ion-input type="text" placeholder="E-mail" [(ngModel)]="username"></ion-input>
+						</ion-item>
 					</div>
-					<div id="card-login-manual" class="regiao-base" *ngIf="!processando">
-						<div class="linha-footer">
-							<p style="padding-left: 15px;">Fazer login</p>
-						</div>
-						<div class="linha-footer">
-							<div class="align-esquerda preencher">
-							  <ion-item>
-								  <ion-input type="text" placeholder="E-mail" [(ngModel)]="username"></ion-input>
-							  </ion-item>
-							</div>
-						</div>
-						<div class="linha-footer">
-							<div class="align-esquerda preencher">
-								<ion-item>
-									<ion-input type="password" placeholder="Senha" [(ngModel)]="password"></ion-input>
-								</ion-item>
-							</div>
-						</div>
-						<div class="linha-footer preencher">
-							<ion-button style="width: 99%; padding-left: 20%; padding-right: 20%;" expand="block" (click)="login()">Login</ion-button>
-						</div>
-						<div class="linha-footer">
-							<div style="padding-left: 10px;">
-									<p>Se não possuir cadastro <a (click)="abrirPageCadastro()">clique aqui.</a></p>
-							</div>
-						</div>
+				</div>
+				<div class="linha-footer">
+					<div class="align-esquerda preencher">
+						<ion-item>
+							<ion-input type="password" placeholder="Senha" [(ngModel)]="password"></ion-input>
+						</ion-item>
 					</div>
-					<div class="linha-footer">
-						<firebase-ui></firebase-ui>
+				</div>
+				<div class="linha-footer preencher">
+					<ion-button style="width: 99%; padding-left: 20%; padding-right: 20%;" expand="block"
+						(click)="login()">Login</ion-button>
+				</div>
+				<div class="linha-footer">
+					<div style="padding-left: 10px;">
+						<p>Se não possuir cadastro <a (click)="abrirPageCadastro()">clique aqui.</a></p>
 					</div>
-				  </div>
+				</div>
+			</div>
+			<div class="linha-footer">
+				<firebase-ui></firebase-ui>
+			</div>
+		</div>
 	</div>
-	
 </ion-content>

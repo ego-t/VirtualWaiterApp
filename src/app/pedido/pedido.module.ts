@@ -23,7 +23,6 @@ const routes: Routes = [
     FormsModule,
     IonicModule,
     RouterModule.forChild(routes),
-    OrderService,
   ],
   providers: [ PopoverController, AngularDelegate ],
   declarations: [PedidoPage, OpcoesItemPedidoPage],

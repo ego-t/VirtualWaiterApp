@@ -24,7 +24,6 @@ const routes: Routes = [
     FormsModule,
     IonicModule,
     RouterModule.forChild(routes),
-    ControlService,
   ],
   declarations: [ListaComandaPage],
   providers: [ Location, OrderService, DatabaseService, ControlService ]
