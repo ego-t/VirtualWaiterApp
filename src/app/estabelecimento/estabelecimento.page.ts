@@ -1,3 +1,4 @@
+import { Alerta } from 'src/app/Utils/Alerta';
 import { Session } from './../models/Session';
 import { Menu } from './../models/Menu';
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
@@ -5,8 +6,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ModalController, LoadingController } from '@ionic/angular';
 import { InfoEstabelecimentoPage } from '../info-estabelecimento/info-estabelecimento.page';
 import { DatabaseService } from '../services/database.service';
-import { EstabelecimentoService } from '../services/Establishment.service';
+import { EstablishmentService } from '../services/Establishment.service';
 import { Establishment } from '../models/Establishment';
+import { OrderService, CurrentOrder } from '../services/order.service';
 
 @Component({
   selector: 'app-estabelecimento',
@@ -19,7 +21,10 @@ export class EstabelecimentoPage implements OnInit {
   arrayPos = 0;
   valorPedido = 0;
   textoPesquisa = '';
-
+  permiteVizualizarCarrinho = false;
+  permiteAdicionar = false;
+  avaliacaoMedia = '';
+  currentOrder: CurrentOrder;
   estabelecimento: Establishment;
   menu: Menu;
   secoesEstabelecimento: Array<Session> = [];
@@ -31,9 +36,10 @@ export class EstabelecimentoPage implements OnInit {
   private nomeEstabelecimento = '';
   private urlLogoEstabelecimento = './../../assets/icon/logoApp.png';
 
-  constructor(private route: ActivatedRoute, private router: Router, public modalController: ModalController,
-    public dataBaseService: DatabaseService, private establishmentApi: EstabelecimentoService,
-    public loadingController: LoadingController) {
+  constructor(private activatedRoute: ActivatedRoute, private router: Router, public modalController: ModalController,
+    public dataBaseService: DatabaseService, private establishmentApi: EstablishmentService,
+    public loadingController: LoadingController, private orderService: OrderService,
+    private alerta: Alerta) {
       this.emCarregamento = true;
   }
 
@@ -41,34 +47,63 @@ export class EstabelecimentoPage implements OnInit {
   }
 
   ionViewDidEnter() {
-    console.log('Entrou na tela Estabelecimento');
     this.loadInfoEstablishment();
     this.atualizarTotalPedido();
+    this.atualizarVisibilidadeCarrinho();
+  }
+  atualizarVisibilidadeCarrinho() {
+    this.currentOrder = this.orderService.getCurrentOrder();
+    if (this.currentOrder) {
+      this.permiteVizualizarCarrinho = (this.currentOrder.establishment.id === this.idEstabelecimento);
+
+      if (this.permiteVizualizarCarrinho) {
+        this.dataBaseService.getTotalPedido().then( (valor) => {
+          this.permiteVizualizarCarrinho = (valor > 0);
+        });
+      }
+    } else {
+      this.permiteVizualizarCarrinho = false;
+    }
   }
 
   async loadInfoEstablishment() {
-    this.presentLoading();
-    this.idEstabelecimento = Number(this.route.snapshot.paramMap.get('id'));
+  //    this.presentLoading();
+
+    this.orderService.updateOrder();
+
+    this.idEstabelecimento = Number(this.activatedRoute.snapshot.paramMap.get('id'));
 
     await this.establishmentApi.getById(this.idEstabelecimento).subscribe((data) => {
-      console.log(data[this.arrayPos]);
       if (data[this.arrayPos] != null) {
         this.estabelecimento = data[this.arrayPos];
         this.menu = data[this.arrayPos].cardapio;
         this.secoesApi = this.menu.secoes;
         this.nomeEstabelecimento = this.estabelecimento.nome;
         this.urlLogoEstabelecimento = this.estabelecimento.logo;
+        this.avaliacaoMedia = this.estabelecimento.avaliacaomedia.toString();
         this.dataBaseService.setEstablishmentPage(this.estabelecimento);
         this.filtrarPesquisa();
-        this.loading.dismiss();
-        console.log(this.menu);
+        //this.loading.dismiss();
         this.emCarregamento = false;
       }
     });
   }
 
   goTo(idProduto: string) {
-    this.router.navigate(['/item-cardapio/' + idProduto]);
+    this.permiteAdicionar = true;
+    const currentOrder = this.orderService.getCurrentOrder();
+    this.idEstabelecimento = Number(this.activatedRoute.snapshot.paramMap.get('id'));
+    if (currentOrder) {
+      if (currentOrder.establishment.id !== this.idEstabelecimento) {
+        this.permiteAdicionar = false;
+      }
+    }
+
+    if (this.permiteAdicionar) {
+      this.router.navigate(['/item-cardapio/' + idProduto]);
+    } else {
+      this.alerta.showAlert('Ação não permitida', 'Existe uma comanda aberta em outro estabelecimento');
+    }
   }
 
   async abrirInfoEstabelecimento() {

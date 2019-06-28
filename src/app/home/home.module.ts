@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 import { ComponentsModule } from '../components/components.module';
 import { HomePage } from './home.page';
 import { OrderService } from '../services/order.service';
+import { ControlService } from '../services/control.service';
 
 @NgModule({
   imports: [
@@ -20,7 +21,7 @@ import { OrderService } from '../services/order.service';
       }
     ])
   ],
-  providers: [ OrderService ],
+  providers: [ OrderService, ControlService ],
   declarations: [HomePage]
 })
 export class HomePageModule {}

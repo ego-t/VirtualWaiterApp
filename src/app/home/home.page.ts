@@ -1,6 +1,6 @@
 import { Establishment } from './../models/Establishment';
 import { Component, OnInit } from '@angular/core';
-import { EstabelecimentoService } from '../services/Establishment.service';
+import { EstablishmentService } from '../services/Establishment.service';
 import { LoadingController } from '@ionic/angular';
 
 @Component({
@@ -13,14 +13,14 @@ export class HomePage implements OnInit {
   estabelecimentos: Establishment[];
   private loading;
 
-  constructor(private establishmentService: EstabelecimentoService,
-    public loadingController: LoadingController) {}
+  constructor(private establishmentService: EstablishmentService,
+    public loadingController: LoadingController) { }
 
-    listarEstabelecimentos() {
-      this.presentLoading();
-      this.establishmentService.getAll().subscribe((data) =>  {
-          this.estabelecimentos = data;
-          this.loading.dismiss();
+  listarEstabelecimentos() {
+    this.presentLoading();
+    this.establishmentService.getAll().subscribe((data) => {
+      this.estabelecimentos = data;
+      this.loading.dismiss();
     });
   }
 
@@ -31,7 +31,7 @@ export class HomePage implements OnInit {
   presentLoading() {
     this.loadingController.create({
       message: 'Carregando',
-    }).then( (overlay) => {
+    }).then((overlay) => {
       this.loading = overlay;
       this.loading.present();
     });

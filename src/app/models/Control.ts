@@ -1,3 +1,4 @@
+import { Establishment } from 'src/app/models/Establishment';
 import { Table } from './Table';
 import { Consumer } from './Consumer';
 import { Order } from './Order';

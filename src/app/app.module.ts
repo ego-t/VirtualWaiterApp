@@ -25,9 +25,12 @@ import { ComponentsModule } from './components/components.module';
 import {registerLocaleData} from '@angular/common';
 import pt from '@angular/common/locales/pt';
 import {FirebaseUIModule, firebase, firebaseui} from 'firebaseui-angular';
-import { routerNgProbeToken } from '@angular/router/src/router_module';
 import { DatePicker } from '@ionic-native/date-picker/ngx';
 import { AuthenticationService } from './services/authentication.service';
+import { QRScanner } from '@ionic-native/qr-scanner/ngx';
+import { FormsModule } from '@angular/forms';
+import { ControlService } from './services/control.service';
+import { OrderService } from './services/order.service';
 registerLocaleData(pt, 'pt-BR');
 
 const firebaseUiAuthConfig: firebaseui.auth.Config = {
@@ -39,12 +42,6 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
   privacyPolicyUrl: '/privacidade',
   credentialHelper: firebaseui.auth.CredentialHelper.NONE,
   signInSuccessUrl: '/login-externo',
-
-  callbacks: {
-    signInSuccessWithAuthResult: (user: any) => {
-      return true;
-    }
-  },
 };
 
 @NgModule({
@@ -62,6 +59,7 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
     ShareModule,
     ComponentsModule,
     IonicStorageModule.forRoot(),
+    FormsModule
     ],
   providers: [
     StatusBar,
@@ -74,6 +72,9 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
     Storage,
     DatePicker,
     AuthenticationService,
+    QRScanner,
+    ControlService,
+    OrderService,
   ],
   bootstrap: [AppComponent],
   schemas: []

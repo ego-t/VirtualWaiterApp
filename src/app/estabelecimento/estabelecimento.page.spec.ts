@@ -11,6 +11,12 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { ModalController, AngularDelegate } from '@ionic/angular';
 import { DatabaseService } from '../services/database.service';
 import { IonicStorageModule } from '@ionic/storage';
+import { AuthenticationService } from '../services/authentication.service';
+import { UserService } from '../services/user.service';
+import { Alerta } from '../Utils/Alerta';
+import { ControlService } from '../services/control.service';
+import { OrderService } from '../services/order.service';
+import { QRScanner } from '@ionic-native/qr-scanner/ngx';
 
 describe('EstabelecimentoPage', () => {
   let component: EstabelecimentoPage;
@@ -27,7 +33,8 @@ describe('EstabelecimentoPage', () => {
         IonicStorageModule.forRoot(),
         AngularFireAuthModule,
         AngularFirestoreModule, ],
-        providers: [ModalController, AngularDelegate, DatabaseService, ]
+      providers: [DatabaseService, UserService,  Alerta, Storage, AngularDelegate, ModalController,
+        AuthenticationService, ControlService, OrderService, QRScanner ],
 
     })
 

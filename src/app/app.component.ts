@@ -48,6 +48,10 @@ export class AppComponent {
     this.router.navigate(['/home']);
   }
 
+  BtnComandas() {
+    this.router.navigate(['/lista-comanda']);
+  }
+
   btnSair() {
     this.authenticationservice.logout();
     this.router.navigate(['/login']);

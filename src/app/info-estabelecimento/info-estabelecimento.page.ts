@@ -1,3 +1,4 @@
+import { DatabaseService } from 'src/app/services/database.service';
 import { ModalController } from '@ionic/angular';
 import { Component, OnInit } from '@angular/core';
 
@@ -7,13 +8,25 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./info-estabelecimento.page.scss'],
 })
 export class InfoEstabelecimentoPage implements OnInit {
+  nomeEstabelecimento = '';
+  descricaoEstabelecimento = '';
+  urlLogoEstabelecimento = './../../assets/icon/logoApp.png';
 
-  constructor(public modalController: ModalController) {  }
+  constructor(private modalController: ModalController, private databaseService: DatabaseService) {
+    const establishmentCurrent = this.databaseService.getEstablishmentPage();
+    if (establishmentCurrent) {
+      this.nomeEstabelecimento = establishmentCurrent.nome;
+      this.descricaoEstabelecimento = establishmentCurrent.descricao;
+      this.urlLogoEstabelecimento = establishmentCurrent.logo;
+    } else {
+      this.fecharModal();
+    }
+   }
 
   ngOnInit() {
   }
 
-  dismiss(){
+  fecharModal() {
     this.modalController.dismiss();
   }
 }

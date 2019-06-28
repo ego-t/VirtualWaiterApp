@@ -1,3 +1,4 @@
+import { Consumer } from './Consumer';
 import { Control } from './Control';
 
 export interface Table {
@@ -8,6 +9,7 @@ export interface Table {
     estabelecimento?: any;
     comandas?: Control[];
     ativo?: boolean;
+    responsavel?: Consumer;
 }
 
 

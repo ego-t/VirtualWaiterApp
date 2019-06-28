@@ -11,6 +11,7 @@ import { LoginPage } from './login.page';
 import { ShareModule } from '../share.module';
 import { DatabaseService } from '../services/database.service';
 import { FirebaseUIModule } from 'firebaseui-angular';
+import { OrderService } from '../services/order.service';
 
 const routes: Routes = [
   {
@@ -26,9 +27,9 @@ const routes: Routes = [
     IonicModule,
     FirebaseUIModule,
     RouterModule.forChild(routes),
-    ShareModule
+    OrderService,
   ],
-  providers: [AuthenticationService],
+  providers: [AuthenticationService, OrderService, DatabaseService],
   declarations: [LoginPage, CadastroPage],
   exports: [CadastroPage],
   entryComponents: [ CadastroPage ]

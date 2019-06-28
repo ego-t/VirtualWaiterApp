@@ -1,8 +1,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { InfoEstabelecimentoPage } from './info-estabelecimento.page';
-import { ModalController, AngularDelegate } from '@ionic/angular';
+import { ConfirmarEstabelecimentoPage } from './confirmar-estabelecimento.page';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AngularFireModule } from '@angular/fire';
@@ -13,17 +12,19 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { DatabaseService } from '../services/database.service';
 import { UserService } from '../services/user.service';
 import { Alerta } from '../Utils/Alerta';
+import { AngularDelegate, ModalController } from '@ionic/angular';
 import { AuthenticationService } from '../services/authentication.service';
 import { ControlService } from '../services/control.service';
 import { OrderService } from '../services/order.service';
+import { QRScanner } from '@ionic-native/qr-scanner/ngx';
 
-describe('InfoEstabelecimentoPage', () => {
-  let component: InfoEstabelecimentoPage;
-  let fixture: ComponentFixture<InfoEstabelecimentoPage>;
+describe('ConfirmarEstabelecimentoPage', () => {
+  let component: ConfirmarEstabelecimentoPage;
+  let fixture: ComponentFixture<ConfirmarEstabelecimentoPage>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ InfoEstabelecimentoPage ],
+      declarations: [ ConfirmarEstabelecimentoPage ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [
         HttpClientModule,
@@ -33,18 +34,18 @@ describe('InfoEstabelecimentoPage', () => {
         AngularFireAuthModule,
         AngularFirestoreModule, ],
       providers: [DatabaseService, UserService,  Alerta, Storage, AngularDelegate, ModalController,
-        AuthenticationService, ControlService, OrderService ],
+        AuthenticationService, ControlService, OrderService, QRScanner ],
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    // fixture = TestBed.createComponent(InfoEstabelecimentoPage);
-    // component = fixture.componentInstance;
-    // fixture.detectChanges();
+    fixture = TestBed.createComponent(ConfirmarEstabelecimentoPage);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
   });
 
   it('should create', () => {
-    // expect(component).toBeTruthy();
+    expect(component).toBeTruthy();
   });
 });

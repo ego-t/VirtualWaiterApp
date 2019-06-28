@@ -2,14 +2,13 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
-import { SacolaPedidoComponent } from './components/sacola-pedido/sacola-pedido.component';
 import { LoadingComponent } from './components/loading/loading.component';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
-    IonicModule
+    IonicModule,
   ],
   declarations: [LoadingComponent],
   exports: [LoadingComponent]

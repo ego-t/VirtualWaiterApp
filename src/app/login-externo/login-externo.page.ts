@@ -6,6 +6,7 @@ import { UserService } from '../services/user.service';
 import { User } from '../models/User';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '../services/authentication.service';
+import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'app-login-externo',
@@ -24,7 +25,10 @@ export class LoginExternoPage implements OnInit {
 
   ionViewDidEnter() {
     console.log('Entrou na tela login externo');
-    this.authenticationservice.isAuthenticated();
+
+    this.authenticationservice.RealizarLoginExterno(true).catch( (error: Error) => {
+      this.router.navigate(['/login']);
+    });
   }
 
   ngOnInit() {

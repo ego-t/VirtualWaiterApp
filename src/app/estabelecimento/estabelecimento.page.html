@@ -29,7 +29,7 @@
       </ion-col>
       <ion-col style="text-align: right;">
         <p>
-          <ion-icon name="star-half"></ion-icon>4,0 (120)
+          <ion-icon name="star-half"></ion-icon>{{avaliacaoMedia}},0 (120)
         </p>
       </ion-col>
     </ion-row>
@@ -150,5 +150,5 @@
 
 </ion-content>
 <ion-footer>
-  <app-sacola-pedido *ngIf="valorPedido > 0" [ValorTotalPedido]="valorPedido"></app-sacola-pedido>
+  <app-sacola-pedido *ngIf="permiteVizualizarCarrinho" [ValorTotalPedido]="valorPedido"></app-sacola-pedido>
 </ion-footer>

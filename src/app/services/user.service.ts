@@ -75,11 +75,11 @@ export class UserService {
         }
         try {
             let errorMessageAux = `Error Code: ${error.error}\nMessage: ${error.error.message}`;
-            window.alert(errorMessageAux);
+            console.log(errorMessageAux);
         } catch (error) {
 
         }
-        window.alert(errorMessage);
+        console.log(errorMessage);
         return throwError(errorMessage);
     }
 

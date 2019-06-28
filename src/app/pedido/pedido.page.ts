@@ -3,6 +3,7 @@ import { DatabaseService } from './../services/database.service';
 import { Component, OnInit } from '@angular/core';
 import { PopoverController, NavController } from '@ionic/angular';
 import { OpcoesItemPedidoPage } from '../pages/opcoes-item-pedido/opcoes-item-pedido.page';
+import { OrderService } from '../services/order.service';
 
 @Component({
   selector: 'app-pedido',
@@ -15,12 +16,24 @@ export class PedidoPage implements OnInit {
   totalPedido = 0;
   nomeEstabelecimento = '';
   urlEstabelecimento = '';
+  numComanda = '';
+  codigoMesa = '';
 
-  constructor(private navCtrl: NavController , private db: DatabaseService, public popoverController: PopoverController) {
+  constructor(private navCtrl: NavController,
+    private db: DatabaseService,
+    public popoverController: PopoverController,
+    public orderService: OrderService) {
     this.atualizarlistagemProdutos();
   }
 
   ionViewDidEnter() {
+    const currentOrder = this.orderService.getCurrentOrder();
+    if (currentOrder.table) {
+      this.codigoMesa = currentOrder.table.numero.toString();
+    }
+    if (currentOrder.control) {
+      this.numComanda = currentOrder.control.id.toString();
+    }
     this.atualizarlistagemProdutos();
   }
 

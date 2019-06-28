@@ -8,6 +8,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { EstabelecimentoPage } from './estabelecimento.page';
+import { ControlService } from '../services/control.service';
+import { OrderService } from '../services/order.service';
 
 const routes: Routes = [
   {
@@ -25,6 +27,7 @@ const routes: Routes = [
     ComponentsModule,
     RouterModule.forChild(routes),
   ],
+  providers: [ OrderService, ControlService ],
   declarations: [EstabelecimentoPage, InfoEstabelecimentoPage],
   exports: [
     EstabelecimentoPage

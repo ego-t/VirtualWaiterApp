@@ -3,12 +3,14 @@ import { Product } from './../models/Product';
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { Establishment } from '../models/Establishment';
+import { Table } from '../models/Table';
 
 const ITEMPRODUTO_KEY = 'my-itemsProduct';
 
 @Injectable()
 export class DatabaseService {
   KEY_INPAGE_ESTABLISHMENT = 'establishmentInPage';
+  KEY_CURRENT_TABLE = 'TableCurrent';
   constructor(public storage: Storage ) { }
 
   // CREATE
@@ -94,6 +96,15 @@ export class DatabaseService {
 
   getEstablishmentPage(): Establishment {
     const retorno: Establishment = JSON.parse(sessionStorage.getItem(this.KEY_INPAGE_ESTABLISHMENT));
+    return retorno;
+  }
+
+  setTableScaned(table: Table) {
+    sessionStorage.setItem(this.KEY_CURRENT_TABLE, JSON.stringify(table));
+  }
+
+  getTableScaned(): Table {
+    const retorno: Table = JSON.parse(sessionStorage.getItem(this.KEY_CURRENT_TABLE));
     return retorno;
   }
 }

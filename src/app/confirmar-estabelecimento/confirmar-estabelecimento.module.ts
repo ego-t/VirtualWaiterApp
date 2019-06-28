@@ -5,15 +5,14 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
-import { ItemCardapioPage } from './item-cardapio.page';
+import { ConfirmarEstabelecimentoPage } from './confirmar-estabelecimento.page';
 import { OrderService } from '../services/order.service';
 import { ControlService } from '../services/control.service';
-import { ShareModule } from '../share.module';
 
 const routes: Routes = [
   {
     path: '',
-    component: ItemCardapioPage
+    component: ConfirmarEstabelecimentoPage
   }
 ];
 
@@ -23,10 +22,9 @@ const routes: Routes = [
     FormsModule,
     IonicModule,
     RouterModule.forChild(routes),
-    ShareModule,
-    ControlService,
+    OrderService
   ],
-  providers: [ OrderService, ControlService ],
-  declarations: [ItemCardapioPage]
+  declarations: [ConfirmarEstabelecimentoPage],
+  providers: [ OrderService, ControlService ]
 })
-export class ItemCardapioPageModule {}
+export class ConfirmarEstabelecimentoPageModule {}

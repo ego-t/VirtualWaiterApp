@@ -1,3 +1,4 @@
+import { DatabaseService } from 'src/app/services/database.service';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -5,7 +6,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
-import { ItemCardapioPage } from './item-cardapio.page';
+import { ListaComandaPage } from './lista-comanda.page';
 import { OrderService } from '../services/order.service';
 import { ControlService } from '../services/control.service';
 import { ShareModule } from '../share.module';
@@ -13,7 +14,7 @@ import { ShareModule } from '../share.module';
 const routes: Routes = [
   {
     path: '',
-    component: ItemCardapioPage
+    component: ListaComandaPage
   }
 ];
 
@@ -23,10 +24,9 @@ const routes: Routes = [
     FormsModule,
     IonicModule,
     RouterModule.forChild(routes),
-    ShareModule,
     ControlService,
   ],
-  providers: [ OrderService, ControlService ],
-  declarations: [ItemCardapioPage]
+  declarations: [ListaComandaPage],
+  providers: [ Location, OrderService, DatabaseService, ControlService ]
 })
-export class ItemCardapioPageModule {}
+export class ListaComandaPageModule {}

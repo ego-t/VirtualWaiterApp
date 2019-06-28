@@ -7,6 +7,8 @@ import { IonicModule, PopoverController, AngularDelegate } from '@ionic/angular'
 
 import { PedidoPage } from './pedido.page';
 import { OpcoesItemPedidoPage } from '../pages/opcoes-item-pedido/opcoes-item-pedido.page';
+import { OrderService } from '../services/order.service';
+import { ShareModule } from '../share.module';
 
 const routes: Routes = [
   {
@@ -20,7 +22,8 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    OrderService,
   ],
   providers: [ PopoverController, AngularDelegate ],
   declarations: [PedidoPage, OpcoesItemPedidoPage],

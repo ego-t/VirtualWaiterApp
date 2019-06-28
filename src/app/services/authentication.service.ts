@@ -1,8 +1,8 @@
+import { User } from './../models/User';
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { UserService } from './user.service';
-import { User } from '../models/User';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { first } from 'rxjs/operators';
 import { ConsumerService } from './consumer.service';
@@ -37,7 +37,7 @@ export class AuthenticationService {
     this.afAuth.auth.signOut();
     // remove user from Session storage to log user out
     sessionStorage.removeItem('currentConsumer');
-    this.router.navigate(['/login']);
+    sessionStorage.removeItem('orderCurrent');
   }
 
   setSessionStorage(currentConsumer: Consumer, res: firebase.User) {
@@ -46,7 +46,6 @@ export class AuthenticationService {
       sessionStorage.setItem('currentConsumer', JSON.stringify(currentConsumer));
       this.userService.setUser(currentConsumer.usuario);
       console.log('CurrentUser definido...');
-      //this.router.navigate(['/parceiro/inicio']);
     }
   }
 
@@ -54,14 +53,29 @@ export class AuthenticationService {
     return JSON.parse(sessionStorage.getItem('currentConsumer'));
   }
 
-  async isAuthenticated() {
+  isAuthenticated(backLogin: Boolean = false) {
+
+    this.afAuth.authState.pipe(first()).subscribe( (user) => {
+      if (user) {
+        const currentConsumer = this.getCurrentConsumer();
+        if (!currentConsumer) {
+          this.logout();
+          if (backLogin) {
+            this.router.navigate(['/login']);
+          }
+        }
+      }
+    });
+  }
+
+  async RealizarLoginExterno(backLogin: Boolean = false) {
 
     const user = await this.afAuth.authState.pipe(first()).toPromise();
 
     if (user) {
       this.afAuth.user.subscribe((result: firebase.User) => {
 
-        this.userService.getByUID(result.uid).subscribe((userData: User[]) => {
+        this.userService.getByUID(result.uid).toPromise().then((userData: User[]) => {
 
           if (userData.length > 0) {
             this.consumerApi.getByIdUsuario(userData[0].id).subscribe((consumerData: Consumer[]) => {
@@ -81,6 +95,12 @@ export class AuthenticationService {
           } else {
             // Criar Usuario e consumidor
             this.registerConsumer(result);
+          }
+        }).catch( (retorno: Error) => {
+          console.log(retorno);
+          this.logout();
+          if (backLogin) {
+            this.router.navigate(['/login']);
           }
         });
       });
@@ -204,21 +224,32 @@ export class AuthenticationService {
     });
   }
 
-  async realizarLoginFireBase(username: string, password: string): Promise<boolean> {
+  async realizarLoginFireBase(email: string, password: string): Promise<boolean> {
     try {
-      const res = await this.afAuth.auth.signInWithEmailAndPassword(username, password);
-      if (res.user) {
-        await this.userService.getByUID(res.user.uid).toPromise().then((dataUsuario: User[]) => {
-          if (dataUsuario.length > 0) {
-            this.consumerApi.getByIdUsuario(dataUsuario[0].id).subscribe((dataConsumer: Consumer[]) => {
-              if (dataConsumer.length > 0) {
-                this.setSessionStorage(dataConsumer[0], res.user);
-                this.router.navigate(['/home']);
-              }
-            });
-          }
-        });
-      }
+      const res = await this.afAuth.auth.signInWithEmailAndPassword(email, password).then( (result)  => {
+        if (result.user) {
+          this.userService.getByUID(result.user.uid).toPromise().then((dataUsuario: User[]) => {
+            if (dataUsuario.length > 0) {
+              this.consumerApi.getByIdUsuario(dataUsuario[0].id).subscribe((dataConsumer: Consumer[]) => {
+                if (dataConsumer.length > 0) {
+                  this.setSessionStorage(dataConsumer[0], result.user);
+                  this.router.navigate(['/home']);
+                }
+              });
+            } else {
+              this.RealizarLoginExterno(true);
+            }
+          }).catch((error: Error) => {
+            this.showAlert('Problemas ao se conectar ao servidor...');
+            this.showAlert('getByUID' + error.message);
+            this.logout();
+          });
+        }
+      }).catch((error: Error) => {
+        this.showAlert('Login Firebase' + error.message);
+        this.logout();
+      });
+
       return true;
     } catch (err) {
       console.dir(err);

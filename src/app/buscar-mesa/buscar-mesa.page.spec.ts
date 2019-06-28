@@ -1,30 +1,30 @@
+import { QRScanner } from '@ionic-native/qr-scanner/ngx';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { InfoEstabelecimentoPage } from './info-estabelecimento.page';
-import { ModalController, AngularDelegate } from '@ionic/angular';
+import { BuscarMesaPage } from './buscar-mesa.page';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterTestingModule } from '@angular/router/testing';
-import { AngularFireModule } from '@angular/fire';
-import { environment } from 'src/environments/environment';
 import { IonicStorageModule } from '@ionic/storage';
+import { environment } from 'src/environments/environment';
+import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
-import { DatabaseService } from '../services/database.service';
-import { UserService } from '../services/user.service';
 import { Alerta } from '../Utils/Alerta';
-import { AuthenticationService } from '../services/authentication.service';
 import { ControlService } from '../services/control.service';
 import { OrderService } from '../services/order.service';
+import { DatabaseService } from '../services/database.service';
+import { UserService } from '../services/user.service';
+import { AuthenticationService } from '../services/authentication.service';
+import { ModalController, AngularDelegate } from '@ionic/angular';
 
-describe('InfoEstabelecimentoPage', () => {
-  let component: InfoEstabelecimentoPage;
-  let fixture: ComponentFixture<InfoEstabelecimentoPage>;
+describe('BuscarMesaPage', () => {
+  let component: BuscarMesaPage;
+  let fixture: ComponentFixture<BuscarMesaPage>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ InfoEstabelecimentoPage ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      declarations: [ BuscarMesaPage ],
       imports: [
         HttpClientModule,
         RouterTestingModule.withRoutes([]),
@@ -33,18 +33,19 @@ describe('InfoEstabelecimentoPage', () => {
         AngularFireAuthModule,
         AngularFirestoreModule, ],
       providers: [DatabaseService, UserService,  Alerta, Storage, AngularDelegate, ModalController,
-        AuthenticationService, ControlService, OrderService ],
+        AuthenticationService, ControlService, OrderService, QRScanner ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    // fixture = TestBed.createComponent(InfoEstabelecimentoPage);
-    // component = fixture.componentInstance;
-    // fixture.detectChanges();
+    fixture = TestBed.createComponent(BuscarMesaPage);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
   });
 
   it('should create', () => {
-    // expect(component).toBeTruthy();
+    expect(component).toBeTruthy();
   });
 });

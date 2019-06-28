@@ -8,8 +8,7 @@ import { ProductService } from '../services/product.service';
 import { ItemProduct } from '../models/ItemProduct';
 import { Product } from '../models/Product';
 import { OrderService, CurrentOrder } from '../services/order.service';
-import { EstabelecimentoService } from '../services/Establishment.service';
-import { Establishment } from '../models/Establishment';
+import { EstablishmentService } from '../services/Establishment.service';
 
 @Component({
   selector: 'app-item-cardapio',
@@ -24,6 +23,7 @@ export class ItemCardapioPage implements OnInit {
   qtdItem = 1;
   observacao = '';
   pedido = {};
+  permiteAdicionar = true;
 
   mudouPedido = new EventEmitter();
 
@@ -32,7 +32,7 @@ export class ItemCardapioPage implements OnInit {
     private productApi: ProductService,
     private orderService: OrderService,
     private authenticationService: AuthenticationService,
-    private estabelecimentoApi: EstabelecimentoService,
+    private estabelecimentoApi: EstablishmentService,
     private databaseService: DatabaseService) { }
 
   ngOnInit() {
@@ -55,7 +55,7 @@ export class ItemCardapioPage implements OnInit {
 
   adicionarItem() {
     if (this.qtdItem < 1) {
-      this.alerta.showAlert('', 'Informa a quantidade');
+      this.alerta.showAlert('', 'Informe a quantidade');
       return;
     }
     this.product.id = this.id;
@@ -67,19 +67,18 @@ export class ItemCardapioPage implements OnInit {
     itemProduct.produto = this.product;
     itemProduct.quantidade = this.qtdItem;
 
+    const currentOrder = this.orderService.getCurrentOrder();
+    const tableScaned = this.databaseService.getTableScaned();
+
+    if (!currentOrder) {
+      if (!tableScaned) {
+        this.router.navigate(['/buscar-mesa']);
+        return;
+      }
+    }
+
     this.databaseService.addItemProduct(itemProduct).then(() => {
-
-      const currentConsumer = this.authenticationService.getCurrentConsumer();
-      const establishment = this.databaseService.getEstablishmentPage();
-
-      this.orderService.getCurrentOrder().then((currentOrder: CurrentOrder) => {
-        if (currentOrder) {
           this.location.back();
-        } else {
-          this.orderService.OpenOrder(currentConsumer, establishment);
-          this.location.back();
-        }
-      });
     }).catch((err) => {
       this.alerta.showAlert('Erro', err.message);
     });
@@ -88,6 +87,18 @@ export class ItemCardapioPage implements OnInit {
   ionViewDidEnter() {
     console.log('Entrou na tela Item-pedido');
     this.loadInfoProduct();
+    this.VerificarOrdemAtiva();
+  }
+
+  VerificarOrdemAtiva() {
+    this.permiteAdicionar = true;
+    const currentOrder = this.orderService.getCurrentOrder();
+    this.id = Number(this.activatedRoute.snapshot.paramMap.get('id'));
+    if (currentOrder) {
+      if (currentOrder.establishment.id !== this.id) {
+        this.permiteAdicionar = false;
+      }
+    }
   }
 
   async loadInfoProduct() {

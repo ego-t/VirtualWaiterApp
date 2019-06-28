@@ -14,6 +14,9 @@ import { UserService } from 'src/app/services/user.service';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { DatabaseService } from 'src/app/services/database.service';
 import { IonicStorageModule } from '@ionic/storage';
+import { AngularDelegate, ModalController } from '@ionic/angular';
+import { ControlService } from 'src/app/services/control.service';
+import { QRScanner } from '@ionic-native/qr-scanner/ngx';
 
 describe('ListaEstabelecimentoComponent', () => {
   let component: ListaEstabelecimentoComponent;
@@ -30,7 +33,8 @@ describe('ListaEstabelecimentoComponent', () => {
         IonicStorageModule.forRoot(),
         AngularFireAuthModule,
         AngularFirestoreModule, ],
-      providers: [ Alerta, OrderService, UserService, AuthenticationService, DatabaseService ]
+      providers: [DatabaseService, UserService,  Alerta, Storage, AngularDelegate, ModalController,
+        AuthenticationService, ControlService, OrderService, QRScanner ],
     })
     .compileComponents();
   }));

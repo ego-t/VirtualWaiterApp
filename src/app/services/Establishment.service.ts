@@ -8,7 +8,7 @@ import { Establishment } from '../models/Establishment';
 @Injectable({
   providedIn: 'root'
 })
-export class EstabelecimentoService {
+export class EstablishmentService {
   API_URL = environment.URL_API;
 
   // Http Options
@@ -68,7 +68,7 @@ export class EstabelecimentoService {
         // Get server-side error
         errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
     }
-    window.alert(errorMessage);
+    console.log(errorMessage);
     return throwError(errorMessage);
   }
 }

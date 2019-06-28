@@ -1,3 +1,4 @@
+import { ControlService } from './../services/control.service';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
@@ -34,6 +35,7 @@ describe('ItemCardapioPage', () => {
         AngularFirestoreModule, ],
       providers: [ DatabaseService,
         Alerta,
+        ControlService,
         OrderService,
         UserService,
         AuthenticationService,
