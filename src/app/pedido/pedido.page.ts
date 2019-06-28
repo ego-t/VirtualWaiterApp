@@ -79,4 +79,8 @@ export class PedidoPage implements OnInit {
   cancelarClick() {
     this.navCtrl.back();
   }
+
+  realizarPedido() {
+    this.orderService.realizarPedido();
+  }
 }

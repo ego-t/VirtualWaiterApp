@@ -21,6 +21,8 @@ export class EstabelecimentoPage implements OnInit {
   arrayPos = 0;
   valorPedido = 0;
   textoPesquisa = '';
+  codigoMesa = '';
+  numComanda = '';
   permiteVizualizarCarrinho = false;
   permiteAdicionar = false;
   avaliacaoMedia = '';
@@ -50,6 +52,16 @@ export class EstabelecimentoPage implements OnInit {
     this.loadInfoEstablishment();
     this.atualizarTotalPedido();
     this.atualizarVisibilidadeCarrinho();
+    this.atualizarInfoComandaMesa();
+  }
+  atualizarInfoComandaMesa() {
+    const currentOrder = this.orderService.getCurrentOrder();
+    if (currentOrder.table) {
+      this.codigoMesa = currentOrder.table.numero.toString();
+    }
+    if (currentOrder.control) {
+      this.numComanda = currentOrder.control.id.toString();
+    }
   }
   atualizarVisibilidadeCarrinho() {
     this.currentOrder = this.orderService.getCurrentOrder();

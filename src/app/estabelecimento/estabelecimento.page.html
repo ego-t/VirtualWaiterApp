@@ -35,6 +35,17 @@
     </ion-row>
   </ion-grid>
 
+  <div class="linha-footer">
+    <div class="preencher center">
+      <ion-label style="color:#cc0000; font-weight: bold;">Comanda:</ion-label>
+      <ion-label>{{' ' + numComanda}}</ion-label>
+    </div>
+    <div class="preencher center">
+      <ion-label style="color:#cc0000; font-weight: bold;">Mesa:</ion-label>
+      <ion-label>{{' ' + codigoMesa}}</ion-label>
+    </div>
+  </div>
+
   <ion-searchbar placeholder="Pesquisar produtos" (ionChange)="changeSearchBar($event)"></ion-searchbar>
   <!-- <ion-list>
     <ion-item *ngFor="let produto of produtos" (click)="goTo(produto.id)">

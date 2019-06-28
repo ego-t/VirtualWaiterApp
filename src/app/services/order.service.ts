@@ -13,6 +13,12 @@ import { Table, EnumEstadoMesa } from '../models/Table';
 import { TableService } from './table.service';
 import { Alerta } from '../Utils/Alerta';
 import { Router } from '@angular/router';
+import { HttpHeaders, HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
+import { throwError, Observable } from 'rxjs';
+import { retry, catchError } from 'rxjs/operators';
+import { Order } from '../models/Order';
+import { ItemProduct } from '../models/ItemProduct';
 
 export interface CurrentOrder {
   establishment: Establishment;
@@ -26,6 +32,16 @@ export class OrderService {
   KEY_CURRENT_ORDER = 'orderCurrent';
   firstArrayPos = 0;
 
+  // we can now access environment.apiUrl
+  API_URL = environment.URL_API;
+
+  // Http Options
+  httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json'
+    })
+  };
+
   constructor(
     private userService: UserService,
     public afStore: AngularFirestore,
@@ -36,8 +52,34 @@ export class OrderService {
     private alerta: Alerta,
     private router: Router,
     private establishmentService: EstablishmentService,
-    private authenticationService: AuthenticationService
+    private authenticationService: AuthenticationService,
+    private http: HttpClient,
   ) { }
+
+  create(order: Order): Observable<Order> {
+    return this.http.post<Order>(
+      this.API_URL + '/pedido/',
+      JSON.stringify(order),
+      this.httpOptions)
+      .pipe(
+        retry(1),
+        catchError(this.handleError)
+      );
+  }
+
+  // Error handling
+  handleError(error: { error: { message: string; }; status: any; message: any; }) {
+    let errorMessage = '';
+    if (error.error instanceof ErrorEvent) {
+      // Get client-side error
+      errorMessage = error.error.message;
+    } else {
+      // Get server-side error
+      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+    }
+    window.alert(errorMessage);
+    return throwError(errorMessage);
+  }
 
   updateOrder() {
     console.log('Update Order');
@@ -70,21 +112,21 @@ export class OrderService {
   buscarOrdemAbertaParaOConsumidor() {
     const consumerCurrent = this.authenticationService.getCurrentConsumer();
 
-      this.controlService.getByConsumidorId(consumerCurrent.id, EnumSituacaoComanda.Ativa).toPromise().then((data) => {
-        if (data.length > 0) {
-          data = data[0];
-          const idestabelecimento = data.estabelecimentoid;
-          const idmesa = data.mesaid;
-          const idcomanda = data.comandaid;
-          this.atualizarOrdenCurrent(consumerCurrent, idestabelecimento, idmesa, idcomanda);
-        } else {
-          this.removerOrder().then(() => {
-            this.dataBaseService.setTableScaned(null);
-          });
-        }
-      }).catch((error: Error) => {
-        console.log(error.message);
-      });
+    this.controlService.getByConsumidorId(consumerCurrent.id, EnumSituacaoComanda.Ativa).toPromise().then((data) => {
+      if (data.length > 0) {
+        data = data[0];
+        const idestabelecimento = data.estabelecimentoid;
+        const idmesa = data.mesaid;
+        const idcomanda = data.comandaid;
+        this.atualizarOrdenCurrent(consumerCurrent, idestabelecimento, idmesa, idcomanda);
+      } else {
+        this.removerOrder().then(() => {
+          this.dataBaseService.setTableScaned(null);
+        });
+      }
+    }).catch((error: Error) => {
+      console.log(error.message);
+    });
   }
   atualizarOrdenCurrent(consumerCurrent: Consumer, idestabelecimento: number, idmesa: number, idcomanda: number) {
     let estabelecimento: Establishment;
@@ -162,7 +204,48 @@ export class OrderService {
     }
   }
 
-  
+  realizarPedido() {
+    const currentOrder = this.getCurrentOrder();
+    const today = new Date();
+    let orderItens: ItemProduct[] = [];
+
+    this.dataBaseService.getItensProducts().then((itensProductdb: ItemProduct[]) => {
+      let totalPedido = 0;
+      for (const itemProduct of itensProductdb) {
+        const precoCalculado = itemProduct.preco * itemProduct.quantidade;
+        const newItem: ItemProduct = {
+          id: 0,
+          entregue: false,
+          quantidade: itemProduct.quantidade,
+          observacoes: itemProduct.observacoes,
+          preco: itemProduct.preco,
+          produto: itemProduct.produto,
+          precoTotal: precoCalculado
+        };
+        orderItens.push(newItem);
+        totalPedido += Number(itemProduct.preco);
+      }
+      if (orderItens.length === 0) {
+        this.alerta.showAlert('Aviso', 'Escolha o seu lanche antes de realizar o pedido');
+        return;
+      }
+
+      const newOrder = {
+        codigo: today.getTime().toString(),
+        datahora: new Date(),
+        comanda: currentOrder.control.id,
+        itens: orderItens
+      };
+      this.create(newOrder).subscribe(() => {
+        this.alerta.showAlert('Sucesso!', 'Seu pedido foi enviado. Agora é só aguardar :D');
+        this.dataBaseService.deleteAllProducts().then(()=> {
+          this.router.navigate(['/estabelecimento/' + currentOrder.establishment.id ]);
+        });
+      });
+    }).catch(() => {
+      console.log('Erro ao realizar pedido');
+    });
+  }
 
   async getCurrentOrderWithValorTotal(): Promise<CurrentOrder> {
     const currenteOrder: CurrentOrder = JSON.parse(sessionStorage.getItem(this.KEY_CURRENT_ORDER));

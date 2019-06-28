@@ -14,7 +14,7 @@ export const environment = {
     messagingSenderId: '25596833522',
     appId: '1:25596833522:web:2069e6509b3364e1'
   },
-  URL_API: 'http://localhost:3000/api'
+  URL_API: 'http://ec2-18-231-198-246.sa-east-1.compute.amazonaws.com/api'
 };
 
 /* http://localhost:3000/api

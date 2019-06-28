@@ -14,3 +14,33 @@
 .estiloProduto {
   font-weight: bold;
 }
+
+#base-footer
+{
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+.linha-footer
+{
+  background-color: white;
+  padding: 1px 10px 1px;
+  display: flex;
+  flex-direction: line;
+}
+
+.preencher{
+  width: 100%; 
+}
+
+.center {
+  text-align: center;
+  align-items: center;
+}
+
+.align-esquerda{
+  text-align: left;
+}
+.align-direita{
+  text-align: right;
+}
