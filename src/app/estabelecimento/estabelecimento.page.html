@@ -35,7 +35,7 @@
     </ion-row>
   </ion-grid>
 
-  <div class="linha-footer">
+  <div class="linha-footer" *ngIf="permiteVizualizarComanda">
     <div class="preencher center">
       <ion-label style="color:#cc0000; font-weight: bold;">Comanda:</ion-label>
       <ion-label>{{' ' + numComanda}}</ion-label>
@@ -43,6 +43,11 @@
     <div class="preencher center">
       <ion-label style="color:#cc0000; font-weight: bold;">Mesa:</ion-label>
       <ion-label>{{' ' + codigoMesa}}</ion-label>
+    </div>
+  </div>
+  <div class="linha-footer" *ngIf="permiteVizualizarComanda">
+    <div class="preencher center">
+        <ion-button slot="end" color="dark" (click)="abrirComanda()" expand="block">Abrir comanda</ion-button>
     </div>
   </div>
 
@@ -62,102 +67,103 @@
   <ion-list *ngIf="secoesEstabelecimento.length > 0">
     <ion-list *ngFor="let secao of secoesEstabelecimento">
       <ion-item-divider style="--background	: #ff4d4d;" *ngIf="secao.produtos.length > 0">
-      <ion-label style="padding-left: 15px; font-size: 28px; font-weight: bold; color: #ffffff">{{secao.descricao}}</ion-label>
-    </ion-item-divider>
+        <ion-label style="padding-left: 15px; font-size: 28px; font-weight: bold; color: #ffffff">{{secao.descricao}}
+        </ion-label>
+      </ion-item-divider>
 
-    <ng-container *ngFor="let produto of secao.produtos">
-      <ion-item  (click)="goTo(produto.id)">
+      <ng-container *ngFor="let produto of secao.produtos">
+        <ion-item (click)="goTo(produto.id)">
           <ion-list lines="none">
-              <div class="estiloProduto">{{produto.nome}}</div>
-              <div style="color:red">{{produto.descricao}}</div>
-              <div style="font-weight:700; padding: .3em; padding-left: 0;">R$ {{produto.preco}}</div>
-            </ion-list>
-            <ion-thumbnail slot="end">
-              <ion-img [src]="produto.foto"></ion-img>
-            </ion-thumbnail>
-      </ion-item>
-    </ng-container>
+            <div class="estiloProduto">{{produto.nome}}</div>
+            <div style="color:red">{{produto.descricao}}</div>
+            <div style="font-weight:700; padding: .3em; padding-left: 0;">R$ {{produto.preco}}</div>
+          </ion-list>
+          <ion-thumbnail slot="end">
+            <ion-img [src]="produto.foto"></ion-img>
+          </ion-thumbnail>
+        </ion-item>
+      </ng-container>
     </ion-list>
   </ion-list>
 
   <!-- Skeleton screen -->
-<div *ngIf="emCarregamento">
-  <div class="ion-padding custom-skeleton">
-    <ion-skeleton-text animated style="width: 88%"></ion-skeleton-text>
-    <ion-skeleton-text animated style="width: 88%"></ion-skeleton-text>
-  </div>
+  <div *ngIf="emCarregamento">
+    <div class="ion-padding custom-skeleton">
+      <ion-skeleton-text animated style="width: 88%"></ion-skeleton-text>
+      <ion-skeleton-text animated style="width: 88%"></ion-skeleton-text>
+    </div>
 
-  <ion-list>
-    <ion-list-header>
-      <ion-skeleton-text animated style="width: 95%; height: 40px;"></ion-skeleton-text>
-    </ion-list-header>
-    <ion-item>
-      <ion-thumbnail slot="end">
-        <ion-skeleton-text animated></ion-skeleton-text>
-      </ion-thumbnail>
-      <ion-label>
-        <h3>
-          <ion-skeleton-text animated style="width: 30%"></ion-skeleton-text>
-        </h3>
-        <p>
-          <ion-skeleton-text animated style="width: 70%"></ion-skeleton-text>
-        </p>
-        <p>
-          <ion-skeleton-text animated style="width: 20%"></ion-skeleton-text>
-        </p>
-      </ion-label>
-    </ion-item>
-    <ion-item>
-      <ion-thumbnail slot="end">
-        <ion-skeleton-text animated></ion-skeleton-text>
-      </ion-thumbnail>
-      <ion-label>
-        <h3>
-          <ion-skeleton-text animated style="width: 30%"></ion-skeleton-text>
-        </h3>
-        <p>
-          <ion-skeleton-text animated style="width: 70%"></ion-skeleton-text>
-        </p>
-        <p>
-          <ion-skeleton-text animated style="width: 20%"></ion-skeleton-text>
-        </p>
-      </ion-label>
-    </ion-item>
-    <ion-item>
-      <ion-thumbnail slot="end">
-        <ion-skeleton-text animated></ion-skeleton-text>
-      </ion-thumbnail>
-      <ion-label>
-        <h3>
-          <ion-skeleton-text animated style="width: 30%"></ion-skeleton-text>
-        </h3>
-        <p>
-          <ion-skeleton-text animated style="width: 70%"></ion-skeleton-text>
-        </p>
-        <p>
-          <ion-skeleton-text animated style="width: 20%"></ion-skeleton-text>
-        </p>
-      </ion-label>
-    </ion-item>
-    <ion-item>
-      <ion-thumbnail slot="end">
-        <ion-skeleton-text animated></ion-skeleton-text>
-      </ion-thumbnail>
-      <ion-label>
-        <h3>
-          <ion-skeleton-text animated style="width: 30%"></ion-skeleton-text>
-        </h3>
-        <p>
-          <ion-skeleton-text animated style="width: 70%"></ion-skeleton-text>
-        </p>
-        <p>
-          <ion-skeleton-text animated style="width: 20%"></ion-skeleton-text>
-        </p>
-      </ion-label>
-    </ion-item>
-    
-  </ion-list>
-</div>
+    <ion-list>
+      <ion-list-header>
+        <ion-skeleton-text animated style="width: 95%; height: 40px;"></ion-skeleton-text>
+      </ion-list-header>
+      <ion-item>
+        <ion-thumbnail slot="end">
+          <ion-skeleton-text animated></ion-skeleton-text>
+        </ion-thumbnail>
+        <ion-label>
+          <h3>
+            <ion-skeleton-text animated style="width: 30%"></ion-skeleton-text>
+          </h3>
+          <p>
+            <ion-skeleton-text animated style="width: 70%"></ion-skeleton-text>
+          </p>
+          <p>
+            <ion-skeleton-text animated style="width: 20%"></ion-skeleton-text>
+          </p>
+        </ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-thumbnail slot="end">
+          <ion-skeleton-text animated></ion-skeleton-text>
+        </ion-thumbnail>
+        <ion-label>
+          <h3>
+            <ion-skeleton-text animated style="width: 30%"></ion-skeleton-text>
+          </h3>
+          <p>
+            <ion-skeleton-text animated style="width: 70%"></ion-skeleton-text>
+          </p>
+          <p>
+            <ion-skeleton-text animated style="width: 20%"></ion-skeleton-text>
+          </p>
+        </ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-thumbnail slot="end">
+          <ion-skeleton-text animated></ion-skeleton-text>
+        </ion-thumbnail>
+        <ion-label>
+          <h3>
+            <ion-skeleton-text animated style="width: 30%"></ion-skeleton-text>
+          </h3>
+          <p>
+            <ion-skeleton-text animated style="width: 70%"></ion-skeleton-text>
+          </p>
+          <p>
+            <ion-skeleton-text animated style="width: 20%"></ion-skeleton-text>
+          </p>
+        </ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-thumbnail slot="end">
+          <ion-skeleton-text animated></ion-skeleton-text>
+        </ion-thumbnail>
+        <ion-label>
+          <h3>
+            <ion-skeleton-text animated style="width: 30%"></ion-skeleton-text>
+          </h3>
+          <p>
+            <ion-skeleton-text animated style="width: 70%"></ion-skeleton-text>
+          </p>
+          <p>
+            <ion-skeleton-text animated style="width: 20%"></ion-skeleton-text>
+          </p>
+        </ion-label>
+      </ion-item>
+
+    </ion-list>
+  </div>
 
 </ion-content>
 <ion-footer>

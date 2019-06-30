@@ -28,6 +28,14 @@ export class ControlService {
     );
   }
 
+  updateAny(control: any): Observable<Control> {
+    return this.http.post<Control>(this.API_URL + '/comanda/', JSON.stringify(control), this.httpOptions)
+    .pipe(
+    retry(1),
+    catchError(this.handleError)
+    );
+  }
+
   update(control: Control): Observable<Control> {
     return this.http.post<Control>(this.API_URL + '/comanda/', JSON.stringify(control), this.httpOptions)
     .pipe(

@@ -1,0 +1,75 @@
+.descricao-estabelecimento{
+    text-align:center; 
+}
+
+.toolbar-home ion-img {
+  max-height: 3vh;
+  max-width: 3vh;
+  overflow: hidden;
+}
+
+#imgLogoEstabelecimento { 
+    border-radius:4px;
+    width: 100px;
+    height: 100px;
+    padding: 10px;
+}
+
+.logoEstabelecimento {
+    width: 99%; 
+    min-height: 100%;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    padding: 1px 10px 5px;
+}
+
+#DivSeparador{
+  border: 2px solid #d4d2d2e0;
+  color:#d4d2d2e0;
+}
+
+.gridPageProduto {
+    --ion-grid-padding: 2px;
+    --ion-grid-width: 0px;
+    display: flex;
+    flex-flow: column;
+}
+
+ion-item {
+    --border-color: white;
+    --highlight-color-focused:  white;
+    --highlight-color-valid:red;
+    --color:grey;
+  }
+
+  .toolbar-home ion-img {
+    max-height: 3vh;
+    max-width: 3vh;
+    overflow: hidden;
+  }
+
+  .listaProduto {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .estiloProduto {
+    font-weight: bold;
+  }
+
+.descricao-produto{
+  text-align:left; 
+  color:grey;
+  padding: 5px 5px; 
+}
+
+.valor-produto{
+  text-align:left; 
+  font-weight: bold;
+  color:green;
+  padding: 5px 5px;  
+}

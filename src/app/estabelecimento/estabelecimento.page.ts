@@ -25,6 +25,7 @@ export class EstabelecimentoPage implements OnInit {
   numComanda = '';
   permiteVizualizarCarrinho = false;
   permiteAdicionar = false;
+  permiteVizualizarComanda = false;
   avaliacaoMedia = '';
   currentOrder: CurrentOrder;
   estabelecimento: Establishment;
@@ -56,6 +57,11 @@ export class EstabelecimentoPage implements OnInit {
   }
   atualizarInfoComandaMesa() {
     const currentOrder = this.orderService.getCurrentOrder();
+
+    if (!currentOrder) {
+      return;
+    }
+
     if (currentOrder.table) {
       this.codigoMesa = currentOrder.table.numero.toString();
     }
@@ -66,6 +72,7 @@ export class EstabelecimentoPage implements OnInit {
   atualizarVisibilidadeCarrinho() {
     this.currentOrder = this.orderService.getCurrentOrder();
     if (this.currentOrder) {
+      this.permiteVizualizarComanda = true;
       this.permiteVizualizarCarrinho = (this.currentOrder.establishment.id === this.idEstabelecimento);
 
       if (this.permiteVizualizarCarrinho) {
@@ -74,6 +81,7 @@ export class EstabelecimentoPage implements OnInit {
         });
       }
     } else {
+      this.permiteVizualizarComanda = false;
       this.permiteVizualizarCarrinho = false;
     }
   }
@@ -147,6 +155,16 @@ export class EstabelecimentoPage implements OnInit {
   changeSearchBar(sender: { detail: { value: string; }; }) {
     this.textoPesquisa = sender.detail.value;
     this.filtrarPesquisa();
+  }
+
+  abrirComanda() {
+    this.currentOrder = this.orderService.getCurrentOrder();
+    if (this.currentOrder) {
+      this.permiteVizualizarCarrinho = (this.currentOrder.establishment.id === this.idEstabelecimento);
+      if (this.permiteVizualizarCarrinho) {
+        this.router.navigate(['/consulta-comanda/' + this.currentOrder.control.id ]);
+      }
+    }
   }
 
   presentLoading() {

@@ -1,3 +1,5 @@
+import { Account } from './../models/Account';
+import { AccountService } from './account.service';
 import { EstablishmentService } from './Establishment.service';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { Control, EnumSituacaoComanda } from './../models/Control';
@@ -19,6 +21,7 @@ import { throwError, Observable } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
 import { Order } from '../models/Order';
 import { ItemProduct } from '../models/ItemProduct';
+import { EnumFormaPagamento } from '../models/Account';
 
 export interface CurrentOrder {
   establishment: Establishment;
@@ -44,6 +47,7 @@ export class OrderService {
 
   constructor(
     private userService: UserService,
+    private accountService: AccountService,
     public afStore: AngularFirestore,
     private consumerApi: ConsumerService,
     private dataBaseService: DatabaseService,
@@ -238,12 +242,72 @@ export class OrderService {
       };
       this.create(newOrder).subscribe(() => {
         this.alerta.showAlert('Sucesso!', 'Seu pedido foi enviado. Agora é só aguardar :D');
-        this.dataBaseService.deleteAllProducts().then(()=> {
-          this.router.navigate(['/estabelecimento/' + currentOrder.establishment.id ]);
+        this.dataBaseService.deleteAllProducts().then(() => {
+          this.router.navigate(['/estabelecimento/' + currentOrder.establishment.id]);
         });
       });
     }).catch(() => {
       console.log('Erro ao realizar pedido');
+    });
+  }
+
+  fecharComanda(comanda: Control, mesa: Table) {
+
+    const mesaId = mesa.id;
+
+    if (comanda.enumsituacaocomanda === EnumSituacaoComanda.Ativa) {
+      if (comanda.pedidos.length !== 0) {
+        this.realizarBaixa(comanda, mesa);
+      }
+      //else {
+      //   this.waitingFinishPaymentAccount(comanda.id, mesaId, false);
+      // }
+    } else if (comanda.enumsituacaocomanda === EnumSituacaoComanda.AguardandoPagamento) {
+      this.alerta.showAlert('Pedido de fechamento enviado!', 'Aguarde o fechamento da comanda');
+    } else {
+      this.alerta.showAlert('', 'Não possui operação para realizar nesta comanda');
+    }
+  }
+
+  realizarBaixa(control: Control, mesa: Table) {
+    const itens = [];
+    let total = 0;
+    control.pedidos.forEach(pedido => {
+      pedido.itens.forEach(item => {
+        itens.push(item);
+        total += (item.preco * item.quantidade);
+      });
+    });
+
+    this.controlService.getById(control.id).subscribe( (data: Control[]) => {
+      control = data[0];
+      if (control.enumsituacaocomanda === EnumSituacaoComanda.Ativa) {
+        control.enumsituacaocomanda = EnumSituacaoComanda.AguardandoPagamento;
+        this.controlService.update(control).subscribe(() => {
+          this.alerta.showAlert('', 'Aguardando o pagamento');
+          this.initAccount(control.id, total, mesa.id);
+        });
+      }
+    });
+  }
+
+  initAccount(controlId: number, total: number, mesaId: number) {
+    this.accountService.getByControlId(controlId).subscribe((data: Account[]) => {
+
+      if (data.length === 0) {
+        const newAccount = {
+          total: total,
+          enumformapagamento: EnumFormaPagamento.Dinheiro,
+          taxaservico: 0,
+          comanda: controlId
+        };
+
+        this.accountService.update(newAccount).subscribe(() => {
+          this.router.navigate(['/consulta-comanda/' + controlId]);
+        });
+      } else {
+        this.alerta.showAlert('', 'Conta já gerada');
+      }
     });
   }
 

@@ -15,8 +15,11 @@ const routes: Routes = [
   { path: 'privacidade', loadChildren: './privacidade/privacidade.module#PrivacidadePageModule' },
   { path: 'termos-de-uso', loadChildren: './termos-de-uso/termos-de-uso.module#TermosDeUsoPageModule' },
   { path: 'login-externo', loadChildren: './login-externo/login-externo.module#LoginExternoPageModule' },
-  { path: 'buscar-mesa', loadChildren: './buscar-mesa/buscar-mesa.module#BuscarMesaPageModule' },  { path: 'lista-comanda', loadChildren: './lista-comanda/lista-comanda.module#ListaComandaPageModule' },
-  { path: 'confirmar-estabelecimento', loadChildren: './confirmar-estabelecimento/confirmar-estabelecimento.module#ConfirmarEstabelecimentoPageModule' },
+  { path: 'buscar-mesa', loadChildren: './buscar-mesa/buscar-mesa.module#BuscarMesaPageModule' },
+  { path: 'lista-comanda', loadChildren: './lista-comanda/lista-comanda.module#ListaComandaPageModule' },
+  { path: 'confirmar-estabelecimento',
+  loadChildren: './confirmar-estabelecimento/confirmar-estabelecimento.module#ConfirmarEstabelecimentoPageModule' },
+  { path: 'consulta-comanda/:id', loadChildren: './consulta-comanda/consulta-comanda.module#ConsultaComandaPageModule' },
 
 
 ];

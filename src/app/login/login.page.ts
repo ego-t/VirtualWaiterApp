@@ -18,8 +18,8 @@ import { OrderService } from '../services/order.service';
 })
 export class LoginPage implements OnInit {
   srcImg = '../../../resources/logoComDescricao.png';
-  username = 'Teste22@email.com';
-  password = '123456';
+  username = '';
+  password = '';
   processando = false;
   loginManual = false;
 

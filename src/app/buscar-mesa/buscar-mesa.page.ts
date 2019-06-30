@@ -44,11 +44,7 @@ export class BuscarMesaPage {
           this.barcodeScanner.show();
 
           let scanSub = this.barcodeScanner.scan().subscribe((text: string) => {
-
-            alert('RESULTADO' + text);
-
             this.definirMesa(text);
-
             this.barcodeScanner.hide(); // hide camera preview
             scanSub.unsubscribe(); // stop scanning
             this.barcodeScanner.destroy();
@@ -90,8 +86,6 @@ export class BuscarMesaPage {
         this.tableService.getByEstablishmentId(estabelecimentoAtual.id).toPromise().then((tables: Table[]) => {
 
           if (tables.length > 0) {
-            console.log(tables);
-
             for (const table of tables) {
               if (table.codigo === codigoMesa) {
                 if (table.enumestadomesa === EnumEstadoMesa.Ocupada) {

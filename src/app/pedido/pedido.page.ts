@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { PopoverController, NavController } from '@ionic/angular';
 import { OpcoesItemPedidoPage } from '../pages/opcoes-item-pedido/opcoes-item-pedido.page';
 import { OrderService } from '../services/order.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-pedido',
@@ -15,14 +16,15 @@ export class PedidoPage implements OnInit {
   public itensProductSource: ItemProduct[] = [];
   totalPedido = 0;
   nomeEstabelecimento = '';
-  urlEstabelecimento = '';
+  urlEstabelecimento = './../../assets/icon/logoApp.png';
   numComanda = '';
   codigoMesa = '';
 
   constructor(private navCtrl: NavController,
     private db: DatabaseService,
     public popoverController: PopoverController,
-    public orderService: OrderService) {
+    public orderService: OrderService,
+    public router: Router) {
     this.atualizarlistagemProdutos();
   }
 
@@ -82,5 +84,9 @@ export class PedidoPage implements OnInit {
 
   realizarPedido() {
     this.orderService.realizarPedido();
+  }
+  fecharComanda() {
+    const currentOrder = this.orderService.getCurrentOrder();
+    this.router.navigate(['/consulta-comanda/' + currentOrder.control.id]);
   }
 }
