@@ -35,8 +35,8 @@
     </ion-row>
   </ion-grid>
 
-  <div *ngIf="permiteVizualizarComanda">
-    <div class="linha-footer">
+  <div>
+    <div class="linha-footer" *ngIf="permiteVizualizarInfoComanda">
       <div class="preencher center">
         <ion-label style="color:#cc0000; font-weight: bold;">Comanda:</ion-label>
         <ion-label>{{' ' + numComanda}}</ion-label>
@@ -46,7 +46,7 @@
         <ion-label>{{' ' + codigoMesa}}</ion-label>
       </div>
     </div>
-    <div class="linha-footer">
+    <div class="linha-footer" *ngIf="permiteAbrirComanda">
       <div class="preencher center">
         <ion-button slot="end" color="dark" (click)="abrirComanda()" expand="block">Abrir comanda</ion-button>
       </div>

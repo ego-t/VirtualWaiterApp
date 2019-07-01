@@ -26,7 +26,8 @@ export class EstabelecimentoPage implements OnInit {
   numComanda = '';
   permiteVizualizarCarrinho = false;
   permiteAdicionar = false;
-  permiteVizualizarComanda = false;
+  permiteAbrirComanda = false;
+  permiteVizualizarInfoComanda = false;
   avaliacaoMedia = '';
   currentOrder: CurrentOrder;
   estabelecimento: Establishment;
@@ -73,12 +74,14 @@ export class EstabelecimentoPage implements OnInit {
     }
   }
   atualizarVisibilidadeCarrinho() {
-    this.permiteVizualizarComanda = false;
+    this.permiteAbrirComanda = false;
     this.currentOrder = this.orderService.getCurrentOrder();
+    let inPageEstabEmAtendimento = false;
     if (this.currentOrder) {
-
-      this.permiteVizualizarCarrinho = (this.currentOrder.establishment.id === this.idEstabelecimento);
-      this.permiteVizualizarComanda = this.permiteVizualizarCarrinho;
+      inPageEstabEmAtendimento = (this.currentOrder.establishment.id === this.idEstabelecimento);
+      this.permiteVizualizarCarrinho = inPageEstabEmAtendimento;
+      this.permiteVizualizarInfoComanda = inPageEstabEmAtendimento;
+      this.permiteAbrirComanda = inPageEstabEmAtendimento;
 
       if (this.permiteVizualizarCarrinho) {
         this.dataBaseService.getTotalPedido().then( (valor) => {
@@ -86,6 +89,7 @@ export class EstabelecimentoPage implements OnInit {
         });
       }
     } else {
+      this.permiteAbrirComanda = true;
       this.permiteVizualizarCarrinho = false;
     }
   }
@@ -175,6 +179,9 @@ export class EstabelecimentoPage implements OnInit {
       if (this.permiteVizualizarCarrinho) {
         this.router.navigate(['/consulta-comanda/' + this.currentOrder.control.id ]);
       }
+    } else {
+      this.dataBaseService.setTableScaned(null);
+      this.router.navigate(['/buscar-mesa']);
     }
   }
 
