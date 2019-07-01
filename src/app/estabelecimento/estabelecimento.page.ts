@@ -1,3 +1,4 @@
+import { SessionService } from './../services/session.service';
 import { Alerta } from 'src/app/Utils/Alerta';
 import { Session } from './../models/Session';
 import { Menu } from './../models/Menu';
@@ -42,7 +43,7 @@ export class EstabelecimentoPage implements OnInit {
   constructor(private activatedRoute: ActivatedRoute, private router: Router, public modalController: ModalController,
     public dataBaseService: DatabaseService, private establishmentApi: EstablishmentService,
     public loadingController: LoadingController, private orderService: OrderService,
-    private alerta: Alerta) {
+    private alerta: Alerta, private sessionService: SessionService ) {
       this.emCarregamento = true;
   }
 
@@ -50,10 +51,12 @@ export class EstabelecimentoPage implements OnInit {
   }
 
   ionViewDidEnter() {
+    console.log('ionViewDidEnter');
     this.loadInfoEstablishment();
     this.atualizarTotalPedido();
     this.atualizarVisibilidadeCarrinho();
     this.atualizarInfoComandaMesa();
+    this.orderService.updateOrder();
   }
   atualizarInfoComandaMesa() {
     const currentOrder = this.orderService.getCurrentOrder();
@@ -70,10 +73,12 @@ export class EstabelecimentoPage implements OnInit {
     }
   }
   atualizarVisibilidadeCarrinho() {
+    this.permiteVizualizarComanda = false;
     this.currentOrder = this.orderService.getCurrentOrder();
     if (this.currentOrder) {
-      this.permiteVizualizarComanda = true;
+
       this.permiteVizualizarCarrinho = (this.currentOrder.establishment.id === this.idEstabelecimento);
+      this.permiteVizualizarComanda = this.permiteVizualizarCarrinho;
 
       if (this.permiteVizualizarCarrinho) {
         this.dataBaseService.getTotalPedido().then( (valor) => {
@@ -81,13 +86,12 @@ export class EstabelecimentoPage implements OnInit {
         });
       }
     } else {
-      this.permiteVizualizarComanda = false;
       this.permiteVizualizarCarrinho = false;
     }
   }
 
   async loadInfoEstablishment() {
-  //    this.presentLoading();
+    //this.presentLoading();
 
     this.orderService.updateOrder();
 
@@ -97,14 +101,20 @@ export class EstabelecimentoPage implements OnInit {
       if (data[this.arrayPos] != null) {
         this.estabelecimento = data[this.arrayPos];
         this.menu = data[this.arrayPos].cardapio;
-        this.secoesApi = this.menu.secoes;
         this.nomeEstabelecimento = this.estabelecimento.nome;
         this.urlLogoEstabelecimento = this.estabelecimento.logo;
         this.avaliacaoMedia = this.estabelecimento.avaliacaomedia.toString();
         this.dataBaseService.setEstablishmentPage(this.estabelecimento);
-        this.filtrarPesquisa();
-        //this.loading.dismiss();
-        this.emCarregamento = false;
+
+        this.sessionService.getRecomendadaByEstablishmentId(this.estabelecimento.id).toPromise().then( (dataRecomendada) => {
+          this.secoesApi = this.menu.secoes;
+          if (dataRecomendada.length > 0 || dataRecomendada.produtos) {
+            this.secoesApi.push(dataRecomendada);
+          }
+        }).finally( () => {
+          this.filtrarPesquisa();
+          this.emCarregamento = false;
+        });
       }
     });
   }
@@ -158,6 +168,7 @@ export class EstabelecimentoPage implements OnInit {
   }
 
   abrirComanda() {
+    this.idEstabelecimento = Number(this.activatedRoute.snapshot.paramMap.get('id'));
     this.currentOrder = this.orderService.getCurrentOrder();
     if (this.currentOrder) {
       this.permiteVizualizarCarrinho = (this.currentOrder.establishment.id === this.idEstabelecimento);

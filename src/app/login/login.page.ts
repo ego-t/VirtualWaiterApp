@@ -35,22 +35,6 @@ export class LoginPage implements OnInit {
       this.authenticationservice.logout();
       this.orderService.removerOrder();
       this.databaseService.setTableScaned(null);
-      // this.processando = true;
-      // this.afAuth.authState.subscribe(user => {
-      //   if (user) {
-      //     this.authenticationservice.isAuthenticated().then( function () {
-      //       console.log('Usuario jah autenticado');
-      //     }).catch(function() {
-      //       console.log('Usuario não logado no firebase');
-      //     }).finally(function () {
-            
-      //     });
-      //   }
-      // },
-      // (err) => {
-      //   this.authenticationservice.logout();
-      //   console.log(err);
-      // });
       this.processando = false;
     }
 
@@ -71,7 +55,6 @@ export class LoginPage implements OnInit {
       this.processando = true;
 
       this.authenticationservice.realizarLoginFireBase(username, password).then( (sucesso) => {
-        console.log('Login feito com sucesso!');
       } ).catch( (error: Error) => {
         this.alerta.showAlert('Não foi possível realizar o login :/', error.message);
       } ).finally( () => {

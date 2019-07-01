@@ -2,6 +2,7 @@ import { Establishment } from './../models/Establishment';
 import { Component, OnInit } from '@angular/core';
 import { EstablishmentService } from '../services/Establishment.service';
 import { LoadingController } from '@ionic/angular';
+import { OrderService } from '../services/order.service';
 
 @Component({
   selector: 'app-home',
@@ -14,7 +15,9 @@ export class HomePage implements OnInit {
   private loading;
 
   constructor(private establishmentService: EstablishmentService,
-    public loadingController: LoadingController) { }
+    private orderService: OrderService,
+    public loadingController: LoadingController
+    ) { }
 
   listarEstabelecimentos() {
     this.presentLoading();
@@ -26,6 +29,7 @@ export class HomePage implements OnInit {
 
   ionViewDidEnter() {
     this.listarEstabelecimentos();
+    this.orderService.updateOrder();
   }
 
   presentLoading() {
