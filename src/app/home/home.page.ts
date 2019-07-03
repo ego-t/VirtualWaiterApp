@@ -21,7 +21,7 @@ export class HomePage implements OnInit {
 
   listarEstabelecimentos() {
     this.presentLoading();
-    this.establishmentService.getAll().subscribe((data) => {
+    this.establishmentService.getAtivos().subscribe((data) => {
       this.estabelecimentos = data;
       this.loading.dismiss();
     });

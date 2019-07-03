@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { auth } from 'firebase/app';
-import { AlertController, ModalController } from '@ionic/angular';
+import { AlertController, ModalController, LoadingController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { UserService } from '../services/user.service';
@@ -18,6 +18,8 @@ export class CadastroPage implements OnInit {
   password: '';
   email = '';
   cpassword: '';
+  emCarregamento = false;
+  private loading;
 
   constructor(
     public afAuth: AngularFireAuth,
@@ -26,13 +28,17 @@ export class CadastroPage implements OnInit {
     public afstore: AngularFirestore,
     public userService: UserService,
     public authenticationservice: AuthenticationService,
-    public modalController: ModalController
+    public modalController: ModalController,
+    public loadingController: LoadingController,
   ) { }
 
   ngOnInit() {
   }
 
   async register() {
+    this.emCarregamento = true;
+    this.presentLoading();
+
     const { username, password, cpassword, email } = this;
 
     if (password !== cpassword) {
@@ -40,7 +46,7 @@ export class CadastroPage implements OnInit {
       return console.error('Senhas não batem');
     }
     try {
-      this.authenticationservice.register(email, password);
+      this.authenticationservice.register(email.trim(), password.trim());
     } catch (err) {
       console.dir(err);
       this.showAlert('Erro', err.message);
@@ -59,6 +65,18 @@ export class CadastroPage implements OnInit {
   }
   dismiss() {
     this.modalController.dismiss();
+  }
+
+  presentLoading() {
+    this.loadingController.create({
+      message: 'Carregando',
+    }).then( (overlay) => {
+      this.loading = overlay;
+      this.loading.present();
+    });
+    setTimeout(() => {
+      this.loading.dismiss();
+    }, 10000);
   }
 
 }

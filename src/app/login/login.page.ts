@@ -54,7 +54,7 @@ export class LoginPage implements OnInit {
     try {
       this.processando = true;
 
-      this.authenticationservice.realizarLoginFireBase(username, password).then( (sucesso) => {
+      this.authenticationservice.realizarLoginFireBase(username.trim(), password.trim()).then( (sucesso) => {
       } ).catch( (error: Error) => {
         this.alerta.showAlert('Não foi possível realizar o login :/', error.message);
       } ).finally( () => {

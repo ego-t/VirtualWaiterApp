@@ -49,6 +49,13 @@ export class EstablishmentService {
     catchError(this.handleError)
     );
   }
+  getAtivos(): Observable<any> {
+    return this.http.get<any>(this.API_URL + '/estabelecimento?ativo=true')
+    .pipe(
+    retry(1),
+    catchError(this.handleError)
+    );
+  }
 
   getById(id: number): Observable<any> {
     return this.http.get<any>(this.API_URL + '/estabelecimento?id=' + id)

@@ -11,6 +11,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientModule } from '@angular/common/http';
 import { ModalController, AngularDelegate } from '@ionic/angular';
 import { AuthenticationService } from '../services/authentication.service';
+import { Alerta } from '../Utils/Alerta';
 
 describe('CadastroPage', () => {
   let component: CadastroPage;
@@ -19,7 +20,7 @@ describe('CadastroPage', () => {
   beforeEach(async(() => {  
     TestBed.configureTestingModule({
       declarations: [ CadastroPage ],
-      providers: [UserService, ModalController, AngularDelegate, AuthenticationService ],
+      providers: [UserService, ModalController, AngularDelegate, Alerta, AuthenticationService ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [
         HttpClientModule,

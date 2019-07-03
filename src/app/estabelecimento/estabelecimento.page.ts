@@ -113,7 +113,7 @@ export class EstabelecimentoPage implements OnInit {
         this.sessionService.getRecomendadaByEstablishmentId(this.estabelecimento.id).toPromise().then( (dataRecomendada) => {
           this.secoesApi = this.menu.secoes;
           if (dataRecomendada.length > 0 || dataRecomendada.produtos) {
-            this.secoesApi.push(dataRecomendada);
+            this.secoesApi.unshift(dataRecomendada);
           }
         }).finally( () => {
           this.filtrarPesquisa();

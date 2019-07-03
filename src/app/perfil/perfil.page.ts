@@ -61,7 +61,7 @@ export class PerfilPage implements OnInit {
     });
     setTimeout(() => {
       this.loading.dismiss();
-    }, 4000);
+    }, 1000);
   }
   voltarPagina() {
     this.navCtrl.back();

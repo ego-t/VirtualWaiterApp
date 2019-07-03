@@ -1,3 +1,4 @@
+import { Alerta } from 'src/app/Utils/Alerta';
 import { User } from './../models/User';
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
@@ -8,6 +9,7 @@ import { first } from 'rxjs/operators';
 import { ConsumerService } from './consumer.service';
 import { ModalController } from '@ionic/angular';
 import { Consumer } from '../models/Consumer';
+import { FirebaseuiAngularLibraryService } from 'firebaseui-angular';
 
 interface AuthenticationError {
   message: string;
@@ -30,7 +32,8 @@ export class AuthenticationService {
     private router: Router,
     public afStore: AngularFirestore,
     private consumerApi: ConsumerService,
-    private modalController: ModalController
+    private modalController: ModalController,
+    private alerta: Alerta,
   ) { }
 
   logout() {
@@ -55,7 +58,7 @@ export class AuthenticationService {
 
   isAuthenticated(backLogin: Boolean = false) {
 
-    this.afAuth.authState.pipe(first()).subscribe( (user) => {
+    this.afAuth.authState.pipe(first()).subscribe((user) => {
       if (user) {
         const currentConsumer = this.getCurrentConsumer();
         if (!currentConsumer) {
@@ -96,7 +99,7 @@ export class AuthenticationService {
             // Criar Usuario e consumidor
             this.registerConsumer(result);
           }
-        }).catch( (retorno: Error) => {
+        }).catch((retorno: Error) => {
           console.log(retorno);
           this.logout();
           if (backLogin) {
@@ -226,7 +229,7 @@ export class AuthenticationService {
 
   async realizarLoginFireBase(email: string, password: string): Promise<boolean> {
     try {
-      const res = await this.afAuth.auth.signInWithEmailAndPassword(email, password).then( (result)  => {
+      const res = await this.afAuth.auth.signInWithEmailAndPassword(email, password).then((result) => {
         if (result.user) {
           this.userService.getByUID(result.user.uid).toPromise().then((dataUsuario: User[]) => {
             if (dataUsuario.length > 0) {
@@ -245,11 +248,32 @@ export class AuthenticationService {
             this.logout();
           });
         }
-      }).catch((error: Error) => {
-        this.showAlert('Login Firebase' + error.message);
-        this.logout();
-      });
+      }).catch((error) => {
+        console.dir(error);
 
+        let msgRetorno = '';
+
+        switch (error.code) {
+          case 'auth/invalid-email':
+            msgRetorno = 'Usuário inválido';
+            break;
+          case 'auth/user-not-found':
+            msgRetorno = 'Usuário não encontrado';
+            break;
+          case 'auth/network-request-failed':
+            msgRetorno = 'Não foi possível se conectar a rede';
+            break;
+          case 'auth/wrong-password':
+            msgRetorno = 'Senha inválida';
+            break;
+          default:
+            msgRetorno = 'Ocorreu um erro não conhecido.';
+            break;
+        }
+        this.logout();
+        this.alerta.showAlert(':/', msgRetorno);
+        return false;
+      });
       return true;
     } catch (err) {
       console.dir(err);
