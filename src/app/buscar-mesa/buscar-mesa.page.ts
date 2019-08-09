@@ -21,6 +21,7 @@ export class BuscarMesaPage {
   codigoDigitado = '';
   encodeData: any;
   scannedData: {};
+  scanSub: any;
 
   constructor(public barcodeScanner: QRScanner, public router: Router, public tableService: TableService,
     public alerta: Alerta, public databaseService: DatabaseService, public orderService: OrderService, ) {
@@ -43,10 +44,10 @@ export class BuscarMesaPage {
           this.barcodeScanner.useBackCamera();
           this.barcodeScanner.show();
 
-          let scanSub = this.barcodeScanner.scan().subscribe((text: string) => {
+          this.scanSub = this.barcodeScanner.scan().subscribe((text: string) => {
             this.definirMesa(text);
             this.barcodeScanner.hide(); // hide camera preview
-            scanSub.unsubscribe(); // stop scanning
+            this.scanSub.unsubscribe(); // stop scanning
             this.barcodeScanner.destroy();
 
             // const ionAppAux = <HTMLElement>document.getElementsByTagName('ion-app')[0];
@@ -98,6 +99,12 @@ export class BuscarMesaPage {
                 //this.alerta.showAlert('', 'Mesa definida com sucesso!');
                 this.processando = false;
                 //this.navControler.back();
+
+                this.barcodeScanner.hide(); // hide camera preview
+                if(this.scanSub){
+                  this.scanSub.unsubscribe(); // stop scanning
+                }
+                this.barcodeScanner.destroy();
                 this.router.navigate(['/confirmar-estabelecimento']);
                 return;
               }

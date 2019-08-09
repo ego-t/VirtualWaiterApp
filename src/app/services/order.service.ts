@@ -101,6 +101,7 @@ export class OrderService {
         const controlConsult = data[this.firstArrayPos];
         if (controlConsult.enumsituacaocomanda !== EnumSituacaoComanda.Ativa) {
           await this.removerOrder();
+          this.setCurrentOrder(null);
           this.alerta.showAlert('Aviso', 'Sua comanda nº ' + controlConsult.id + ' foi fechada pelo estabelecimento');
           return;
         } else {

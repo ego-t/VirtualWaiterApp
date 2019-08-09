@@ -41,16 +41,45 @@ export class CadastroPage implements OnInit {
 
     const { username, password, cpassword, email } = this;
 
+    if (username.length === 0) {
+      this.showAlert('Erro', 'Informe o usuário');
+      this.pararCarregamento();
+      return;
+    }
+
+    if ( password.length === 0 || cpassword.length === 0) {
+      this.showAlert('Erro', 'Informe a senha');
+      this.pararCarregamento();
+      return;
+    }
+
     if (password !== cpassword) {
       this.showAlert('Erro', 'Senhas não conferem');
+      this.pararCarregamento();
       return console.error('Senhas não batem');
     }
+
+    if (email.indexOf('@') === -1 || email.indexOf('.com') === -1 ) {
+      this.showAlert('Erro', 'Email incorreto');
+      this.pararCarregamento();
+      return;
+    }
+
     try {
       this.authenticationservice.register(email.trim(), password.trim());
     } catch (err) {
       console.dir(err);
+      this.pararCarregamento();
       this.showAlert('Erro', err.message);
     }
+  }
+
+  pararCarregamento() {
+    this.emCarregamento = false;
+    if (this.loading) {
+      this.loading.dismiss();
+    }
+    this.dismiss();
   }
 
   async showAlert(header: string, message: string) {

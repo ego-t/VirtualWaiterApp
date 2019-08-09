@@ -60,6 +60,8 @@ export class EstabelecimentoPage implements OnInit {
     this.orderService.updateOrder();
   }
   atualizarInfoComandaMesa() {
+    this.codigoMesa = '';
+    this.numComanda = '';
     const currentOrder = this.orderService.getCurrentOrder();
 
     if (!currentOrder) {
@@ -75,6 +77,8 @@ export class EstabelecimentoPage implements OnInit {
   }
   atualizarVisibilidadeCarrinho() {
     this.permiteAbrirComanda = false;
+    this.permiteVizualizarInfoComanda = false;
+    this.permiteVizualizarCarrinho = false;
     this.currentOrder = this.orderService.getCurrentOrder();
     let inPageEstabEmAtendimento = false;
     if (this.currentOrder) {

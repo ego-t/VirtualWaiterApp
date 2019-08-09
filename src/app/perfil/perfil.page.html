@@ -20,7 +20,7 @@
   <ion-list>
     <ion-item>
       <ion-label>Usuario</ion-label>
-      <ion-input [(ngModel)]="nomeConsumidor"></ion-input>
+      <ion-input [(ngModel)]="nomeConsumidor" disabled="true"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label>E-mail</ion-label>
@@ -28,11 +28,11 @@
     </ion-item>
     <ion-item>
       <ion-label>Celular</ion-label>
-      <ion-input [(ngModel)]="celular"></ion-input>
+      <ion-input [(ngModel)]="celular" disabled="true"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label>Data Nascimento</ion-label>
-      <ion-input style="padding-left: 10px;" (click)="selecionarDataNascimento()"
+      <ion-input style="padding-left: 10px;"  disabled="true" (click)="selecionarDataNascimento()"
       [(ngModel)]="dataNascimento" ></ion-input>
     </ion-item>
   </ion-list>

@@ -31,7 +31,7 @@ export class PerfilPage implements OnInit {
     private authenticationService: AuthenticationService
     ) {
       this.emCarregamento = true;
-      this.presentLoading();
+      //this.presentLoading();
   }
 
   ionViewDidEnter() {
@@ -75,7 +75,7 @@ export class PerfilPage implements OnInit {
     this.datePicker.show({
       date: new Date(),
       mode: 'date',
-      androidTheme: this.datePicker.ANDROID_THEMES.THEME_HOLO_DARK
+      androidTheme: this.datePicker.ANDROID_THEMES.THEME_DEVICE_DEFAULT_LIGHT
     }).then(
       date => this.dataNascimento = date.toLocaleDateString(),
       err => console.log('Error occurred while getting date: ', err)

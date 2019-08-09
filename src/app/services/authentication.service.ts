@@ -10,6 +10,7 @@ import { ConsumerService } from './consumer.service';
 import { ModalController } from '@ionic/angular';
 import { Consumer } from '../models/Consumer';
 import { FirebaseuiAngularLibraryService } from 'firebaseui-angular';
+import { environment } from 'src/environments/environment';
 
 interface AuthenticationError {
   message: string;
@@ -243,7 +244,7 @@ export class AuthenticationService {
               this.RealizarLoginExterno(true);
             }
           }).catch((error: Error) => {
-            this.showAlert('Problemas ao se conectar ao servidor...');
+            this.showAlert('Problemas ao se conectar ao servidor...' + environment.URL_API);
             this.showAlert('getByUID' + error.message);
             this.logout();
           });
