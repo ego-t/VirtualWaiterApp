@@ -1,39 +1,51 @@
-	<ion-content>
-			<ion-grid>
-					<ion-row justify-content-center>
-						<ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
-                <ion-row>
-                    <ion-col>
-                      </ion-col>
-                    <ion-col size="6" size-xs="2">
-                        <div>
-														<img src="../../assets/logoApp.png">
-                        </div>
-                    </ion-col>
-                    <ion-col>
-                      <h1>Cadastro</h1>
-                    </ion-col>
-                    <ion-col>
-                    </ion-col>
-                  </ion-row>	
-							<div padding>
-								<ion-item>
-									<ion-input type="text" placeholder="Nome de Usuário" [(ngModel)]="username"></ion-input>
-                </ion-item>
-                <ion-item>
-                    <ion-input type="text" placeholder="E-mail" [(ngModel)]="email"></ion-input>
-                </ion-item>
-								<ion-item>
-									<ion-input type="password" placeholder="Senha" [(ngModel)]="password"></ion-input>
-                </ion-item>
-                <ion-item>
-                    <ion-input type="password" placeholder="Confirmar a Senha" [(ngModel)]="cpassword"></ion-input>
-                </ion-item>
-              </div>
-							<div padding>
-								<ion-button size="default" expand="block" (click)="register()">Cadastrar</ion-button>
-              </div>
-						</ion-col>
-					</ion-row>
-				</ion-grid>
-	</ion-content>
+<ion-header>
+  <ion-toolbar class="toolbar-home">
+    <ion-button color="light" slot="start" (click)="dismiss()">
+      <ion-icon name="arrow-back"></ion-icon>
+    </ion-button>
+    <!-- <ion-img slot="start" src="/assets/logoApp.png" slot="start"></ion-img> -->
+    <ion-title>
+      Abrir comanda
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-row justify-content-center>
+      <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
+        <ion-row>
+          <ion-col>
+          </ion-col>
+          <ion-col size="6" size-xs="2">
+            <div>
+              <img src="../../assets/logoApp.png">
+            </div>
+          </ion-col>
+          <ion-col>
+            <h1>Cadastro</h1>
+          </ion-col>
+          <ion-col>
+          </ion-col>
+        </ion-row>
+        <div padding>
+          <ion-item>
+            <ion-input type="text" placeholder="Nome de Usuário" [(ngModel)]="username"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input type="text" placeholder="E-mail" [(ngModel)]="email"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input type="password" placeholder="Senha" [(ngModel)]="password"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input type="password" placeholder="Confirmar a Senha" [(ngModel)]="cpassword"></ion-input>
+          </ion-item>
+        </div>
+        <div padding>
+          <ion-button size="default" expand="block" (click)="register()">Cadastrar</ion-button>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

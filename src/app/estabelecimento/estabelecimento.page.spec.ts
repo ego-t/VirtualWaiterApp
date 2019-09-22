@@ -8,6 +8,15 @@ import { AngularFireModule } from '@angular/fire';
 import { environment } from 'src/environments/environment';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { ModalController, AngularDelegate } from '@ionic/angular';
+import { DatabaseService } from '../services/database.service';
+import { IonicStorageModule } from '@ionic/storage';
+import { AuthenticationService } from '../services/authentication.service';
+import { UserService } from '../services/user.service';
+import { Alerta } from '../Utils/Alerta';
+import { ControlService } from '../services/control.service';
+import { OrderService } from '../services/order.service';
+import { QRScanner } from '@ionic-native/qr-scanner/ngx';
 
 describe('EstabelecimentoPage', () => {
   let component: EstabelecimentoPage;
@@ -21,9 +30,14 @@ describe('EstabelecimentoPage', () => {
         HttpClientModule,
         RouterTestingModule.withRoutes([]),
         AngularFireModule.initializeApp(environment.firebase),
+        IonicStorageModule.forRoot(),
         AngularFireAuthModule,
-        AngularFirestoreModule,]
+        AngularFirestoreModule, ],
+      providers: [DatabaseService, UserService,  Alerta, Storage, AngularDelegate, ModalController,
+        AuthenticationService, ControlService, OrderService, QRScanner ],
+
     })
+
     .compileComponents();
   }));
 

@@ -1,0 +1,37 @@
+.regiao-base
+{
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+.linha-footer
+{
+  padding: 1px 5px 1px;
+  display: flex;
+  flex-direction: line;
+}
+
+.preencher{
+  width: 100%; 
+}
+
+.align-esquerda{
+  text-align: left;
+}
+
+.align-direita{
+  text-align: right;
+}
+
+.titulo-medio {
+    font-weight: bold;
+    color:black;
+    text-align: left;
+}
+
+.LinhaDetalhe {
+  border: 2px solid #d4d2d2e0; 
+  width: 99%;
+  padding-left: 5px;
+  padding-right: 5px;
+}

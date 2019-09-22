@@ -15,29 +15,41 @@
 }
 
 #imgProduto { 
-    border: 2px solid black;
-    border-radius:7px;
+    border: 2px solid grey;
+    border-radius:2px;
+    max-width: 150px;
+    max-height: 150px;
+    width: auto;
 }
 
-.imagem-produto{
-    padding: 10vh;
-    padding-top: 0vh;
-    padding-bottom: 0vh;   
+.imagem-produto {
+    width: 99%; 
+    min-height: 100%;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    padding: 1px 10px 5px;
+}
+
+#lblDescricao{
+    font-size: 18px;
 }
 
 .descricao-produto{
+    padding: 8px 1px 8px;
     border: 2px solid #d4d2d2e0;
     text-align:center; 
-    font-size: 2vh;
     color:red;
-
-    border-radius:7px;
+    border-radius:2px;
 }
 
 .observacao-produto{
     border: 2px solid #d4d2d2e0;
     padding: 7px;
-    border-radius:7px;
+    border-radius:2px;
     font-size: 2vh;
 }
 .gridPageProduto {
@@ -48,8 +60,21 @@
     height: 100%;
 }
 
+#DivQtd{
+    height: 100%;
+    width: 99%; 
+    min-height: 100%;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+}
+
 .qtdItem
 {
+    width: 100%;
     font-size: 4vh;
     font-weight: bold;
     margin-top: 2px;
@@ -59,3 +84,10 @@
 .rodape{
     height: 20px;
 }
+
+ion-item {
+    --border-color: white;
+    --highlight-color-focused:  white;
+    --highlight-color-valid:red;
+    --color:grey;
+  }

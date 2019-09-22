@@ -1,30 +1,36 @@
 import { Component } from '@angular/core';
-
 import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Router } from '@angular/router';
 import { UserService } from './services/user.service';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { LocaldbService } from './services/localdb.service';
+import { AuthenticationService } from './services/authentication.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html'
 })
 export class AppComponent {
-  usuarioLogado: string = "1"
+  usuarioLogado = false;
 
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
     private router: Router,
-    private user: UserService,
+    public authenticationservice: AuthenticationService,
     private afAuth: AngularFireAuth,
-    private localdbService: LocaldbService
   ) {
     this.initializeApp();
+    this.usuarioLogado = true;
+    // this.afAuth.authState.subscribe(user => {
+    //   if (user) {
+    //     this.usuarioLogado = this.afAuth.auth.currentUser.isAnonymous;
+    //   } else {
+    //     this.usuarioLogado = false;
+    //   }
+    // });
   }
 
   initializeApp() {
@@ -34,15 +40,20 @@ export class AppComponent {
     });
   }
 
-  btnHome(){
-    this.router.navigate(['/home'])
+  btnPerfil() {
+    this.router.navigate(['/perfil']);
   }
 
-  btnSair(){
-    const res = this.afAuth.auth.signOut();
-    
-    console.log(res);
+  btnHome() {
+    this.router.navigate(['/home']);
+  }
 
-    this.router.navigate(['/login'])
+  BtnComandas() {
+    this.router.navigate(['/lista-comanda']);
+  }
+
+  btnSair() {
+    this.authenticationservice.logout();
+    this.router.navigate(['/login']);
   }
 }

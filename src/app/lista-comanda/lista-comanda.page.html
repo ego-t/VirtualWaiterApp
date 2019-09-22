@@ -1,0 +1,41 @@
+<ion-header>
+  <ion-toolbar>
+      <ion-buttons slot="start">
+          <ion-back-button title="Voltar" defaultHref="home"></ion-back-button>
+      </ion-buttons>
+    <ion-title>Minhas Comandas</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ng-container *ngFor="let control of controls">
+    <ion-item (click)="goTo(produto.id)">
+      <ion-list lines="none">
+        <div class="estiloProduto">
+          <h3>Comanda Nº{{control.id}}</h3>
+        </div>
+        <div class="estiloProduto">
+          <label>Horário Inicio: </label>
+          {{control.horarioinicio | date:"dd/MM/yy"}}</div>
+        <div class="estiloProduto">
+          <label>Horário Término: </label>
+          {{control.horariofim | date:"dd/MM/yy"}}</div>
+        <div class="estiloProduto" *ngIf="control.responsavel.id > 0">
+          <label>Responsável: {{' ' + control.responsavel.nome}}</label>
+        </div>
+        <div class="estiloProduto" *ngIf="control.responsavel.id > 0">
+            <label>Situação: {{' ' + 
+              (control.enumsituacaocomanda === 1? 'Solicitada': '')
+              +(control.enumsituacaocomanda === 2? 'Ativa': '')
+              +(control.enumsituacaocomanda === 3? 'Aguardando Pagamento ': '')
+              +(control.enumsituacaocomanda === 4? 'Encerrada': '')
+            }}</label>
+          </div>
+        <!-- <ion-datetime display-format="MMM DD, YYYY HH:mm" disabled  [value]="control.horariofim"></ion-datetime> -->
+      </ion-list>
+      <!-- <ion-thumbnail slot="end">
+            <ion-img [src]="produto.foto"></ion-img>
+          </ion-thumbnail> -->
+    </ion-item>
+  </ng-container>
+</ion-content>

@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { auth } from 'firebase/app';
-import { AlertController } from '@ionic/angular';
+import { AlertController, ModalController, LoadingController } from '@ionic/angular';
 import { Router } from '@angular/router';
-import { AngularFirestore } from '@angular/fire/firestore'
+import { AngularFirestore } from '@angular/fire/firestore';
 import { UserService } from '../services/user.service';
+import { resolve } from 'url';
+import { AuthenticationService } from '../services/authentication.service';
 
 @Component({
   selector: 'app-cadastro',
@@ -12,62 +14,98 @@ import { UserService } from '../services/user.service';
   styleUrls: ['./cadastro.page.scss'],
 })
 export class CadastroPage implements OnInit {
-  username:string = "";
-  password:string = "";
-  cpassword:string = "";
+  username: '';
+  password: '';
+  email = '';
+  cpassword: '';
+  emCarregamento = false;
+  private loading;
 
   constructor(
     public afAuth: AngularFireAuth,
     public alert: AlertController,
     public router: Router,
     public afstore: AngularFirestore,
-    public user: UserService
-    ){ }
+    public userService: UserService,
+    public authenticationservice: AuthenticationService,
+    public modalController: ModalController,
+    public loadingController: LoadingController,
+  ) { }
 
   ngOnInit() {
   }
 
-  async register(){
-    const { username,password, cpassword} = this; 
-    if(password !== cpassword)
-    {
-      this.showAlert("Erro", "Senhas não conferem");
-      return console.error("Senhas não batem");
+  async register() {
+    this.emCarregamento = true;
+    this.presentLoading();
+
+    const { username, password, cpassword, email } = this;
+
+    if (username.length === 0) {
+      this.showAlert('Erro', 'Informe o usuário');
+      this.pararCarregamento();
+      return;
     }
-    try
-    {
-      const res = await this.afAuth.auth.createUserWithEmailAndPassword(username +'@virtualwaiter.com',password);
-     
-      this.afstore.doc(`users/${res.user.uid}`).set({
-        username,
 
-      });
+    if ( password.length === 0 || cpassword.length === 0) {
+      this.showAlert('Erro', 'Informe a senha');
+      this.pararCarregamento();
+      return;
+    }
 
-      this.user.setUser({
-				username,
-				uid: res.user.uid
-			})
+    if (password !== cpassword) {
+      this.showAlert('Erro', 'Senhas não conferem');
+      this.pararCarregamento();
+      return console.error('Senhas não batem');
+    }
 
-      this.showAlert("Sucesso!", "Você foi registrado!");
+    if (email.indexOf('@') === -1 || email.indexOf('.com') === -1 ) {
+      this.showAlert('Erro', 'Email incorreto');
+      this.pararCarregamento();
+      return;
+    }
 
-      this.router.navigate(['/home']);
-    }catch(err)
-    {
+    try {
+      this.authenticationservice.register(email.trim(), password.trim());
+    } catch (err) {
       console.dir(err);
-      this.showAlert("Erro", err.message);
+      this.pararCarregamento();
+      this.showAlert('Erro', err.message);
     }
   }
 
-  async showAlert(header : string, message: string)
-  {
-    const alert =  await this.alert.create(
-    {
-      header,
-      message,
-      buttons : ["Ok"]
-    })
+  pararCarregamento() {
+    this.emCarregamento = false;
+    if (this.loading) {
+      this.loading.dismiss();
+    }
+    this.dismiss();
+  }
+
+  async showAlert(header: string, message: string) {
+    const alert = await this.alert.create(
+      {
+        header,
+        message,
+        buttons: ['Ok']
+      });
 
     await alert.present();
+  }
+  dismiss() {
+    this.modalController.dismiss();
+  }
+
+  presentLoading() {
+    this.loadingController.create({
+      message: 'Carregando',
+    }).then( (overlay) => {
+      this.loading = overlay;
+      this.loading.present();
+    });
+    setTimeout(() => {
+      this.loading.dismiss();
+    }, 10000);
   }
 
 }

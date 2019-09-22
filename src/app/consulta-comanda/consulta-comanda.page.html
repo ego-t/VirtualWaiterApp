@@ -1,0 +1,87 @@
+<ion-header translucent="false">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Comanda</ion-title>
+    <ion-buttons slot="secondary">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-grid class="gridPageProduto">
+    <ion-row>
+      <ion-col>
+        <div class="descricao-estabelecimento">
+          <ion-label style="color: #cc0000;">Sua comanda em:</ion-label>
+          <div class="logoEstabelecimento">
+            <div>
+              <ion-img id="imgLogoEstabelecimento" [src]="urlEstabelecimento"></ion-img>
+            </div>
+          </div>
+          <div>
+            <ion-label style="color:black; font-weight: bold;" id="lblNomeEstabelecimento">{{nomeEstabelecimento}}
+            </ion-label>
+          </div>
+          <div class="linha-footer">
+            <div class="preencher center">
+              <ion-label style="color:#cc0000; font-weight: bold;">Comanda:</ion-label>
+              <ion-label>{{' ' + numComanda}}</ion-label>
+            </div>
+            <div class="preencher center">
+              <ion-label style="color:#cc0000; font-weight: bold;">Mesa:</ion-label>
+              <ion-label>{{' ' + codigoMesa}}</ion-label>
+            </div>
+          </div>
+        </div>
+      </ion-col>
+    </ion-row>
+
+  </ion-grid>
+  <ion-list *ngIf="control.id > 0">
+    <ion-list *ngFor="let pedido of control.pedidos">
+      <ion-item-divider style="--background	: #ff4d4d;">
+        <ion-label style="font-size: 18px; font-weight: bold; color: #ffffff">Pedido {{pedido.codigo}}
+        </ion-label>
+      </ion-item-divider>
+      <ng-container *ngFor="let itemProduct of pedido.itens">
+        <ion-item (click)="goTo(produto.id)" *ngIf="pedido.itens.length > 0">
+          <ion-list lines="none">
+            <div class="estiloProduto">{{ itemProduct.quantidade}} x {{itemProduct.produto.nome}}</div>
+            <div style="color:red">{{itemProduct.produto.descricao}}</div>
+            <div style="font-weight:700; padding: .3em; padding-left: 0;">R$ {{itemProduct.preco}}</div>
+          </ion-list>
+          <ion-thumbnail slot="end">
+            <ion-img [src]="itemProduct.produto.foto"></ion-img>
+          </ion-thumbnail>
+        </ion-item>
+      </ng-container>
+    </ion-list>
+  </ion-list>
+</ion-content>
+<ion-footer>
+  <div id="base-footer" style="background-color: white">
+    <div class="linha-footer">
+      <div class="align-esquerda preencher" style="padding: 1px 5px 0px; font:bold;color:black;">
+        <h3>Total: {{totalPedido | currency:'BRL' }}</h3>
+      </div>
+      <div class="align-direita preencher">
+        <ion-button color="light" slot="end" (click)="cancelarClick()">
+          <ion-icon slot="icon-only" name="add-circle"></ion-icon>
+        </ion-button>
+      </div>
+
+    </div>
+    <div class="linha-footer" style="background-color: white;">
+      <div class="align-esquerda preencher">
+        <ion-button slot="start" color="light" (click)="cancelarClick()" expand="block">Cancelar</ion-button>
+      </div>
+      <div class="align-direita preencher">
+        <ion-button slot="end" color="dark" (click)="fecharComanda()" expand="block">Fechar comanda</ion-button>
+      </div>
+    </div>
+  </div>
+</ion-footer>

@@ -8,6 +8,15 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { environment } from 'src/environments/environment';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { Alerta } from 'src/app/Utils/Alerta';
+import { OrderService } from 'src/app/services/order.service';
+import { UserService } from 'src/app/services/user.service';
+import { AuthenticationService } from 'src/app/services/authentication.service';
+import { DatabaseService } from 'src/app/services/database.service';
+import { IonicStorageModule } from '@ionic/storage';
+import { AngularDelegate, ModalController } from '@ionic/angular';
+import { ControlService } from 'src/app/services/control.service';
+import { QRScanner } from '@ionic-native/qr-scanner/ngx';
 
 describe('ListaEstabelecimentoComponent', () => {
   let component: ListaEstabelecimentoComponent;
@@ -21,8 +30,11 @@ describe('ListaEstabelecimentoComponent', () => {
         HttpClientModule,
         RouterTestingModule.withRoutes([]),
         AngularFireModule.initializeApp(environment.firebase),
+        IonicStorageModule.forRoot(),
         AngularFireAuthModule,
-        AngularFirestoreModule,]
+        AngularFirestoreModule, ],
+      providers: [DatabaseService, UserService,  Alerta, Storage, AngularDelegate, ModalController,
+        AuthenticationService, ControlService, OrderService, QRScanner ],
     })
     .compileComponents();
   }));

@@ -1,3 +1,4 @@
+import { DatabaseService } from './../services/database.service';
 import { Alerta } from './../Utils/Alerta';
 import { UserService } from './../services/user.service';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
@@ -9,6 +10,12 @@ import { AngularFireModule } from '@angular/fire';
 import { environment } from 'src/environments/environment';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { ShareModule } from '../share.module';
+import { IonicStorageModule } from '@ionic/storage';
+import { ModalController, AngularDelegate } from '@ionic/angular';
+import { AuthenticationService } from '../services/authentication.service';
+import { OrderService } from '../services/order.service';
+import { ControlService } from '../services/control.service';
 
 describe('LoginPage', () => {
   let component: LoginPage;
@@ -17,14 +24,16 @@ describe('LoginPage', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ LoginPage ],
-      providers: [UserService, Alerta],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [
         HttpClientModule,
         RouterTestingModule.withRoutes([]),
         AngularFireModule.initializeApp(environment.firebase),
+        IonicStorageModule.forRoot(),
         AngularFireAuthModule,
-        AngularFirestoreModule,]
+        AngularFirestoreModule, ],
+      providers: [DatabaseService, UserService,  Alerta, Storage, AngularDelegate, ModalController,
+        AuthenticationService, ControlService, OrderService ],
     })
     .compileComponents();
   }));

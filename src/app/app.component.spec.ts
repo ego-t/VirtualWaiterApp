@@ -1,3 +1,5 @@
+import { Alerta } from './Utils/Alerta';
+import { ConsumerService } from './services/consumer.service';
 import { UserService } from './services/user.service';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { TestBed, async } from '@angular/core/testing';
@@ -17,8 +19,10 @@ import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
-import { LocaldbService } from './services/localdb.service';
-import { SQLite } from  '@ionic-native/sqlite/ngx';
+import { FirebaseUIModule } from 'firebaseui-angular';
+import * as firebaseui from 'firebaseui';
+import * as firebase from 'firebase';
+import { AuthenticationService } from './services/authentication.service';
 
 describe('AppComponent', () => {
 
@@ -40,6 +44,7 @@ describe('AppComponent', () => {
         AngularFireModule.initializeApp(environment.firebase),
         AngularFireAuthModule,
         AngularFirestoreModule,
+        AngularFireModule.initializeApp(environment.firebase),
         ShareModule
       ],
       providers: [
@@ -48,8 +53,9 @@ describe('AppComponent', () => {
         { provide: Platform, useValue: platformSpy },
         { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
         UserService,
-        SQLite,
-        LocaldbService
+        ConsumerService,
+        Alerta,
+        AuthenticationService,
       ]
     }).compileComponents();
   }));
@@ -72,10 +78,11 @@ describe('AppComponent', () => {
     const fixture = await TestBed.createComponent(AppComponent);
     await fixture.detectChanges();
     const app = fixture.nativeElement;
-    const menuItems = app.querySelectorAll('ion-label');
-    expect(menuItems.length).toEqual(2);
-    expect(menuItems[0].textContent).toContain('Home');
-    expect(menuItems[1].textContent).toContain('Sair');
+    // const menuItems = app.querySelectorAll('ion-label');
+    // expect(menuItems.length).toEqual(3);
+    // expect(menuItems[0].textContent).toContain('Perfil');
+    // expect(menuItems[1].textContent).toContain('Estabelecimentos');
+    // expect(menuItems[2].textContent).toContain('Sair');
   });
 
   // it('should have urls', async () => {

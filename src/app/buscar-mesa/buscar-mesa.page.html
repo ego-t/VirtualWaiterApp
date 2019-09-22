@@ -1,0 +1,25 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-back-button></ion-back-button>
+        </ion-buttons>
+        <ion-title>Abrir comanda</ion-title>
+      </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <div id="close-scanner-button" text-center>
+        <ion-button (click)="closeScanner()" color="warning">
+            Close Scanner
+        </ion-button>
+    </div>
+    <ion-progress-bar value="0.50"></ion-progress-bar>
+    <div>
+      <ion-item>
+        <h3>Escaneie o código da mesa</h3>
+        <ion-label position="floating">Definir Manualmente</ion-label>
+        <ion-input placeholder='Insira o código aqui' [(ngModel)]="codigoDigitado" style="height: 40px;"></ion-input>
+        <ion-button expand="block" color="danger" (click)="confirmarManual()" shape="round" style="height: 35px; width: 58%;">Confirmar</ion-button>
+      </ion-item>
+    </div>
+</ion-content>

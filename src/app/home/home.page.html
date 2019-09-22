@@ -10,14 +10,22 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content style="background: none transparent;">
   <ion-card class="welcome-card">
     <ion-card-header>
       <ion-card-title>Estabelecimentos</ion-card-title>
     </ion-card-header>
   </ion-card>
-  
-  <!-- <app-busca-estabelecimento></app-busca-estabelecimento> -->
 
-  <app-lista-estabelecimento></app-lista-estabelecimento>
+  <ion-list>
+    <ion-item *ngFor="let establishment of estabelecimentos" (click)="goTo(establishment.id)" >
+      <ion-thumbnail slot="start">
+        <ion-img [src]="establishment.logo"></ion-img>
+      </ion-thumbnail>
+      <div class="item-note" style="text-align: left;">
+        {{establishment.nome}}
+      </div>
+    </ion-item>
+  </ion-list>
+  <!-- <app-lista-estabelecimento [estabelecimentos]="estabelecimentos"></app-lista-estabelecimento> -->
 </ion-content>

@@ -1,79 +1,67 @@
+import { DatabaseService } from 'src/app/services/database.service';
+import { AuthenticationService } from './../services/authentication.service';
+import { CadastroPage } from './../cadastro/cadastro.page';
 import { Alerta } from './../Utils/Alerta';
 import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { auth } from 'firebase/app';
 import { Router } from '@angular/router';
 import { UserService } from '../services/user.service';
+import { ModalController } from '@ionic/angular';
+import { User } from '../models/User';
+import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner/ngx';
+import { OrderService } from '../services/order.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
-  styleUrls: ['./login.page.scss'],
+  styleUrls: ['./login.page.scss', './../style/EstiloPadrao.scss'],
 })
 export class LoginPage implements OnInit {
-  srcImg = "../../../resources/logoComDescricao.png";
-  username : string = "";
-  password : string = "";
-  processando: boolean = false;
-  
+  srcImg = '../../../resources/logoComDescricao.png';
+  username = '';
+  password = '';
+  processando = false;
+  loginManual = false;
+
   constructor(public afAuth: AngularFireAuth,
-    public user: UserService, 
-    public router:Router,
-    public alerta: Alerta) { }
+    public userService: UserService,
+    public router: Router,
+    public alerta: Alerta,
+    public authenticationservice: AuthenticationService,
+    public modalController: ModalController,
+    private orderService: OrderService,
+    private databaseService: DatabaseService
+    ) {
+      this.authenticationservice.logout();
+      this.orderService.removerOrder();
+      this.databaseService.setTableScaned(null);
+      this.processando = false;
+    }
 
   ngOnInit() {
-    // console.log(this.srcImg);
   }
 
-  async login()
-  {
+  async abrirPageCadastro() {
+    const modal = await this.modalController.create({
+      component: CadastroPage
+    });
+    modal.present();
+  }
+
+  async login() {
     const {username , password} = this;
-    try{
+
+    try {
       this.processando = true;
 
-      const res = await this.afAuth.auth.signInWithEmailAndPassword(username +'@virtualwaiter.com',password)
-
-      if(res.user){
-        this.user.setUser({
-          username,
-          uid: res.user.uid
-        })
-        this.router.navigate(['/home'])
+      this.authenticationservice.realizarLoginFireBase(username.trim(), password.trim()).then( (sucesso) => {
+      } ).catch( (error: Error) => {
+        this.alerta.showAlert('Não foi possível realizar o login :/', error.message);
+      } ).finally( () => {
         this.processando = false;
-      }
-
-      console.log(this.user.getUID());
-      //this.processando = false;
-
-    }catch(err){
-      console.dir(err);
-      
-      var msgRetorno = ""
-
-      switch (err.code) {
-        case "auth/invalid-email":
-          msgRetorno = "Usuário inválido"
-          break;
-        case "auth/user-not-found":
-          msgRetorno = "Usuário não encontrado"
-          break;
-        case "auth/network-request-failed":
-          msgRetorno = "Não foi possível se conectar a rede"
-          break;
-        case "auth/wrong-password":
-          msgRetorno = "Senha inválida"
-          break;
-        default:
-          msgRetorno = "Ocorreu um erro não conhecido."
-          break;
-      }
-
-      if(msgRetorno != ""){
-        this.alerta.showAlert("Error", msgRetorno)
-      }
-
-      console.log(err);
-      this.processando = false;
+      });
+    } catch (erro) {
+      console.log(erro);
     }
   }
 }
